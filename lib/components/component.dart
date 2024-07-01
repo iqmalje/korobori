@@ -63,6 +63,7 @@ class KoroboriComponent {
         ),
       ),
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         controller: controller,
         inputFormatters: formats,
         obscureText: isObscure,
