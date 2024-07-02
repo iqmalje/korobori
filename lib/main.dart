@@ -10,10 +10,6 @@ void main() async {
   await Supabase.initialize(
       url: dotenv.env['URL']!, anonKey: dotenv.env['SUPABASE_ANON_KEY']!);
 
-  IconData test = Icons.abc;
-
-  print(test.codePoint);
-
   runApp(const MyApp());
 }
 

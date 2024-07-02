@@ -1,0 +1,357 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:korobori/components/component.dart';
+import 'package:korobori/models/activity.dart';
+
+class ActivityAttendance extends StatefulWidget {
+  final Activity activity;
+  final DateTime dateChosen;
+  const ActivityAttendance(
+      {super.key, required this.activity, required this.dateChosen});
+
+  @override
+  State<ActivityAttendance> createState() =>
+      _ActivityAttendanceState(activity, dateChosen);
+}
+
+class _ActivityAttendanceState extends State<ActivityAttendance> {
+  Activity activity;
+  DateTime dateChosen;
+  _ActivityAttendanceState(this.activity, this.dateChosen);
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: KoroboriComponent().getPrimaryColor(),
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          appBar: KoroboriComponent()
+              .buildAppBarWithBackbutton('Rekod Kehadiran', context),
+          body: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).width * 0.1),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                buildActivityInfo(),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 50,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 0),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.person),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text('Bilangan Penyertaan Peserta',
+                            style: KoroboriComponent().getTextStyle(
+                              fontSize: 14,
+                            )),
+                        const Spacer(),
+                        Text(
+                          '3',
+                          style: KoroboriComponent().getTextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                buildAttendanceInput(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Senarai Kehadiran Peserta',
+                  style: KoroboriComponent()
+                      .getTextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildAttendanceSearch(context),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container buildAttendanceSearch(BuildContext context) {
+    return Container(
+      width: 350,
+      height: 420,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x3F000000),
+            blurRadius: 4,
+            offset: Offset(0, 1),
+            spreadRadius: 0,
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).width * 0.05),
+            child: Container(
+              height: 50,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 0),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                textAlignVertical: TextAlignVertical.center,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    border: InputBorder.none,
+                    prefixIcon: const Icon(Icons.search),
+                    hintStyle: KoroboriComponent().getTextStyle(
+                        fontSize: 14,
+                        style: FontStyle.italic,
+                        color: Colors.black.withOpacity(0.25)),
+                    hintText: 'Cari Scouty ID atau nama peserta'),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            height: 2,
+            decoration: const BoxDecoration(color: Color(0xFFEBEBEB)),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ListView.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 330,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 3,
+                        offset: Offset(0, 0),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 20,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              'KARIM BIN SAID',
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontSize: 14),
+                            ),
+                            Text(
+                              'BP302',
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontSize: 10),
+                            ),
+                            Text(
+                              '02:44 PM | K1',
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontSize: 10),
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.red,
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                  size: 15,
+                                )))
+                      ],
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 10,
+                );
+              },
+              itemCount: 3)
+        ],
+      ),
+    );
+  }
+
+  Container buildAttendanceInput() {
+    return Container(
+      height: 50,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x3F000000),
+            blurRadius: 4,
+            offset: Offset(0, 0),
+            spreadRadius: 0,
+          )
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+        child: TextFormField(
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              border: InputBorder.none,
+              prefixIcon: const Icon(Icons.person),
+              hintStyle: KoroboriComponent().getTextStyle(
+                  fontSize: 14,
+                  style: FontStyle.italic,
+                  color: Colors.black.withOpacity(0.25)),
+              hintText: 'Sila masukkan Scouty ID peserta'),
+        ),
+      ),
+    );
+  }
+
+  Container buildActivityInfo() {
+    return Container(
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x3F000000),
+            blurRadius: 4,
+            offset: Offset(0, 1),
+            spreadRadius: 0,
+          )
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Icon(activity.activityIcons),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(activity.activityName.toUpperCase()),
+              ],
+            ),
+            const Row(
+              children: [
+                Icon(Icons.pin_drop),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("NI TAKDE SO KENE TAMBAH DALAM DB"),
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(Icons.calendar_month),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(DateFormat("dd MMMM, hh:mm aa").format(dateChosen))
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(Icons.workspace_premium),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text("SEKTOR ${activity.activitySector.toUpperCase()}"),
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(Icons.person),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(activity.activityPIC),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -17,6 +17,7 @@ class KoroboriComponent {
       double fontSize = 16,
       FontWeight? fontWeight,
       FontStyle? style,
+      double? letterSpacing,
       double? height,
       TextDecoration? decoration}) {
     return GoogleFonts.poppins(
@@ -24,6 +25,7 @@ class KoroboriComponent {
         textStyle: TextStyle(
             fontStyle: style,
             height: height,
+            letterSpacing: letterSpacing,
             color: color,
             fontSize: fontSize,
             fontWeight: fontWeight));
@@ -31,7 +33,7 @@ class KoroboriComponent {
 
   PreferredSize buildAppBar(String title) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(75),
+      preferredSize: const Size.fromHeight(75),
       child: Container(
         color: getPrimaryColor(),
         child: Center(
@@ -40,6 +42,48 @@ class KoroboriComponent {
             style: getTextStyle(
                 color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
           ),
+        ),
+      ),
+    );
+  }
+
+  PreferredSize buildAppBarWithBackbutton(String title, BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(75),
+      child: Container(
+        color: getPrimaryColor(),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(
+              width: 30,
+            ),
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 30,
+                    color: getPrimaryColor(),
+                  )),
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  title,
+                  style: getTextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -89,7 +133,7 @@ class KoroboriComponent {
           height: 50,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 3, color: Color(0xFFFFC600)),
+              side: const BorderSide(width: 3, color: Color(0xFFFFC600)),
               borderRadius: BorderRadius.circular(10),
             ),
           ),

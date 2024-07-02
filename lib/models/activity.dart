@@ -1,8 +1,8 @@
-import 'package:korobori/models/activity_icons.dart';
+import 'package:flutter/cupertino.dart';
 
 class Activity {
   String activityID, activityPIC, activitySector, activityName;
-  ActivityIcons activityIcons;
+  IconData activityIcons;
 
   Activity({
     required this.activityID,

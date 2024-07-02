@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/models/activity.dart';
+import 'package:korobori/views/activities/activitypage.dart';
 
 class ActivitiesPage extends StatefulWidget {
   const ActivitiesPage({super.key});
@@ -20,94 +22,186 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         child: SafeArea(
           child: Scaffold(
             appBar: KoroboriComponent().buildAppBar('Aktiviti'),
-            body: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.sizeOf(context).width * 0.05),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 1),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.sizeOf(context).width * 0.05),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 1),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                'Bilangan Aktiviti Berjaya Dilengkapkan',
-                                style: KoroboriComponent().getTextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Container(
-                                width: 50,
-                                height: 25,
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFFF0003),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '21 / 31',
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Bilangan Aktiviti Berjaya Dilengkapkan',
                                     style: KoroboriComponent().getTextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                              )
+                                  Container(
+                                    width: 50,
+                                    height: 25,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFFF0003),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '21 / 31',
+                                        style: KoroboriComponent().getTextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Text(
+                                  'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                                  style: KoroboriComponent()
+                                      .getTextStyle(fontSize: 10))
                             ],
                           ),
-                          Text(
-                              'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontSize: 10))
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      KoroboriComponent().buildInput(TextEditingController(),
+                          width: 0,
+                          shadows: [
+                            const BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 0),
+                              spreadRadius: 0,
+                            )
+                          ],
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: 'Cari nama aktiviti'),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 15,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        blurRadius: 4, color: Colors.black.withOpacity(0.25))
+                  ]),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 35,
+                              decoration:
+                                  const BoxDecoration(color: Color(0xFF0000FF)),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'SEKTOR KOMBAT',
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        color: const Color.fromARGB(255, 217, 217, 217),
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return buildActivity(Activity(
+                              activityID: 'takde',
+                              activityPIC: 'iqmal',
+                              activitySector: 'KOMBAT',
+                              activityName: 'MEMANAH TRADISIONAL',
+                              activityIcons: Icons.access_time_outlined));
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 2,
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                          );
+                        },
+                        itemCount: 4,
+                      ),
+                    ],
                   ),
-                  KoroboriComponent().buildInput(TextEditingController(),
-                      width: 0,
-                      shadows: [
-                        const BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 0),
-                          spreadRadius: 0,
-                        )
-                      ],
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: 'Cari nama aktiviti'),
-                  Text(
-                    'TODO : NANTI SELIT AKTIVITI SEMUA KAT SINI (BACKEND)',
-                    style: KoroboriComponent().getTextStyle(
-                        color: Colors.red,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildActivity(Activity activity) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ActivityPage(
+                    activity: activity,
+                  )));
+        },
+        child: Container(
+          decoration: const BoxDecoration(color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Icon(activity.activityIcons),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  activity.activityName.toUpperCase(),
+                  style: KoroboriComponent()
+                      .getTextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+                const Spacer(),
+                Checkbox(value: false, onChanged: (val) {})
+              ],
             ),
           ),
         ),
