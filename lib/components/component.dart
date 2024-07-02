@@ -123,6 +123,64 @@ class KoroboriComponent {
     );
   }
 
+  Widget greyButton(String text, void Function() onPressed) {
+    return TextButton(
+        onPressed: onPressed,
+        child: Container(
+          width: 100,
+          height: 35,
+          decoration: ShapeDecoration(
+            color: Color(0xFFD9D9D9),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            shadows: [
+              BoxShadow(
+                color: Color(0x3F000000),
+                blurRadius: 2,
+                offset: Offset(0, 1),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: getTextStyle(
+                  fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+        ));
+  }
+
+  Widget blueButton(String text, void Function() onPressed) {
+    return TextButton(
+        onPressed: onPressed,
+        child: Container(
+          width: 100,
+          height: 35,
+          decoration: ShapeDecoration(
+            color: Color(0xFF002B7F),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            shadows: [
+              BoxShadow(
+                color: Color(0x3F000000),
+                blurRadius: 2,
+                offset: Offset(0, 1),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: getTextStyle(
+                  fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+        ));
+  }
+
   Widget buildOutlinedButton(Text title, void Function() onPressed) {
     return Material(
       color: Colors.transparent,

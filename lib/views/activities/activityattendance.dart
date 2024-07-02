@@ -225,7 +225,70 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                             radius: 15,
                             backgroundColor: Colors.red,
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  bool? isDeleteConfirmed = await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Padam Kehadiran',
+                                                style: KoroboriComponent()
+                                                    .getTextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
+                                                textAlign: TextAlign.center,
+                                                style: KoroboriComponent()
+                                                    .getTextStyle(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'KARIM BIN SAID',
+                                                style: KoroboriComponent()
+                                                    .getTextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                'BP302',
+                                                style: KoroboriComponent()
+                                                    .getTextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
+                                          actions: [
+                                            KoroboriComponent()
+                                                .greyButton('Pasti', () {
+                                              Navigator.of(context).pop(true);
+                                            }),
+                                            KoroboriComponent()
+                                                .blueButton('Batal', () {
+                                              Navigator.of(context).pop(false);
+                                            })
+                                          ],
+                                        );
+                                      });
+                                },
                                 icon: const Icon(
                                   Icons.remove,
                                   color: Colors.white,
