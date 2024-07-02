@@ -49,6 +49,7 @@ class KoroboriComponent {
       {Icon? prefixIcon,
       String? hintText,
       List<TextInputFormatter>? formats,
+      TextInputType? keyboardType,
       bool isObscure = false,
       IconButton? suffixIconButton,
       double width = 1,
@@ -66,6 +67,7 @@ class KoroboriComponent {
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
         inputFormatters: formats,
+        keyboardType: keyboardType,
         obscureText: isObscure,
         decoration: InputDecoration(
             border: InputBorder.none,
