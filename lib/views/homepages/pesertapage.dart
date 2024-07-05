@@ -102,22 +102,23 @@ class _PesertaPageState extends State<PesertaPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Column(
-                  children: [
-                    Flexible(
-                        child: Text(
-                      peserta.userFullname.toUpperCase(),
-                      style: KoroboriComponent().getTextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
-                      maxLines: 2, // Allow text to wrap to a new line
-                      overflow: TextOverflow.visible, // Handle overflow
-                    )),
-                    Text('K001  |  PESERTA',
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        peserta.userFullname.toUpperCase(),
                         style: KoroboriComponent().getTextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        )),
-                  ],
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.visible,
+                      ),
+                      Text('K001  |  PESERTA',
+                          style: KoroboriComponent().getTextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          )),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 GestureDetector(
