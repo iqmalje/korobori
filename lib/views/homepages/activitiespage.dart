@@ -123,69 +123,89 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Container(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                        blurRadius: 4, color: Colors.black.withOpacity(0.25))
-                  ]),
-                  child: Column(
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
                     children: [
-                      Container(
-                        decoration: const BoxDecoration(color: Colors.white),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 35,
-                              decoration:
-                                  const BoxDecoration(color: Color(0xFF0000FF)),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'SEKTOR KOMBAT',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        color: const Color.fromARGB(255, 217, 217, 217),
-                      ),
-                      FutureBuilder(
-                          future: ActivityController().getAllActivities(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                return buildActivity(snapshot.data![index]);
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return Container(
-                                  height: 2,
-                                  color:
-                                      const Color.fromARGB(255, 217, 217, 217),
-                                );
-                              },
-                              itemCount: snapshot.data!.length,
-                            );
-                          }),
+                      buildSektor('KOMBAT', const Color(0xFF0000FF)),
+                      buildSektor('NEURO', const Color(0xFFFFFF00)),
+                      buildSektor('TEKNO', const Color(0xFFFF0000)),
+                      buildSektor('INVISO', const Color(0xFF99FF00)),
+                      buildSektor('FUSION', const Color(0xFF9397A0)),
+                      buildSektor('PERTANDINGAN', const Color(0xFF9E00FF)),
+                      buildSektor('LAIN-LAIN', const Color(0xFFFF8438)),
+                      const SizedBox(
+                        height: 10,
+                      )
                     ],
                   ),
                 )
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildSektor(String sektor, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(blurRadius: 4, color: Colors.black.withOpacity(0.25))
+        ]),
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Row(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 35,
+                    decoration: BoxDecoration(color: color),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'SEKTOR $sektor',
+                    style: KoroboriComponent()
+                        .getTextStyle(fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 1,
+              color: const Color.fromARGB(255, 217, 217, 217),
+            ),
+            FutureBuilder(
+                future: ActivityController()
+                    .getAllActivities(sektor: sektor.toLowerCase()),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildActivity(snapshot.data![index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 2,
+                        color: const Color.fromARGB(255, 217, 217, 217),
+                      );
+                    },
+                    itemCount: snapshot.data!.length,
+                  );
+                }),
+          ],
         ),
       ),
     );
@@ -232,12 +252,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(
                           0xFF3BE542), //isCompleted ? Colors.green : Colors.grey,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.done, //isCompleted ? Icons.done : Icons.close,
                       color: Colors.white,
                       size: 16,
