@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
-import 'package:korobori/views/homepages/mainpage.dart';
 import 'package:korobori/views/temppage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

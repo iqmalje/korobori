@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class KoroboriComponent {
@@ -19,16 +20,21 @@ class KoroboriComponent {
       FontStyle? style,
       double? letterSpacing,
       double? height,
-      TextDecoration? decoration}) {
+      TextDecoration? decoration,
+      TextAlignVertical? textAlignVertical,
+      FontStyle? fontStyle,
+      // ignore: non_constant_identifier_names
+      TextAlign? textAlign}) {
     return GoogleFonts.poppins(
-        decoration: decoration,
-        textStyle: TextStyle(
-            fontStyle: style,
-            height: height,
-            letterSpacing: letterSpacing,
-            color: color,
-            fontSize: fontSize,
-            fontWeight: fontWeight));
+      decoration: decoration,
+      textStyle: TextStyle(
+          fontStyle: style,
+          height: height,
+          letterSpacing: letterSpacing,
+          color: color,
+          fontSize: fontSize,
+          fontWeight: fontWeight),
+    );
   }
 
   PreferredSize buildAppBar(String title) {
@@ -59,13 +65,13 @@ class KoroboriComponent {
               width: 30,
             ),
             CircleAvatar(
-              radius: 30,
+              radius: 25,
               backgroundColor: Colors.white,
               child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(
                     Icons.arrow_back_ios_new,
-                    size: 30,
+                    size: 25,
                     color: getPrimaryColor(),
                   )),
             ),
@@ -99,28 +105,32 @@ class KoroboriComponent {
       double width = 1,
       List<BoxShadow>? shadows}) {
     return Container(
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shadows: shadows,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: width, color: const Color(0xFF9397A0)),
-          borderRadius: BorderRadius.circular(6),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shadows: shadows,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: width, color: const Color(0xFF9397A0)),
+            borderRadius: BorderRadius.circular(6),
+          ),
         ),
-      ),
-      child: TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        controller: controller,
-        inputFormatters: formats,
-        keyboardType: keyboardType,
-        obscureText: isObscure,
-        decoration: InputDecoration(
+        child: TextFormField(
+          textAlignVertical: TextAlignVertical.center,
+          controller: controller,
+          inputFormatters: formats,
+          keyboardType: keyboardType,
+          obscureText: isObscure,
+          decoration: InputDecoration(
             border: InputBorder.none,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIconButton,
-            hintStyle: getTextStyle(color: Colors.black.withOpacity(0.25)),
-            hintText: hintText),
-      ),
-    );
+            hintStyle: getTextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                style: FontStyle.italic,
+                color: Colors.black.withOpacity(0.20)),
+            hintText: hintText,
+          ),
+        ));
   }
 
   Widget greyButton(String text, void Function() onPressed) {
@@ -130,10 +140,10 @@ class KoroboriComponent {
           width: 100,
           height: 35,
           decoration: ShapeDecoration(
-            color: Color(0xFFD9D9D9),
+            color: const Color(0xFFD9D9D9),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            shadows: [
+            shadows: const [
               BoxShadow(
                 color: Color(0x3F000000),
                 blurRadius: 2,

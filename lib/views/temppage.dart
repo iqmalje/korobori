@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/views/homepages/activitiespage.dart';
 import 'package:korobori/views/homepages/mainpage.dart';
+import 'package:korobori/views/homepages/pesertapage.dart';
 import 'package:korobori/views/homepages/profilepage.dart';
 
 class TempPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class TempPage extends StatefulWidget {
 class _TempPageState extends State<TempPage> {
   List<Widget> pages = [
     const MainPage(),
+    const PesertaPage(),
     const ActivitiesPage(),
     const ProfilePage()
   ];
@@ -47,8 +49,9 @@ class _TempPageState extends State<TempPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             buildNavButton(0, Icons.home, 'Utama'),
-            buildNavButton(1, Icons.calendar_today, 'Aktiviti'),
-            buildNavButton(2, Icons.person, 'Profil'),
+            buildNavButton(1, Icons.groups, 'Peserta'),
+            buildNavButton(2, Icons.calendar_today, 'Aktiviti'),
+            buildNavButton(3, Icons.person, 'Profil'),
           ],
         ),
       ),
