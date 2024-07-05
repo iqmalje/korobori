@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';

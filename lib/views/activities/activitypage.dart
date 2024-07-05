@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/models/activity.dart';
@@ -27,7 +26,7 @@ class _ActivityPageState extends State<ActivityPage> {
               .buildAppBarWithBackbutton('Rekod Kehadiran', context),
           body: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.1),
+                horizontal: MediaQuery.sizeOf(context).width * 0.08),
             child: Column(
               children: [
                 const SizedBox(
@@ -83,7 +82,9 @@ class _ActivityPageState extends State<ActivityPage> {
                   child: Text(
                     '22 Jun, 8 AM - 12 PM',
                     style: KoroboriComponent().getTextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -283,7 +284,12 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(activity.activityName.toUpperCase()),
+                Flexible(
+                    child: Text(
+                  activity.activityName.toUpperCase(),
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
+                )),
               ],
             ),
             const Row(
@@ -292,7 +298,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 SizedBox(
                   width: 10,
                 ),
-                Text("NI TAKDE SO KENE TAMBAH DALAM DB"),
+                Text("PANTAI AIR PAPAN, MERSING"),
               ],
             ),
             Row(
@@ -310,7 +316,12 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(activity.activityPIC),
+                Flexible(
+                    child: Text(
+                  activity.activityPIC + "  |  F001",
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
+                )),
               ],
             ),
             const SizedBox(

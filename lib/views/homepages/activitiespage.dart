@@ -37,14 +37,15 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         decoration: ShapeDecoration(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           shadows: const [
                             BoxShadow(
                               color: Color(0x3F000000),
                               blurRadius: 4,
                               offset: Offset(0, 1),
                               spreadRadius: 0,
-                            )
+                            ),
                           ],
                         ),
                         child: Padding(
@@ -57,11 +58,18 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    'Bilangan Aktiviti Berjaya Dilengkapkan',
-                                    style: KoroboriComponent().getTextStyle(
+                                  Flexible(
+                                    child: Text(
+                                      'Bilangan Aktiviti Berjaya Dilengkapkan',
+                                      style: KoroboriComponent().getTextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines:
+                                          2, // Allow text to wrap to a new line
+                                      overflow: TextOverflow
+                                          .visible, // Handle overflow
+                                    ),
                                   ),
                                   Container(
                                     width: 50,
@@ -69,25 +77,27 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                     decoration: ShapeDecoration(
                                       color: const Color(0xFFFF0003),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
                                     ),
                                     child: Center(
                                       child: Text(
                                         '21 / 31',
                                         style: KoroboriComponent().getTextStyle(
-                                            color: Colors.white,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500),
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                               Text(
-                                  'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-                                  style: KoroboriComponent()
-                                      .getTextStyle(fontSize: 10))
+                                'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                                style: KoroboriComponent()
+                                    .getTextStyle(fontSize: 10),
+                              ),
                             ],
                           ),
                         ),
@@ -100,7 +110,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                           shadows: [
                             const BoxShadow(
                               color: Color(0x3F000000),
-                              blurRadius: 4,
+                              blurRadius: 1,
                               offset: Offset(0, 0),
                               spreadRadius: 0,
                             )
@@ -136,7 +146,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                             Text(
                               'SEKTOR KOMBAT',
                               style: KoroboriComponent()
-                                  .getTextStyle(fontWeight: FontWeight.bold),
+                                  .getTextStyle(fontWeight: FontWeight.w600),
                             )
                           ],
                         ),
@@ -194,20 +204,46 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
             child: Row(
               children: [
                 Icon(activity.activityIcons),
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  activity.activityName.toUpperCase(),
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                Flexible(
+                  child: Text(
+                    activity.activityName.toUpperCase(),
+                    style: KoroboriComponent().getTextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                    maxLines: 2, // Allow text to wrap to a new line
+                    overflow: TextOverflow.visible, // Handle overflow
+                  ),
                 ),
                 const Spacer(),
-                Checkbox(value: false, onChanged: (val) {})
+                GestureDetector(
+                  /* 
+              onTap: () {
+                setState(() {
+                  isCompleted = !isCompleted;
+                });
+              },
+              */
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Color(
+                          0xFF3BE542), //isCompleted ? Colors.green : Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.done, //isCompleted ? Icons.done : Icons.close,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
