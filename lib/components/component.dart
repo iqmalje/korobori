@@ -162,12 +162,13 @@ class KoroboriComponent {
         ));
   }
 
-  Widget blueButton(String text, void Function() onPressed) {
+  Widget blueButton(String text, void Function() onPressed,
+      {double? width, double? height}) {
     return TextButton(
         onPressed: onPressed,
         child: Container(
-          width: 100,
-          height: 35,
+          width: width ?? 100,
+          height: height ?? 35,
           decoration: ShapeDecoration(
             color: Color(0xFF002B7F),
             shape:

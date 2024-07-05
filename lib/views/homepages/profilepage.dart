@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/authcontroller.dart';
+import 'package:korobori/models/account.dart';
+import 'package:korobori/providers/accountprovider.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,6 +15,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    Account account = context.read<AccountProvider>().getAccount()!;
+
     return Material(
       color: KoroboriComponent().getPrimaryColor(),
       child: SafeArea(
@@ -48,10 +54,75 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: KoroboriComponent()
                             .getTextStyle(fontWeight: FontWeight.bold),
                       ),
-                      ...List.generate(
-                          10,
-                          (index) => buildDisplayBox('Title $index example',
-                              'Content $index example example'))
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildDisplayBox('Nama Penuh', account.userFullname),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Nombor Kad Pengenalan', account.icNo),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Scouty ID', account.scoutyID),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Subkem', account.subcamp),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Nombor Keahlian', account.schoolCode),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Nombor Kumpulan', account.schoolCode),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Umur', account.schoolCode),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Jantina', account.icNo),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Kaum', account.icNo),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Agama', account.icNo),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Daerah', account.icNo),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Kod Sekolah', account.schoolCode),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Nama Sekolah', account.schoolCode),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox(
+                          'Nama Ibu / Bapa / Penjaga', account.role),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
+                          account.schoolCode),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      KoroboriComponent().blueButton(
+                          'Log Keluar', () => AuthController().logout(context),
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          height: 50)
                     ],
                   ),
                 ),

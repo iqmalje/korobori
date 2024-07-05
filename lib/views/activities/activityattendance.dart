@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
+import 'package:korobori/models/activitydates.dart';
 
 class ActivityAttendance extends StatefulWidget {
   final Activity activity;
-  final DateTime dateChosen;
+  final ActivityDates dateChosen;
   const ActivityAttendance(
       {super.key, required this.activity, required this.dateChosen});
 
@@ -17,7 +19,8 @@ class ActivityAttendance extends StatefulWidget {
 
 class _ActivityAttendanceState extends State<ActivityAttendance> {
   Activity activity;
-  DateTime dateChosen;
+  ActivityDates dateChosen;
+  TextEditingController scoutyID = TextEditingController();
   _ActivityAttendanceState(this.activity, this.dateChosen);
   @override
   Widget build(BuildContext context) {
@@ -240,7 +243,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.w500),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
@@ -251,7 +254,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                   fontSize: 14,
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
@@ -261,7 +264,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 2,
                                               ),
                                               Text(
@@ -271,7 +274,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                             ],
@@ -329,6 +332,11 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
         padding: const EdgeInsets.symmetric(horizontal: 0.0),
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
+          controller: scoutyID,
+          onFieldSubmitted: (value) async {
+            await ActivityController()
+                .addAttendance(activity.activityID, scoutyID: value);
+          },
           decoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               border: InputBorder.none,
@@ -388,7 +396,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(DateFormat("dd MMMM, hh:mm aa").format(dateChosen))
+                Text(DateFormat("dd MMMM, hh:mm aa").format(dateChosen.date))
               ],
             ),
             Row(

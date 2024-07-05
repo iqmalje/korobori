@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/views/activities/activityattendance.dart';
 
@@ -50,55 +52,65 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget buildDates() {
-    return Column(
-      children: [
-        Text(
-          'Sesi Aktiviti',
-          style: KoroboriComponent().getTextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        ListView.separated(
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            return TextButton(
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ActivityAttendance(
-                          activity: activity,
-                          dateChosen: DateTime.now(),
-                        )));
-              },
-              child: Container(
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: KoroboriComponent().getPrimaryColor(),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-                child: Center(
-                  child: Text(
-                    '22 Jun, 8 AM - 12 PM',
-                    style: KoroboriComponent().getTextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
+    return FutureBuilder(
+        future: ActivityController().getActivityDates(activity.activityID),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Column(
+            children: [
+              Text(
+                'Sesi Aktiviti',
+                style: KoroboriComponent()
+                    .getTextStyle(fontWeight: FontWeight.w600),
               ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              height: 10,
-            );
-          },
-          itemCount: 4,
-        )
-      ],
-    );
+              const SizedBox(
+                height: 20,
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return TextButton(
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ActivityAttendance(
+                                activity: activity,
+                                dateChosen: snapshot.data![index],
+                              )));
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: ShapeDecoration(
+                        color: KoroboriComponent().getPrimaryColor(),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${DateFormat('dd MMMM').format(snapshot.data![index].date)}, ${getFormattedTime(snapshot.data![index].startTime)} - ${getFormattedTime(snapshot.data![index].endTime)}',
+                          style: KoroboriComponent().getTextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+                itemCount: snapshot.data!.length,
+              )
+            ],
+          );
+        });
   }
 
   Widget buildPenyertaanInfo() {
@@ -331,5 +343,16 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
       ),
     );
+  }
+
+  String getFormattedTime(TimeOfDay time) {
+    String output = "";
+    if (time.hour <= 12) {
+      output = "${time.hour} AM";
+    } else {
+      output = "${time.hour - 12} PM";
+    }
+
+    return output;
   }
 }
