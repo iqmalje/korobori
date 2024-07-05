@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
+import 'package:korobori/models/account.dart';
+import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/views/homepages/mainpage.dart';
 import 'package:korobori/views/temppage.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -115,23 +118,29 @@ class _LoginPageState extends State<LoginPage> {
                                       .getTextStyle(color: Colors.white),
                                 ), () async {
                               try {
-                                AuthResponse authResponse =
-                                    await AuthController().logIn(
-                                        pengenalanController.text,
+                                Account? authResponse = await AuthController()
+                                    .logIn(pengenalanController.text,
                                         passwordController.text);
 
-                                if (authResponse.user == null) {
+                                if (authResponse == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                           content: Text(
                                               "Something went wrong, please contact with our administrator.")));
-                                } else if (authResponse.user != null) {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                        builder: (context) => const TempPage(),
-                                      ),
-                                      (_) => false);
+                                  return;
                                 }
+
+                                // save it into provider
+                                context
+                                    .read<AccountProvider>()
+                                    .setAccount(newAccount: authResponse);
+
+                                // fetch role
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) => const TempPage(),
+                                    ),
+                                    (_) => false);
                               } on AuthException catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(e.message)));

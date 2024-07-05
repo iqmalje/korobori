@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/views/activities/activitypage.dart';
 
@@ -144,25 +145,31 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         height: 1,
                         color: const Color.fromARGB(255, 217, 217, 217),
                       ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildActivity(Activity(
-                              activityID: 'takde',
-                              activityPIC: 'iqmal',
-                              activitySector: 'KOMBAT',
-                              activityName: 'MEMANAH TRADISIONAL',
-                              activityIcons: Icons.access_time_outlined));
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 2,
-                            color: const Color.fromARGB(255, 217, 217, 217),
-                          );
-                        },
-                        itemCount: 4,
-                      ),
+                      FutureBuilder(
+                          future: ActivityController().getAllActivities(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                return buildActivity(snapshot.data![index]);
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return Container(
+                                  height: 2,
+                                  color:
+                                      const Color.fromARGB(255, 217, 217, 217),
+                                );
+                              },
+                              itemCount: snapshot.data!.length,
+                            );
+                          }),
                     ],
                   ),
                 )

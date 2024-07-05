@@ -240,7 +240,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.w500),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
@@ -251,7 +251,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                   fontSize: 14,
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
@@ -261,7 +261,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 2,
                                               ),
                                               Text(
@@ -271,7 +271,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                             ],
