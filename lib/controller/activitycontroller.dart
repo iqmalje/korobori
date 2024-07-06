@@ -52,7 +52,17 @@ class ActivityController {
     return activityDates;
   }
 
-  Future<void> addAttendance(String activityID,
+  SupabaseStreamFilterBuilder listenToAttendanceCount() {
+    return _supabase.from('attendance_record').stream(primaryKey: ['id']);
+  }
+
+  SupabaseStreamBuilder listenToAttendanceRecord(
+      String activityID, int activityDatesID) {
+    return _supabase.from('attendances').stream(primaryKey: ['id']).eq(
+        'unique_activity_date', "$activityID.$activityDatesID");
+  }
+
+  Future<void> addAttendance(String activityID, int activityDatesID,
       {String? scoutyID, String? cardID}) async {
     String accountid = "";
     if (cardID == null) {
@@ -68,6 +78,7 @@ class ActivityController {
     await _supabase.from('attendances').insert({
       'activity_id': activityID,
       'account_attended': accountid,
+      'activity_dates_id': activityDatesID,
       'pic_added': _supabase.auth.currentUser!.id,
       'time': DateTime.now().toString(),
       'attendance_status': true

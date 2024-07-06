@@ -38,4 +38,24 @@ class AuthController {
         ),
         (_) => false);
   }
+
+  Future<Account> findAccount(String accountID) async {
+    Account account;
+    var data = await _supabase
+        .from('accounts')
+        .select('fullname, scouty_id')
+        .eq('id', accountID)
+        .single();
+
+    account = Account(
+        accountID: accountID,
+        scoutyID: data['scouty_id'],
+        schoolCode: '',
+        subcamp: '',
+        userFullname: data['fullname'],
+        icNo: '',
+        role: '');
+
+    return account;
+  }
 }

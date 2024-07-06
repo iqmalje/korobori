@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/views/authentication/login.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +12,6 @@ void main() async {
 
   await Supabase.initialize(
       url: dotenv.env['URL']!, anonKey: dotenv.env['SUPABASE_ANON_KEY']!);
-
-  // listen to logout event
 
   runApp(const MyApp());
 }

@@ -102,24 +102,26 @@ class _PesertaPageState extends State<PesertaPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Column(
-                  children: [
-                    Flexible(
-                        child: Text(
-                      peserta.userFullname.toUpperCase(),
-                      style: KoroboriComponent().getTextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
-                      maxLines: 2, // Allow text to wrap to a new line
-                      overflow: TextOverflow.visible, // Handle overflow
-                    )),
-                    Text('K001  |  PESERTA',
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        peserta.userFullname.toUpperCase(),
                         style: KoroboriComponent().getTextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        )),
-                  ],
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                        maxLines: 2, // Allow text to wrap to a new line
+                        overflow: TextOverflow.visible, // Handle overflow
+                      ),
+                      Text('K001  |  PESERTA',
+                          style: KoroboriComponent().getTextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          )),
+                    ],
+                  ),
                 ),
-                const Spacer(),
                 GestureDetector(
                   /* 
               onTap: () {
@@ -131,12 +133,12 @@ class _PesertaPageState extends State<PesertaPage> {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(
                           0xFF3BE542), //isCompleted ? Colors.green : Colors.grey,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.done, //isCompleted ? Icons.done : Icons.close,
                       color: Colors.white,
                       size: 16,

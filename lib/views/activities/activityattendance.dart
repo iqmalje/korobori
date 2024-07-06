@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
+import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
 
@@ -168,149 +169,175 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           const SizedBox(
             height: 10,
           ),
-          ListView.separated(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 330,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 3,
-                        offset: Offset(0, 0),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 20,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Text(
-                              'KARIM BIN SAID',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontSize: 14),
-                            ),
-                            Text(
-                              'BP302',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontSize: 10),
-                            ),
-                            Text(
-                              '02:44 PM | K1',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontSize: 10),
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.red,
-                            child: IconButton(
-                                onPressed: () async {
-                                  bool? isDeleteConfirmed = await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                'Padam Kehadiran',
-                                                style: KoroboriComponent()
-                                                    .getTextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
-                                                textAlign: TextAlign.center,
-                                                style: KoroboriComponent()
-                                                    .getTextStyle(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                'KARIM BIN SAID',
-                                                style: KoroboriComponent()
-                                                    .getTextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                              const SizedBox(
-                                                height: 2,
-                                              ),
-                                              Text(
-                                                'BP302',
-                                                style: KoroboriComponent()
-                                                    .getTextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                            ],
-                                          ),
-                                          actions: [
-                                            KoroboriComponent()
-                                                .greyButton('Pasti', () {
-                                              Navigator.of(context).pop(true);
-                                            }),
-                                            KoroboriComponent()
-                                                .blueButton('Batal', () {
-                                              Navigator.of(context).pop(false);
-                                            })
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 15,
-                                )))
-                      ],
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              itemCount: 3)
+          StreamBuilder(
+              stream: ActivityController()
+                  .listenToAttendanceRecord(activity.activityID, dateChosen.id),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    itemBuilder: (context, index) {
+                      return buildAttendanceCard(
+                          snapshot.data![index]['account_attended']);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 10,
+                      );
+                    },
+                    itemCount: snapshot.data!.length);
+              })
         ],
       ),
     );
+  }
+
+  Widget buildAttendanceCard(String accountID) {
+    return FutureBuilder(
+        future: AuthController().findAccount(accountID),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return Container(
+            width: 330,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x3F000000),
+                  blurRadius: 3,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 20,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          snapshot.data!.userFullname,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: KoroboriComponent().getTextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          snapshot.data!.scoutyID,
+                          style: KoroboriComponent().getTextStyle(fontSize: 10),
+                        ),
+                        Text(
+                          '02:44 PM | K1',
+                          style: KoroboriComponent().getTextStyle(fontSize: 10),
+                        ),
+                        const SizedBox(
+                          height: 7,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Colors.red,
+                      child: IconButton(
+                          onPressed: () async {
+                            bool? isDeleteConfirmed = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Padam Kehadiran',
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              KoroboriComponent().getTextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'KARIM BIN SAID',
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 2,
+                                        ),
+                                        Text(
+                                          'BP302',
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      KoroboriComponent().greyButton('Pasti',
+                                          () {
+                                        Navigator.of(context).pop(true);
+                                      }),
+                                      KoroboriComponent().blueButton('Batal',
+                                          () {
+                                        Navigator.of(context).pop(false);
+                                      })
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: 15,
+                          )))
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Container buildAttendanceInput() {
@@ -334,8 +361,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           textAlignVertical: TextAlignVertical.center,
           controller: scoutyID,
           onFieldSubmitted: (value) async {
-            await ActivityController()
-                .addAttendance(activity.activityID, scoutyID: value);
+            await ActivityController().addAttendance(
+                activity.activityID, dateChosen.id,
+                scoutyID: value);
           },
           decoration: InputDecoration(
               contentPadding: EdgeInsets.zero,

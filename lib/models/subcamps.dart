@@ -1,7 +1,10 @@
 import 'dart:ui';
 
+import 'package:korobori/models/subcampenum.dart';
+
 class SubCamp {
-  String name, daerahs, imageURL;
+  Subcamps name;
+  String daerahs, imageURL;
   Color mainColor;
   int count;
 

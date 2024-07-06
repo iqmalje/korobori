@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/activitycontroller.dart';
+import 'package:korobori/models/subcampenum.dart';
 import 'package:korobori/models/subcamps.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,29 +16,29 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List<SubCamp> subcamps = [
     SubCamp(
-        name: 'SUBKEM KOMBAT',
+        name: Subcamps.kombat,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/kombat_logo.png',
         mainColor: const Color(0xFF0000FF),
-        count: 500),
+        count: 0),
     SubCamp(
-        name: 'SUBKEM TEKNO',
+        name: Subcamps.tekno,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/tekno_logo.png',
         mainColor: const Color(0xFFFF0003),
-        count: 500),
+        count: 0),
     SubCamp(
-        name: 'SUBKEM INVISO',
+        name: Subcamps.inviso,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/inviso_logo.png',
         mainColor: const Color(0xFF3EAD16),
-        count: 500),
+        count: 0),
     SubCamp(
-        name: 'SUBKEM NEURO',
+        name: Subcamps.neuro,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/neuro_logo.png',
         mainColor: const Color(0xFFFF8438),
-        count: 500),
+        count: 0),
   ];
 
   @override
@@ -103,60 +106,81 @@ class _MainPageState extends State<MainPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 5,
-                        offset: Offset(0, 2),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        'Prestasi Subkem Korobori 2024',
-                        style: KoroboriComponent().getTextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 14),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.only(bottom: 10),
-                          itemCount: subcamps.length,
-                          itemBuilder: (context, index) =>
-                              buildSubCamps(subcamps[index]),
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const SizedBox(
-                              height: 15,
-                            );
-                          },
+                StreamBuilder(
+                    stream: ActivityController().listenToAttendanceCount(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      for (var subcamp in subcamps) {
+                        int index = snapshot.data!.indexWhere((element) =>
+                            element['subcamp_name'] == subcamp.name.name);
+                        int attendanceCount = snapshot.data![index]['count'];
+
+                        subcamp.count = attendanceCount;
+                      }
+
+                      return Container(
+                        width: MediaQuery.sizeOf(context).width,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 5,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            )
+                          ],
                         ),
-                      ),
-                      Text(
-                        'Kemaskini : ${DateFormat('dd/MM/yy, hh:mm:ss').format(DateTime.now())}',
-                        style: KoroboriComponent().getTextStyle(fontSize: 10),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
-                )
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              'Prestasi Subkem Korobori 2024',
+                              style: KoroboriComponent().getTextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.only(bottom: 10),
+                                itemCount: subcamps.length,
+                                itemBuilder: (context, index) =>
+                                    buildSubCamps(subcamps[index]),
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const SizedBox(
+                                    height: 15,
+                                  );
+                                },
+                              ),
+                            ),
+                            Text(
+                              'Kemaskini : ${DateFormat('dd/MM/yy, hh:mm:ss').format(DateTime.now())}',
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontSize: 10),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
+                      );
+                    })
               ],
             ),
           ),
@@ -193,7 +217,7 @@ class _MainPageState extends State<MainPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  subCamp.name,
+                  "SUBKEM ${subCamp.name.name.toUpperCase()}", //subCamp.name,
                   style: KoroboriComponent()
                       .getTextStyle(fontWeight: FontWeight.w500),
                 ),
