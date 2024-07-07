@@ -93,6 +93,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 5),
                               Text(
                                 'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
                                 style: KoroboriComponent()

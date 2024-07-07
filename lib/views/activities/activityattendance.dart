@@ -179,12 +179,16 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   );
                 }
 
+                snapshot.data!
+                    .removeWhere((item) => item['attendance_status'] == false);
+
                 return ListView.separated(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     itemBuilder: (context, index) {
                       return buildAttendanceCard(
-                          snapshot.data![index]['account_attended']);
+                          snapshot.data![index]['account_attended'],
+                          snapshot.data![index]['attendance_id']);
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(
@@ -198,7 +202,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
     );
   }
 
-  Widget buildAttendanceCard(String accountID) {
+  Widget buildAttendanceCard(String accountID, String attendanceID) {
     return FutureBuilder(
         future: AuthController().findAccount(accountID),
         builder: (context, snapshot) {
@@ -296,7 +300,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           height: 20,
                                         ),
                                         Text(
-                                          'KARIM BIN SAID',
+                                          snapshot.data!.userFullname,
                                           style: KoroboriComponent()
                                               .getTextStyle(
                                                   fontWeight: FontWeight.bold),
@@ -305,7 +309,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           height: 2,
                                         ),
                                         Text(
-                                          'BP302',
+                                          snapshot.data!.scoutyID,
                                           style: KoroboriComponent()
                                               .getTextStyle(
                                                   fontWeight: FontWeight.bold),
@@ -327,6 +331,12 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                     ],
                                   );
                                 });
+
+                            if (isDeleteConfirmed != null &&
+                                isDeleteConfirmed) {
+                              await ActivityController()
+                                  .removeAttendance(attendanceID);
+                            }
                           },
                           icon: const Icon(
                             Icons.remove,
