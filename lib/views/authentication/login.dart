@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/providers/accountprovider.dart';
-import 'package:korobori/views/homepages/mainpage.dart';
 import 'package:korobori/views/temppage.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -39,7 +39,12 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Image.asset('assets/images/logo_korobori.png'),
+                  SvgPicture.asset(
+                    //Kad Kombat
+                    'assets/images/logo_korobori.svg',
+                    semanticsLabel: 'Logo Korobori',
+                    height: 200,
+                  ),
                   const SizedBox(
                     height: 20,
                   ),

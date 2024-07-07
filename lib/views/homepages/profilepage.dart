@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
@@ -45,7 +46,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Image.asset('assets/images/example_card.png'),
+                      // SvgPicture.asset( //Kad VIP
+                      //   'assets/images/kad-vip.svg',
+                      //   semanticsLabel: 'Kad VIP',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Urusetia
+                      //   'assets/images/kad-urusetia.svg',
+                      //   semanticsLabel: 'Kad Urusetia',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Tekno
+                      //   'assets/images/kad-tekno.svg',
+                      //   semanticsLabel: 'Kad Tekno',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Neuro
+                      //   'assets/images/kad-neuro.svg',
+                      //   semanticsLabel: 'Kad Neuro',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Inviso
+                      //   'assets/images/kad-inviso.svg',
+                      //   semanticsLabel: 'Kad Inviso',
+                      //   height: 500,
+                      // ),
+
+                      SvgPicture.asset(
+                        //Kad Kombat
+                        //Kad Kombat
+                        'assets/images/kad-kombat.svg',
+                        semanticsLabel: 'Kad Kombat',
+                        height: 500,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -58,71 +95,32 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 20,
                       ),
                       buildDisplayBox('Nama Penuh', account.userFullname),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Nombor Kad Pengenalan', account.icNo),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Scouty ID', account.scoutyID),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Subkem', account.subcamp),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Nombor Keahlian', account.schoolCode),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Nombor Kumpulan', account.schoolCode),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Umur', account.schoolCode),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Jantina', account.icNo),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Kaum', account.icNo),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Agama', account.icNo),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Daerah', account.icNo),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Kod Sekolah', account.schoolCode),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Nama Sekolah', account.schoolCode),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox(
                           'Nama Ibu / Bapa / Penjaga', account.role),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
                           account.schoolCode),
                       const SizedBox(
-                        height: 10,
+                        height: 15,
                       ),
                       KoroboriComponent().blueButton(
                           'Log Keluar', () => AuthController().logout(context),
                           width: MediaQuery.sizeOf(context).width * 0.8,
-                          height: 50)
+                          height: 50),
+                      const SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
                 ),
@@ -147,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5)),
-              shadows: [
+              shadows: const [
                 BoxShadow(
                   color: Color(0x3F000000),
                   blurRadius: 2,
@@ -160,14 +158,14 @@ class _ProfilePageState extends State<ProfilePage> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 13),
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
                       style: KoroboriComponent().getTextStyle(
-                          color: Colors.black.withOpacity(0.2), fontSize: 13),
+                          color: Colors.black.withOpacity(0.2), fontSize: 12),
                     ),
                     Text(content,
                         style: KoroboriComponent().getTextStyle(height: 1))

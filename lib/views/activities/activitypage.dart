@@ -284,11 +284,11 @@ class _ActivityPageState extends State<ActivityPage> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [
@@ -297,11 +297,12 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 Flexible(
-                    child: Text(
-                  activity.activityName.toUpperCase(),
-                  maxLines: 2,
-                  overflow: TextOverflow.visible,
-                )),
+                  child: Text(
+                    activity.activityName.toUpperCase() +
+                        "jcnasjcjascjasbvjbasjvbbvajvbjbvsjbj",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const Row(
@@ -329,15 +330,17 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 Flexible(
-                    child: Text(
-                  activity.activityPIC + "  |  F001",
-                  maxLines: 2,
-                  overflow: TextOverflow.visible,
-                )),
+                  child: Text(
+                    activity.activityPIC +
+                        "  |  F001" +
+                        "jcnasjcjascjasbvjbasjvbbvajvb",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
           ],
         ),
