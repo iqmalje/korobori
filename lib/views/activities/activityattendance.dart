@@ -126,55 +126,54 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           )
         ],
       ),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.05),
-            child: Container(
-              height: 40,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 0),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextFormField(
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(Icons.search),
-                    hintStyle: KoroboriComponent().getTextStyle(
-                        fontSize: 12,
-                        style: FontStyle.italic,
-                        color: Colors.black.withOpacity(0.25)),
-                    hintText: 'Cari Scouty ID atau nama peserta'),
-              ),
+      child: Column(children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.sizeOf(context).width * 0.05),
+          child: Container(
+            height: 40,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x3F000000),
+                  blurRadius: 4,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  border: InputBorder.none,
+                  prefixIcon: const Icon(Icons.search),
+                  hintStyle: KoroboriComponent().getTextStyle(
+                      fontSize: 12,
+                      style: FontStyle.italic,
+                      color: Colors.black.withOpacity(0.25)),
+                  hintText: 'Cari Scouty ID atau nama peserta'),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: MediaQuery.sizeOf(context).width,
-            height: 2,
-            decoration: const BoxDecoration(color: Color(0xFFEBEBEB)),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          width: MediaQuery.sizeOf(context).width,
+          height: 2,
+          decoration: const BoxDecoration(color: Color(0xFFEBEBEB)),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(
             child: StreamBuilder(
                 stream: ActivityController().listenToAttendanceRecord(
                     activity.activityID, dateChosen.id),
@@ -185,26 +184,25 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     );
                   }
 
-                snapshot.data!
-                    .removeWhere((item) => item['attendance_status'] == false);
+                  snapshot.data!.removeWhere(
+                      (item) => item['attendance_status'] == false);
 
-                return ListView.separated(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemBuilder: (context, index) {
-                      return buildAttendanceCard(
-                          snapshot.data![index]['account_attended'],
-                          snapshot.data![index]['attendance_id']);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                    itemCount: snapshot.data!.length);
-              })
-        ],
-      ),
+                  return ListView.separated(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemBuilder: (context, index) {
+                        return buildAttendanceCard(
+                            snapshot.data![index]['account_attended'],
+                            snapshot.data![index]['attendance_id']);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount: snapshot.data!.length);
+                })),
+      ]),
     );
   }
 
