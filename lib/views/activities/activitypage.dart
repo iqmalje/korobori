@@ -325,7 +325,7 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
             Row(
               children: [
-                const Icon(Icons.person),
+                const Icon(Icons.account_circle),
                 const SizedBox(
                   width: 10,
                 ),

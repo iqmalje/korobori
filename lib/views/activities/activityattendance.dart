@@ -64,7 +64,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         children: [
-                          const Icon(Icons.person),
+                          const Icon(Icons.groups),
                           const SizedBox(
                             width: 10,
                           ),
@@ -461,7 +461,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             ),
             Row(
               children: [
-                const Icon(Icons.person),
+                const Icon(Icons.account_circle),
                 const SizedBox(
                   width: 10,
                 ),
