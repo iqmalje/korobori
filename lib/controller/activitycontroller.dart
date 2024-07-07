@@ -26,6 +26,12 @@ class ActivityController {
     return activities;
   }
 
+  Future<void> removeAttendance(String attendanceID) async {
+    await _supabase
+        .from('attendances')
+        .update({'attendance_status': false}).eq('attendance_id', attendanceID);
+  }
+
   Future<List<ActivityDates>> getActivityDates(String activityID) async {
     List<ActivityDates> activityDates = [];
 
