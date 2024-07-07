@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
-import 'package:korobori/views/activities/activityattendance.dart';
+import 'package:korobori/models/activitydates.dart';
+import 'package:korobori/providers/activitydatesprovider.dart';
+import 'package:korobori/urusetia/views/activities/activityattendance.dart';
+import 'package:provider/provider.dart';
 
 class ActivityPage extends StatefulWidget {
   final Activity activity;
@@ -52,65 +56,57 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget buildDates() {
-    return FutureBuilder(
-        future: ActivityController().getActivityDates(activity.activityID),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(
-              child: CircularProgressIndicator(),
+    return Column(
+      children: [
+        Text(
+          'Sesi Aktiviti',
+          style: KoroboriComponent().getTextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            ActivityDates activityDate =
+                context.read<ActivityDatesProvider>().activityDates[index];
+            return TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ActivityAttendance(
+                          activity: activity,
+                          dateChosen: activityDate,
+                        )));
+              },
+              child: Container(
+                height: 50,
+                decoration: ShapeDecoration(
+                  color: KoroboriComponent().getPrimaryColor(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+                child: Center(
+                  child: Text(
+                    '${DateFormat('dd MMMM').format(activityDate.date)}, ${getFormattedTime(activityDate.startTime)} - ${getFormattedTime(activityDate.endTime)}',
+                    style: KoroboriComponent().getTextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
             );
-          }
-          return Column(
-            children: [
-              Text(
-                'Sesi Aktiviti',
-                style: KoroboriComponent()
-                    .getTextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return TextButton(
-                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ActivityAttendance(
-                                activity: activity,
-                                dateChosen: snapshot.data![index],
-                              )));
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: ShapeDecoration(
-                        color: KoroboriComponent().getPrimaryColor(),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${DateFormat('dd MMMM').format(snapshot.data![index].date)}, ${getFormattedTime(snapshot.data![index].startTime)} - ${getFormattedTime(snapshot.data![index].endTime)}',
-                          style: KoroboriComponent().getTextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                },
-                itemCount: snapshot.data!.length,
-              )
-            ],
-          );
-        });
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(
+              height: 10,
+            );
+          },
+          itemCount: context.read<ActivityDatesProvider>().activityDates.length,
+        )
+      ],
+    );
   }
 
   Widget buildPenyertaanInfo() {
@@ -292,7 +288,10 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
             Row(
               children: [
-                Icon(activity.activityIcons),
+                SvgPicture.asset(
+                  activity.activityIcons,
+                  height: 17,
+                ),
                 const SizedBox(
                   width: 10,
                 ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/providers/accountprovider.dart';
-import 'package:korobori/views/authentication/login.dart';
+import 'package:korobori/providers/activitydatesprovider.dart';
+import 'package:korobori/urusetia/views/authentication/login.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AccountProvider())
+        ChangeNotifierProvider(create: (context) => AccountProvider()),
+        ChangeNotifierProvider(create: (context) => ActivityDatesProvider())
       ],
       child: MaterialApp(
         title: 'Korobori 2024',

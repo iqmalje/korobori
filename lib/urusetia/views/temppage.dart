@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
-import 'package:korobori/views/homepages/activitiespage.dart';
-import 'package:korobori/views/homepages/mainpage.dart';
-import 'package:korobori/views/homepages/pesertapage.dart';
-import 'package:korobori/views/homepages/profilepage.dart';
+import 'package:korobori/urusetia/views/homepages/activitiespage.dart';
+import 'package:korobori/urusetia/views/homepages/mainpage.dart';
+import 'package:korobori/urusetia/views/homepages/pesertapage.dart';
+import 'package:korobori/urusetia/views/homepages/profilepage.dart';
 
 class TempPage extends StatefulWidget {
   const TempPage({super.key});

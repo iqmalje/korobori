@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/models/account.dart';
-import 'package:korobori/views/peserta/aktivitipeserta.dart';
+import 'package:korobori/urusetia/views/peserta/aktivitipeserta.dart';
 
 class PesertaPage extends StatefulWidget {
   const PesertaPage({super.key});

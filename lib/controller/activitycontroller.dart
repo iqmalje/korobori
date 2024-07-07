@@ -19,8 +19,7 @@ class ActivityController {
           activityPIC: activity['activity_pic'],
           activitySector: activity['activity_sector'],
           activityName: activity['activity_name'],
-          activityIcons: IconData(activity['activity_icons_id'],
-              fontFamily: 'MaterialIcons')));
+          activityIcons: 'assets/icons/${activity['activity_icons_id']}.svg'));
     }
 
     return activities;
@@ -32,31 +31,41 @@ class ActivityController {
         .update({'attendance_status': false}).eq('attendance_id', attendanceID);
   }
 
-  Future<List<ActivityDates>> getActivityDates(String activityID) async {
-    List<ActivityDates> activityDates = [];
-
+  Future<int> totalActivitiesAttended(String accountID) async {
     var data = await _supabase
-        .from('activity_dates')
-        .select('*')
-        .eq('activity_id', activityID);
+        .from('attendance_each_user')
+        .select('activities_count')
+        .eq('account_id', accountID)
+        .single();
 
-    for (var date in data) {
-      int starthours = int.parse(date['start_time'].toString().split(':')[0]);
-      int startminutes = int.parse(date['start_time'].toString().split(':')[1]);
-
-      int endhours = int.parse(date['end_time'].toString().split(':')[0]);
-      int endminutes = int.parse(date['end_time'].toString().split(':')[1]);
-
-      activityDates.add(ActivityDates(
-          id: date['id'],
-          activityID: activityID,
-          date: DateTime.parse(date['date']),
-          startTime: TimeOfDay(hour: starthours, minute: startminutes),
-          endTime: TimeOfDay(hour: endhours, minute: endminutes)));
-    }
-
-    return activityDates;
+    return data['activities_count'];
   }
+
+  // Future<List<ActivityDates>> getActivityDates(String activityID) async {
+  //   List<ActivityDates> activityDates = [];
+
+  //   var data = await _supabase
+  //       .from('activity_dates')
+  //       .select('*')
+  //       .eq('activity_id', activityID);
+
+  //   for (var date in data) {
+  //     int starthours = int.parse(date['start_time'].toString().split(':')[0]);
+  //     int startminutes = int.parse(date['start_time'].toString().split(':')[1]);
+
+  //     int endhours = int.parse(date['end_time'].toString().split(':')[0]);
+  //     int endminutes = int.parse(date['end_time'].toString().split(':')[1]);
+
+  //     activityDates.add(ActivityDates(
+  //         id: date['id'],
+  //         activityID: activityID,
+  //         date: DateTime.parse(date['date']),
+  //         startTime: TimeOfDay(hour: starthours, minute: startminutes),
+  //         endTime: TimeOfDay(hour: endhours, minute: endminutes)));
+  //   }
+
+  //   return activityDates;
+  // }
 
   SupabaseStreamFilterBuilder listenToAttendanceCount() {
     return _supabase.from('attendance_record').stream(primaryKey: ['id']);
@@ -81,7 +90,7 @@ class ActivityController {
     } else {
       //takde lagi
     }
-    await _supabase.from('attendances').insert({
+    await _supabase.from('attendances').upsert({
       'activity_id': activityID,
       'account_attended': accountid,
       'activity_dates_id': activityDatesID,

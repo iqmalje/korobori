@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
@@ -419,7 +420,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             ),
             Row(
               children: [
-                Icon(activity.activityIcons),
+                SvgPicture.asset(
+                  activity.activityIcons,
+                  height: 17,
+                ),
                 const SizedBox(
                   width: 10,
                 ),

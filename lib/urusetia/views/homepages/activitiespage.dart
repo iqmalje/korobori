@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
-import 'package:korobori/views/activities/activitypage.dart';
+import 'package:korobori/providers/accountprovider.dart';
+import 'package:korobori/urusetia/views/activities/activitypage.dart';
+import 'package:provider/provider.dart';
 
 class ActivitiesPage extends StatefulWidget {
   const ActivitiesPage({super.key});
@@ -71,29 +74,47 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                           .visible, // Handle overflow
                                     ),
                                   ),
-                                  Container(
-                                    width: 50,
-                                    height: 25,
-                                    decoration: ShapeDecoration(
-                                      color: const Color(0xFFFF0003),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '19 / 28',
-                                        style: KoroboriComponent().getTextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  FutureBuilder(
+                                      future: ActivityController()
+                                          .totalActivitiesAttended(context
+                                              .read<AccountProvider>()
+                                              .account!
+                                              .accountID),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+
+                                        return Container(
+                                          width: 50,
+                                          height: 25,
+                                          decoration: ShapeDecoration(
+                                            color: snapshot.data! >= 20
+                                                ? const Color(0xFF3BE542)
+                                                : const Color(0xFFFF0003),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              '${snapshot.data!} / 28',
+                                              style: KoroboriComponent()
+                                                  .getTextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Text(
@@ -230,7 +251,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
             child: Row(
               children: [
-                Icon(activity.activityIcons),
+                SvgPicture.asset(
+                  activity.activityIcons,
+                  height: 17,
+                ),
                 const SizedBox(
                   width: 10,
                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class Activity {
   String activityID, activityPIC, activitySector, activityName;
-  IconData activityIcons;
+  String activityIcons;
 
   Activity({
     required this.activityID,
