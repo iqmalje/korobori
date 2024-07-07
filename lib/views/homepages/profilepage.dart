@@ -52,11 +52,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       //   height: 500,
                       // ),
 
-                      // SvgPicture.asset( //Kad Urusetia
-                      //   'assets/images/kad-urusetia.svg',
-                      //   semanticsLabel: 'Kad Urusetia',
-                      //   height: 500,
-                      // ),
+                      SvgPicture.asset(
+                        //Kad Urusetia
+                        'assets/images/kad-urusetia.svg',
+                        semanticsLabel: 'Kad Urusetia',
+                        height: 500,
+                      ),
 
                       // SvgPicture.asset( //Kad Tekno
                       //   'assets/images/kad-tekno.svg',
@@ -76,13 +77,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       //   height: 500,
                       // ),
 
-                      SvgPicture.asset(
-                        //Kad Kombat
-                        //Kad Kombat
-                        'assets/images/kad-kombat.svg',
-                        semanticsLabel: 'Kad Kombat',
-                        height: 500,
-                      ),
+                      // SvgPicture.asset(
+                      //   //Kad Kombat
+                      //   //Kad Kombat
+                      //   'assets/images/kad-kombat.svg',
+                      //   semanticsLabel: 'Kad Kombat',
+                      //   height: 500,
+                      // ),
                       const SizedBox(
                         height: 20,
                       ),

@@ -255,11 +255,11 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           style: KoroboriComponent().getTextStyle(fontSize: 14),
                         ),
                         Text(
-                          snapshot.data!.scoutyID,
+                          snapshot.data!.scoutyID + "  |  BATU PAHAT",
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         Text(
-                          '02:44 PM  |  K1',
+                          '02:44 PM  |  K1', //K1 ID Urusetia
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         const SizedBox(

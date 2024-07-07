@@ -121,7 +121,7 @@ class _PesertaPageState extends State<PesertaPage> {
                         maxLines: 2, // Allow text to wrap to a new line
                         overflow: TextOverflow.visible, // Handle overflow
                       ),
-                      Text('K001  |  PESERTA',
+                      Text('K001  |  PKK',
                           style: KoroboriComponent().getTextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w300,
