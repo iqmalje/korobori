@@ -26,7 +26,7 @@ class _PesertaPageState extends State<PesertaPage> {
                       horizontal: MediaQuery.sizeOf(context).width * 0.05),
                   child: Column(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: 20,
                       ),
                       KoroboriComponent().buildInput(TextEditingController(),

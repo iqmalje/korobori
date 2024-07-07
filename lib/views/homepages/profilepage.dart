@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       // SvgPicture.asset( //Kad Inviso
                       //   'assets/images/kad-inviso.svg',
-                      //   semanticsLabel: 'Kad Inviso',
+                      //   semanticsLabel: 'Kad Inviso0202',
                       //   height: 500,
                       // ),
 
