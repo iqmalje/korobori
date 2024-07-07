@@ -82,7 +82,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '21 / 31',
+                                        '19 / 28',
                                         style: KoroboriComponent().getTextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
@@ -93,8 +93,11 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
-                                'Peserta perlu menyelesaikan sekurang-kurangnya 25 aktiviti daripada 31 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                                'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
                                 style: KoroboriComponent()
                                     .getTextStyle(fontSize: 10),
                               ),
@@ -224,14 +227,14 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
             child: Row(
               children: [
                 Icon(activity.activityIcons),
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
+                Expanded(
                   child: Text(
                     activity.activityName.toUpperCase(),
                     style: KoroboriComponent().getTextStyle(
@@ -241,14 +244,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                 ),
                 const Spacer(),
-                GestureDetector(
-                  /* 
-              onTap: () {
-                setState(() {
-                  isCompleted = !isCompleted;
-                });
-              },
-              */
+                Align(
+                  alignment: Alignment.centerRight,
                   child: Container(
                     width: 24,
                     height: 24,

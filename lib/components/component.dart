@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class KoroboriComponent {
@@ -84,7 +83,7 @@ class KoroboriComponent {
                   title,
                   style: getTextStyle(
                       color: Colors.white,
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600),
                 ),
               ),
@@ -186,7 +185,9 @@ class KoroboriComponent {
             child: Text(
               text,
               style: getTextStyle(
-                  fontWeight: FontWeight.w600, color: Colors.white),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16),
             ),
           ),
         ));

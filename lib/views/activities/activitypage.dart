@@ -284,11 +284,11 @@ class _ActivityPageState extends State<ActivityPage> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: [
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [
@@ -337,7 +337,7 @@ class _ActivityPageState extends State<ActivityPage> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
           ],
         ),
