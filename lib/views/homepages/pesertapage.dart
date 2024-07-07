@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/models/account.dart';
+import 'package:korobori/views/peserta/aktivitipeserta.dart';
 
 class PesertaPage extends StatefulWidget {
   const PesertaPage({super.key});
@@ -92,6 +93,12 @@ class _PesertaPageState extends State<PesertaPage> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const AktivitiPeserta(
+                  //tak sure letak ape
+                  )));
+        },
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(

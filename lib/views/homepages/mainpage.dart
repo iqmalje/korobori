@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/subcampenum.dart';
 import 'package:korobori/models/subcamps.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,25 +18,25 @@ class _MainPageState extends State<MainPage> {
     SubCamp(
         name: Subcamps.kombat,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
-        imageURL: 'assets/images/kombat_logo.png',
+        imageURL: 'assets/images/logo_subkem_kombat.svg',
         mainColor: const Color(0xFF0000FF),
         count: 0),
     SubCamp(
         name: Subcamps.tekno,
-        daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
-        imageURL: 'assets/images/tekno_logo.png',
+        daerahs: 'PONTIAN, TANGKAK & BATU PAHA',
+        imageURL: 'assets/images/logo_subkem_tekno.svg',
         mainColor: const Color(0xFFFF0003),
         count: 0),
     SubCamp(
         name: Subcamps.inviso,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
-        imageURL: 'assets/images/inviso_logo.png',
+        imageURL: 'assets/images/logo_subkem_inviso.svg',
         mainColor: const Color(0xFF3EAD16),
         count: 0),
     SubCamp(
         name: Subcamps.neuro,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
-        imageURL: 'assets/images/neuro_logo.png',
+        imageURL: 'assets/images/logo_subkem_neuro.svg',
         mainColor: const Color(0xFFFF8438),
         count: 0),
   ];
@@ -49,139 +49,147 @@ class _MainPageState extends State<MainPage> {
         bottom: false,
         child: Scaffold(
           appBar: KoroboriComponent().buildAppBar('Utama'),
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.05),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 5,
-                        offset: Offset(0, 2),
-                        spreadRadius: 0,
-                      )
-                    ],
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.sizeOf(context).width * 0.05),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/images/logo_korobori.png',
-                          height: 130,
-                        ),
-                        Text(
-                          'KOROBORI JOHOR',
-                          style: KoroboriComponent().getTextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'PENGAKAP KANAK-KANAK 2024',
-                          style: KoroboriComponent().getTextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          '22 - 25 JUN | PANTAI AIR PAPAN, MERSING',
-                          style: KoroboriComponent().getTextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 13),
-                        ),
+                  Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x3F000000),
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                          spreadRadius: 0,
+                        )
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                StreamBuilder(
-                    stream: ActivityController().listenToAttendanceCount(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-
-                      for (var subcamp in subcamps) {
-                        int index = snapshot.data!.indexWhere((element) =>
-                            element['subcamp_name'] == subcamp.name.name);
-                        int attendanceCount = snapshot.data![index]['count'];
-
-                        subcamp.count = attendanceCount;
-                      }
-
-                      return Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
+                            //Kad Kombat
+                            'assets/images/logo_korobori.svg',
+                            semanticsLabel: 'Logo Korobori',
+                            height: 200,
                           ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 5,
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 15,
+                          Text(
+                            'KOROBORI JOHOR',
+                            style: KoroboriComponent().getTextStyle(
+                              fontWeight: FontWeight.w600,
                             ),
-                            Text(
-                              'Prestasi Subkem Korobori 2024',
-                              style: KoroboriComponent().getTextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14),
+                          ),
+                          Text(
+                            'PENGAKAP KANAK-KANAK 2024',
+                            style: KoroboriComponent().getTextStyle(
+                              fontWeight: FontWeight.w600,
                             ),
-                            const SizedBox(
-                              height: 15,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            '22 - 25 JUN | PANTAI AIR PAPAN, MERSING',
+                            style: KoroboriComponent().getTextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  StreamBuilder(
+                      stream: ActivityController().listenToAttendanceCount(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        for (var subcamp in subcamps) {
+                          int index = snapshot.data!.indexWhere((element) =>
+                              element['subcamp_name'] == subcamp.name.name);
+                          int attendanceCount = snapshot.data![index]['count'];
+
+                          subcamp.count = attendanceCount;
+                        }
+
+                        return Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.only(bottom: 10),
-                                itemCount: subcamps.length,
-                                itemBuilder: (context, index) =>
-                                    buildSubCamps(subcamps[index]),
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const SizedBox(
-                                    height: 15,
-                                  );
-                                },
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x3F000000),
+                                blurRadius: 5,
+                                offset: Offset(0, 2),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 15,
                               ),
-                            ),
-                            Text(
-                              'Kemaskini : ${DateFormat('dd/MM/yy, hh:mm:ss').format(DateTime.now())}',
-                              style: KoroboriComponent()
-                                  .getTextStyle(fontSize: 10),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        ),
-                      );
-                    })
-              ],
+                              Text(
+                                'Prestasi Subkem Korobori 2024',
+                                style: KoroboriComponent().getTextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 14),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  itemCount: subcamps.length,
+                                  itemBuilder: (context, index) =>
+                                      buildSubCamps(subcamps[index]),
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      height: 15,
+                                    );
+                                  },
+                                ),
+                              ),
+                              Text(
+                                'Kemaskini : ${DateFormat('dd/MM/yy, hh:mm:ss').format(DateTime.now())}',
+                                style: KoroboriComponent()
+                                    .getTextStyle(fontSize: 10),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                  const SizedBox(
+                    height: 40,
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -208,7 +216,11 @@ class _MainPageState extends State<MainPage> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
-            Image.asset(subCamp.imageURL),
+            SvgPicture.asset(
+              subCamp.imageURL,
+              height: 55,
+            ),
+            //Image.asset(subCamp.imageURL),
             const SizedBox(
               width: 10,
             ),
@@ -229,7 +241,7 @@ class _MainPageState extends State<MainPage> {
                 )
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               height: 30,
               decoration: ShapeDecoration(

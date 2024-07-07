@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
@@ -45,7 +46,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Image.asset('assets/images/example_card.png'),
+                      // SvgPicture.asset( //Kad VIP
+                      //   'assets/images/kad-vip.svg',
+                      //   semanticsLabel: 'Kad VIP',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Urusetia
+                      //   'assets/images/kad-urusetia.svg',
+                      //   semanticsLabel: 'Kad Urusetia',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Tekno
+                      //   'assets/images/kad-tekno.svg',
+                      //   semanticsLabel: 'Kad Tekno',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Neuro
+                      //   'assets/images/kad-neuro.svg',
+                      //   semanticsLabel: 'Kad Neuro',
+                      //   height: 500,
+                      // ),
+
+                      // SvgPicture.asset( //Kad Inviso
+                      //   'assets/images/kad-inviso.svg',
+                      //   semanticsLabel: 'Kad Inviso',
+                      //   height: 500,
+                      // ),
+
+                      SvgPicture.asset(
+                        //Kad Kombat
+                        //Kad Kombat
+                        'assets/images/kad-kombat.svg',
+                        semanticsLabel: 'Kad Kombat',
+                        height: 500,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),

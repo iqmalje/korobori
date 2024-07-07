@@ -22,6 +22,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
   ActivityDates dateChosen;
   TextEditingController scoutyID = TextEditingController();
   _ActivityAttendanceState(this.activity, this.dateChosen);
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -31,72 +32,77 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
         child: Scaffold(
           appBar: KoroboriComponent()
               .buildAppBarWithBackbutton('Rekod Kehadiran', context),
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.08),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                buildActivityInfo(),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 40,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 0),
-                        spreadRadius: 0,
-                      )
-                    ],
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.sizeOf(context).width * 0.08),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.person),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text('Bilangan Penyertaan Peserta',
-                            style: KoroboriComponent().getTextStyle(
-                              fontSize: 12,
-                            )),
-                        const Spacer(),
-                        Text(
-                          '3',
-                          style: KoroboriComponent().getTextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w500),
-                        ),
+                  buildActivityInfo(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 40,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x3F000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 0),
+                          spreadRadius: 0,
+                        )
                       ],
                     ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.person),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text('Bilangan Penyertaan Peserta',
+                              style: KoroboriComponent().getTextStyle(
+                                fontSize: 12,
+                              )),
+                          const Spacer(),
+                          Text(
+                            '3',
+                            style: KoroboriComponent().getTextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                buildAttendanceInput(),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Senarai Kehadiran Peserta',
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                buildAttendanceSearch(context),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  buildAttendanceInput(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Senarai Kehadiran Peserta',
+                    style: KoroboriComponent().getTextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  buildAttendanceSearch(context),
+                  const SizedBox(
+                    height: 40,
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -150,7 +156,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     border: InputBorder.none,
                     prefixIcon: const Icon(Icons.search),
                     hintStyle: KoroboriComponent().getTextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         style: FontStyle.italic,
                         color: Colors.black.withOpacity(0.25)),
                     hintText: 'Cari Scouty ID atau nama peserta'),
@@ -168,30 +174,31 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           const SizedBox(
             height: 10,
           ),
-          StreamBuilder(
-              stream: ActivityController()
-                  .listenToAttendanceRecord(activity.activityID, dateChosen.id),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+          Expanded(
+            child: StreamBuilder(
+                stream: ActivityController().listenToAttendanceRecord(
+                    activity.activityID, dateChosen.id),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                return ListView.separated(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemBuilder: (context, index) {
-                      return buildAttendanceCard(
-                          snapshot.data![index]['account_attended']);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                    itemCount: snapshot.data!.length);
-              })
+                  return ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemBuilder: (context, index) {
+                        return buildAttendanceCard(
+                            snapshot.data![index]['account_attended']);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount: snapshot.data!.length);
+                }),
+          ),
         ],
       ),
     );
@@ -250,7 +257,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         Text(
-                          '02:44 PM | K1',
+                          '02:44 PM  |  K1',
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         const SizedBox(
@@ -274,7 +281,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 15,
                                         ),
                                         Text(
@@ -301,7 +308,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           'KARIM BIN SAID',
                                           style: KoroboriComponent()
                                               .getTextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           height: 2,
@@ -310,7 +317,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           'BP302',
                                           style: KoroboriComponent()
                                               .getTextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           height: 10,
@@ -408,7 +415,13 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(activity.activityName.toUpperCase()),
+                Flexible(
+                  child: Text(
+                    activity.activityName.toUpperCase() +
+                        "jcnasjcjascjasbvjbasjvbbvajvbjbvsjbj",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const Row(
@@ -444,7 +457,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(activity.activityPIC + "  |  F001"),
+                Flexible(
+                  child: Text(
+                    activity.activityPIC +
+                        "  |  F001" +
+                        "jcnasjcjascjasbvjbasjvbbvajvb",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const SizedBox(

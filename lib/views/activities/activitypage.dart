@@ -297,11 +297,12 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 Flexible(
-                    child: Text(
-                  activity.activityName.toUpperCase(),
-                  maxLines: 2,
-                  overflow: TextOverflow.visible,
-                )),
+                  child: Text(
+                    activity.activityName.toUpperCase() +
+                        "jcnasjcjascjasbvjbasjvbbvajvbjbvsjbj",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const Row(
@@ -329,11 +330,13 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 Flexible(
-                    child: Text(
-                  activity.activityPIC + "  |  F001",
-                  maxLines: 2,
-                  overflow: TextOverflow.visible,
-                )),
+                  child: Text(
+                    activity.activityPIC +
+                        "  |  F001" +
+                        "jcnasjcjascjasbvjbasjvbbvajvb",
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
