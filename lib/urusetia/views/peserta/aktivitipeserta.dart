@@ -164,7 +164,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 SizedBox(
                   width: 10,
                 ),
-                Text("K001"),
+                Text("K001  |  KOMBAT"),
               ],
             ),
             Row(
@@ -175,7 +175,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 ),
                 Flexible(
                   child: Text(
-                    "SK BUKIT KUARI",
+                    "JEA0011 |  SK BUKIT KUARI",
                     overflow: TextOverflow.visible,
                   ),
                 ),
