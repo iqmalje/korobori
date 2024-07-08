@@ -106,6 +106,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                     ),
                     KoroboriComponent().buildInput(TextEditingController(),
                         width: 0,
+                        height: 40,
                         shadows: [
                           const BoxShadow(
                             color: Color(0x3F000000),

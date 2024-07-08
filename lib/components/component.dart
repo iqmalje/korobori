@@ -102,8 +102,10 @@ class KoroboriComponent {
       bool isObscure = false,
       IconButton? suffixIconButton,
       double width = 1,
+      double? height, // Add height parameter
       List<BoxShadow>? shadows}) {
     return Container(
+        height: height, // Set the height of the container
         decoration: ShapeDecoration(
           color: Colors.white,
           shadows: shadows,
@@ -122,6 +124,8 @@ class KoroboriComponent {
             border: InputBorder.none,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIconButton,
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 12.0), // Adjust padding to center the text vertically
             hintStyle: getTextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w300,

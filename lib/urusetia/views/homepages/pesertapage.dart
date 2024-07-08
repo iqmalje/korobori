@@ -31,6 +31,7 @@ class _PesertaPageState extends State<PesertaPage> {
                       ),
                       KoroboriComponent().buildInput(TextEditingController(),
                           width: 0,
+                          height: 40,
                           shadows: [
                             const BoxShadow(
                               color: Color(0x3F000000),
@@ -40,7 +41,7 @@ class _PesertaPageState extends State<PesertaPage> {
                             )
                           ],
                           prefixIcon: const Icon(Icons.search),
-                          hintText: 'Cari nama aktiviti'),
+                          hintText: 'Cari nama peserta'),
                     ],
                   ),
                 ),

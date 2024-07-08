@@ -131,6 +131,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       ),
                       KoroboriComponent().buildInput(TextEditingController(),
                           width: 0,
+                          height: 40,
                           shadows: [
                             const BoxShadow(
                               color: Color(0x3F000000),
@@ -145,7 +146,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
                 Expanded(
                   child: ListView(
@@ -262,12 +263,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   child: Text(
                     activity.activityName.toUpperCase(),
                     style: KoroboriComponent().getTextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
-                    maxLines: 2, // Allow text to wrap to a new line
+                        fontSize: 13, fontWeight: FontWeight.w500),
+                    maxLines: 3, // Allow text to wrap to a new line
                     overflow: TextOverflow.visible, // Handle overflow
                   ),
                 ),
-                const Spacer(),
+                //const Spacer(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
