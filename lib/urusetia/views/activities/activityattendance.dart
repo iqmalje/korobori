@@ -152,7 +152,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
                   border: InputBorder.none,
                   prefixIcon: const Icon(Icons.search),
                   hintStyle: KoroboriComponent().getTextStyle(
@@ -384,7 +384,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 scoutyID: value);
           },
           decoration: InputDecoration(
-              contentPadding: EdgeInsets.zero,
+              contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
               border: InputBorder.none,
               prefixIcon: const Icon(Icons.person),
               hintStyle: KoroboriComponent().getTextStyle(
