@@ -91,7 +91,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     height: 20,
                   ),
                   Text(
-                    'Senarai Kehadiran Peserta',
+                    'Senarai Penyertaan Peserta',
                     style: KoroboriComponent().getTextStyle(
                         fontSize: 14, fontWeight: FontWeight.w500),
                   ),
@@ -113,8 +113,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
 
   Container buildAttendanceSearch(BuildContext context) {
     return Container(
-      width: 400,
-      height: 420,
+      width: MediaQuery.sizeOf(context).width * 1,
+      height: 700,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -218,7 +218,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           }
 
           return Container(
-            width: 330,
+            width: MediaQuery.sizeOf(context).width * 0.08,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -233,44 +233,46 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 20,
+                  const Icon(
+                    Icons.account_circle,
+                    size: 25,
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 7,
+                          height: 5,
                         ),
                         Text(
                           snapshot.data!.userFullname,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: KoroboriComponent().getTextStyle(fontSize: 14),
+                          style: KoroboriComponent().getTextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                         Text(
                           snapshot.data!.scoutyID + "  |  BATU PAHAT",
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         Text(
-                          '02:44 PM  |  K1', //K1 ID Urusetia
+                          '02:44:12 PM  |  K1', //K1 ID Urusetia
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                         const SizedBox(
-                          height: 7,
+                          height: 5,
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
                   CircleAvatar(
                       radius: 15,
@@ -312,6 +314,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           style: KoroboriComponent()
                                               .getTextStyle(
                                                   fontWeight: FontWeight.w500),
+                                          textAlign: TextAlign.center,
                                         ),
                                         const SizedBox(
                                           height: 2,
@@ -422,15 +425,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
               children: [
                 SvgPicture.asset(
                   activity.activityIcons,
-                  height: 17,
+                  height: 25,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityName.toUpperCase() +
-                        "jcnasjcjascjasbvjbasjvbbvajvbjbvsjbj",
+                    activity.activityName.toUpperCase(),
                     overflow: TextOverflow.visible,
                   ),
                 ),
@@ -471,9 +473,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityPIC +
-                        "  |  F001" +
-                        "jcnasjcjascjasbvjbasjvbbvajvb",
+                    activity.activityPIC + "  |  F001",
                     overflow: TextOverflow.visible,
                   ),
                 ),

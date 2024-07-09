@@ -36,99 +36,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 1),
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      'Bilangan Aktiviti Berjaya Dilengkapkan',
-                                      style: KoroboriComponent().getTextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      maxLines:
-                                          2, // Allow text to wrap to a new line
-                                      overflow: TextOverflow
-                                          .visible, // Handle overflow
-                                    ),
-                                  ),
-                                  FutureBuilder(
-                                      future: ActivityController()
-                                          .totalActivitiesAttended(context
-                                              .read<AccountProvider>()
-                                              .account!
-                                              .accountID),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-
-                                        return Container(
-                                          width: 50,
-                                          height: 25,
-                                          decoration: ShapeDecoration(
-                                            color: snapshot.data! >= 20
-                                                ? const Color(0xFF3BE542)
-                                                : const Color(0xFFFF0003),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '${snapshot.data!} / 28',
-                                              style: KoroboriComponent()
-                                                  .getTextStyle(
-                                                color: Colors.white,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-                                style: KoroboriComponent()
-                                    .getTextStyle(fontSize: 10),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       KoroboriComponent().buildInput(TextEditingController(),
                           width: 0,
                           height: 40,
@@ -260,7 +167,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
               },
               separatorBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: 2,
+                  height: 1,
                   color: const Color.fromARGB(255, 217, 217, 217),
                 );
               },

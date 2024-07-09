@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
-import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
 import 'package:korobori/providers/activitydatesprovider.dart';
@@ -133,19 +132,32 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
             Row(
               children: [
-                Text(
-                  'BILANGAN PENYERTAAN PESERTA',
-                  style: KoroboriComponent().getTextStyle(
+                Expanded(
+                  child: Text(
+                    'BILANGAN PENYERTAAN PESERTA',
+                    style: KoroboriComponent().getTextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
-                      letterSpacing: 0),
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 2, // Allow up to 2 lines
+                    overflow: TextOverflow
+                        .ellipsis, // Optional, add ellipsis if overflow
+                  ),
                 ),
-                const Spacer(),
-                Text(
-                  '1576',
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                )
+                const SizedBox(
+                    width:
+                        8), // Optional, add some space between text and number
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '1576',
+                    style: KoroboriComponent().getTextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -290,15 +302,14 @@ class _ActivityPageState extends State<ActivityPage> {
               children: [
                 SvgPicture.asset(
                   activity.activityIcons,
-                  height: 17,
+                  height: 25,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityName.toUpperCase() +
-                        "jcnasjcjascjasbvjbasjvbbvajvbjbvsjbj",
+                    activity.activityName.toUpperCase(),
                     overflow: TextOverflow.visible,
                   ),
                 ),
@@ -330,9 +341,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityPIC +
-                        "  |  F001" +
-                        "jcnasjcjascjasbvjbasjvbbvajvb",
+                    activity.activityPIC + "  |  F001",
                     overflow: TextOverflow.visible,
                   ),
                 ),

@@ -4,7 +4,6 @@ import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/providers/accountprovider.dart';
-import 'package:korobori/urusetia/views/activities/activitypage.dart';
 import 'package:provider/provider.dart';
 
 class ActivitiesPagePemimpin extends StatefulWidget {
@@ -260,7 +259,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
               },
               separatorBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: 2,
+                  height: 1,
                   color: const Color.fromARGB(255, 217, 217, 217),
                 );
               },
@@ -307,8 +306,8 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                     height: 24,
                     decoration: BoxDecoration(
                       color: activity.attendedActivity
-                          ? Colors.green
-                          : Colors.grey,
+                          ? const Color(0xFF3BE542)
+                          : const Color(0xFFD9D9D9),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

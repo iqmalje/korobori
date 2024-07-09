@@ -19,81 +19,69 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
     return Material(
       color: KoroboriComponent().getPrimaryColor(),
       child: SafeArea(
-          bottom: false,
-          child: Scaffold(
-            appBar: KoroboriComponent().buildAppBar('Peserta'),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.sizeOf(context).width * 0.05),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        KoroboriComponent().buildInput(TextEditingController(),
-                            width: 0,
-                            height: 40,
-                            shadows: [
-                              const BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 1,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
-                              )
-                            ],
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: 'Cari nama peserta'),
-                      ],
+        bottom: false,
+        child: Scaffold(
+          appBar: KoroboriComponent().buildAppBar('Peserta'),
+          body: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.sizeOf(context).width * 0.05),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                          blurRadius: 4, color: Colors.black.withOpacity(0.25))
-                    ]),
-                    child: FutureBuilder(
-                        future: AuthController().getAllAccounts(
-                            subcamp: context
-                                .read<AccountProvider>()
-                                .account!
-                                .subcamp),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          return ListView.separated(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return buildPeserta(snapshot.data![index]);
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Container(
-                                height: 1,
-                                color: const Color.fromARGB(255, 217, 217, 217),
-                              );
-                            },
-                            itemCount: snapshot.data!.length,
-                          );
-                        }),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  )
-                ],
+                    KoroboriComponent().buildInput(TextEditingController(),
+                        width: 0,
+                        height: 40,
+                        shadows: [
+                          const BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 1,
+                            offset: Offset(0, 0),
+                            spreadRadius: 0,
+                          )
+                        ],
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: 'Cari nama peserta'),
+                  ],
+                ),
               ),
-            ),
-          )),
+              const SizedBox(
+                height: 15,
+              ),
+              Expanded(
+                child: FutureBuilder(
+                  future: AuthController().getAllAccounts(
+                      subcamp:
+                          context.read<AccountProvider>().account!.subcamp),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return ListView.separated(
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildPeserta(snapshot.data![index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 1,
+                          color: const Color.fromARGB(255, 217, 217, 217),
+                        );
+                      },
+                      itemCount: snapshot.data!.length,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
