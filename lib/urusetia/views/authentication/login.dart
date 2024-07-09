@@ -5,6 +5,8 @@ import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/urusetia/views/temppage.dart';
+import 'package:korobori/urusetia/views/temppagepemimpin.dart';
+import 'package:korobori/urusetia/views/temppagepkk.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -139,11 +141,31 @@ class _LoginPageState extends State<LoginPage> {
                                     .setAccount(newAccount: authResponse);
 
                                 // fetch role
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (context) => const TempPage(),
-                                    ),
-                                    (_) => false);
+                                switch (authResponse.role) {
+                                  case 'officer':
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TempPage(),
+                                        ),
+                                        (_) => false);
+                                    break;
+                                  case 'authenticated':
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TempPagePKK(),
+                                        ),
+                                        (_) => false);
+                                    break;
+                                  case 'pemimpin':
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TempPagePemimpin(),
+                                        ),
+                                        (_) => false);
+                                }
                               } on AuthException catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(e.message)));

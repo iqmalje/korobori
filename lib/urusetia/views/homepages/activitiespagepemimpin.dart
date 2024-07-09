@@ -7,14 +7,14 @@ import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/urusetia/views/activities/activitypage.dart';
 import 'package:provider/provider.dart';
 
-class ActivitiesPage extends StatefulWidget {
-  const ActivitiesPage({super.key});
+class ActivitiesPagePemimpin extends StatefulWidget {
+  const ActivitiesPagePemimpin({super.key});
 
   @override
-  State<ActivitiesPage> createState() => _ActivitiesPageState();
+  State<ActivitiesPagePemimpin> createState() => _ActivitiesPagePemimpinState();
 }
 
-class _ActivitiesPageState extends State<ActivitiesPage> {
+class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -276,12 +276,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ActivityPage(
-                    activity: activity,
-                  )));
-        },
+        onTap: () {},
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
@@ -305,6 +300,24 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                 ),
                 //const Spacer(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: activity.attendedActivity
+                          ? Colors.green
+                          : Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      activity.attendedActivity ? Icons.done : Icons.close,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -15,8 +15,12 @@ class AuthController {
       return null;
     }
     // fetch account details
+    var dataRAW = await _supabase
+        .from('accounts')
+        .select('*')
+        .eq('id', authResponse.user!.id);
 
-    var data = await _supabase.from('accounts').select('*').single();
+    var data = dataRAW[0];
 
     return Account(
         accountID: authResponse.user!.id,
@@ -26,6 +30,31 @@ class AuthController {
         userFullname: data['fullname'],
         icNo: icNo,
         role: authResponse.user!.role!);
+  }
+
+  Future<List<Account>> getAllAccounts({String? subcamp}) async {
+    List<Account> accounts = [];
+
+    List<Map<String, dynamic>> data;
+    if (subcamp == null) {
+      data = await _supabase.from('accounts').select('*');
+    } else {
+      print(subcamp);
+      data =
+          await _supabase.from('accounts').select('*').eq('subcamp', subcamp);
+    }
+
+    for (var row in data) {
+      accounts.add(Account(
+          accountID: row['id'],
+          scoutyID: row['scouty_id'],
+          schoolCode: row['school_code'],
+          subcamp: row['subcamp'],
+          userFullname: row['fullname'],
+          icNo: row['ic_no'],
+          role: row['user_roles']));
+    }
+    return accounts;
   }
 
   Future<void> logout(BuildContext context) async {

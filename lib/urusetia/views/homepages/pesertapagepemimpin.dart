@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
+import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/urusetia/views/peserta/aktivitipeserta.dart';
+import 'package:provider/provider.dart';
 
-class PesertaPage extends StatefulWidget {
-  const PesertaPage({super.key});
+class PesertaPagePemimpin extends StatefulWidget {
+  const PesertaPagePemimpin({super.key});
 
   @override
-  State<PesertaPage> createState() => _PesertaPageState();
+  State<PesertaPagePemimpin> createState() => _PesertaPagePemimpinState();
 }
 
-class _PesertaPageState extends State<PesertaPage> {
+class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -56,7 +58,11 @@ class _PesertaPageState extends State<PesertaPage> {
                           blurRadius: 4, color: Colors.black.withOpacity(0.25))
                     ]),
                     child: FutureBuilder(
-                        future: AuthController().getAllAccounts(),
+                        future: AuthController().getAllAccounts(
+                            subcamp: context
+                                .read<AccountProvider>()
+                                .account!
+                                .subcamp),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return const Center(

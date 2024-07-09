@@ -6,20 +6,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ActivityController {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  Future<List<Activity>> getAllActivities({required String sektor}) async {
+  Future<List<Activity>> getAllActivities(String userid) async {
     List<Activity> activities = [];
 
-    var data = await _supabase
-        .from('activities')
-        .select('*')
-        .eq('activity_sector', sektor);
+    var data =
+        await _supabase.rpc('get_all_activities', params: {'_userid': userid});
     for (var activity in data) {
-      activities.add(Activity(
-          activityID: activity['activity_id'],
-          activityPIC: activity['activity_pic'],
-          activitySector: activity['activity_sector'],
-          activityName: activity['activity_name'],
-          activityIcons: 'assets/icons/${activity['activity_icons_id']}.svg'));
+      activities.add(
+        Activity(
+            activityID: activity['activity_idd'],
+            activityPIC: activity['activity_pic'],
+            activitySector: activity['activity_sector'],
+            activityName: activity['activity_name'],
+            activityIcons: 'assets/icons/${activity['activity_icons_id']}.svg',
+            attendedActivity: activity['attended_activity']),
+      );
     }
 
     return activities;
