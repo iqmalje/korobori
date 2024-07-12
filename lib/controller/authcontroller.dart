@@ -29,6 +29,7 @@ class AuthController {
         subcamp: data['subcamp'],
         userFullname: data['fullname'],
         icNo: icNo,
+        sijilApproved: data['approve_sijil'],
         role: authResponse.user!.role!);
   }
 
@@ -52,7 +53,12 @@ class AuthController {
           subcamp: row['subcamp'],
           userFullname: row['fullname'],
           icNo: row['ic_no'],
-          role: row['user_roles']));
+          role: row['user_roles'] == 'authenticated'
+              ? 'PKK'
+              : row['user_roles'] == 'pemimpin'
+                  ? 'URUSETIA'
+                  : 'PEMIMPIN',
+          sijilApproved: row['approve_sijil']));
     }
     return accounts;
   }
@@ -83,7 +89,8 @@ class AuthController {
         subcamp: '',
         userFullname: data['fullname'],
         icNo: '',
-        role: '');
+        role: '',
+        sijilApproved: false);
 
     return account;
   }

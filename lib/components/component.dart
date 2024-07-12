@@ -102,6 +102,7 @@ class KoroboriComponent {
       bool isObscure = false,
       IconButton? suffixIconButton,
       double width = 1,
+      void Function(String)? onSubmit,
       double? height, // Add height parameter
       List<BoxShadow>? shadows}) {
     return Container(
@@ -118,6 +119,7 @@ class KoroboriComponent {
           textAlignVertical: TextAlignVertical.center,
           controller: controller,
           inputFormatters: formats,
+          onFieldSubmitted: onSubmit,
           keyboardType: keyboardType,
           obscureText: isObscure,
           decoration: InputDecoration(

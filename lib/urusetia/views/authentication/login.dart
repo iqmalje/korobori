@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: KoroboriComponent().getPrimaryColor(),
                                 ),
                                 keyboardType: TextInputType.number,
+                                onSubmit: (_) async => await logIn(),
                                 hintText: 'Nombor Kad Pengenalan'),
                             const SizedBox(
                               height: 20,
@@ -98,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Icons.lock,
                                   color: KoroboriComponent().getPrimaryColor(),
                                 ),
+                                onSubmit: (_) async => await logIn(),
                                 isObscure: !isPasswordShown,
                                 suffixIconButton: IconButton(
                                     onPressed: () {
@@ -121,56 +123,8 @@ class _LoginPageState extends State<LoginPage> {
                                   'Log Masuk',
                                   style: KoroboriComponent()
                                       .getTextStyle(color: Colors.white),
-                                ), () async {
-                              try {
-                                Account? authResponse = await AuthController()
-                                    .logIn(pengenalanController.text,
-                                        passwordController.text);
-
-                                if (authResponse == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              "Something went wrong, please contact with our administrator.")));
-                                  return;
-                                }
-
-                                // save it into provider
-                                context
-                                    .read<AccountProvider>()
-                                    .setAccount(newAccount: authResponse);
-
-                                // fetch role
-                                switch (authResponse.role) {
-                                  case 'officer':
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TempPage(),
-                                        ),
-                                        (_) => false);
-                                    break;
-                                  case 'authenticated':
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TempPagePKK(),
-                                        ),
-                                        (_) => false);
-                                    break;
-                                  case 'pemimpin':
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TempPagePemimpin(),
-                                        ),
-                                        (_) => false);
-                                }
-                              } on AuthException catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(e.message)));
-                              }
-                            }),
+                                ),
+                                () async => await logIn()),
                             const Spacer(),
                             Center(
                               child: Text(
@@ -203,5 +157,49 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> logIn() async {
+    try {
+      Account? authResponse = await AuthController()
+          .logIn(pengenalanController.text, passwordController.text);
+
+      if (authResponse == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                "Something went wrong, please contact with our administrator.")));
+        return;
+      }
+
+      // save it into provider
+      context.read<AccountProvider>().setAccount(newAccount: authResponse);
+
+      // fetch role
+      switch (authResponse.role) {
+        case 'officer':
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const TempPage(),
+              ),
+              (_) => false);
+          break;
+        case 'authenticated':
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const TempPagePKK(),
+              ),
+              (_) => false);
+          break;
+        case 'pemimpin':
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const TempPagePemimpin(),
+              ),
+              (_) => false);
+      }
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 }

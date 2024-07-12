@@ -113,7 +113,7 @@ class _PesertaPageState extends State<PesertaPage> {
                         maxLines: 2, // Allow text to wrap to a new line
                         overflow: TextOverflow.visible, // Handle overflow
                       ),
-                      Text('${peserta.scoutyID}  |  PKK',
+                      Text('${peserta.scoutyID}  |  ${peserta.role}',
                           style: KoroboriComponent().getTextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w300,
@@ -132,13 +132,12 @@ class _PesertaPageState extends State<PesertaPage> {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: const BoxDecoration(
-                      color: Color(
-                          0xFF3BE542), //isCompleted ? Colors.green : Colors.grey,
+                    decoration: BoxDecoration(
+                      color: peserta.sijilApproved ? Colors.green : Colors.grey,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Icons.done, //isCompleted ? Icons.done : Icons.close,
+                    child: Icon(
+                      peserta.sijilApproved ? Icons.done : Icons.close,
                       color: Colors.white,
                       size: 16,
                     ),
