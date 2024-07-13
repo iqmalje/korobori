@@ -51,19 +51,50 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 buildActivityInfo(),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: const ShapeDecoration(
+                        color: Colors.white,
+                        shape: OvalBorder(),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 2,
+                            offset: Offset(0, 1),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.refresh,
+                        color:
+                            Colors.black, // You can change the color as needed
+                        size: 20, // Adjust the size as needed
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 FutureBuilder(
                     future: ActivityController()
                         .getAttendancesBySubcamp(activity.activityID),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
 
                       print(snapshot.data!);
+
                       return buildPenyertaanInfo(snapshot.data!);
                     }),
                 const SizedBox(
@@ -297,8 +328,20 @@ class _ActivityPageState extends State<ActivityPage> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
+                  style: KoroboriComponent().getTextStyle(fontSize: 10),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            )
           ],
         ),
       ),
