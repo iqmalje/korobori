@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/controller/authcontroller.dart';
+import 'package:korobori/controller/localDBcontroller.dart';
 import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/providers/activitydatesprovider.dart';
 import 'package:korobori/urusetia/views/authentication/login.dart';
@@ -9,6 +10,7 @@ import 'package:korobori/urusetia/views/temppage.dart';
 import 'package:korobori/urusetia/views/temppagepemimpin.dart';
 import 'package:korobori/urusetia/views/temppagepkk.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 bool hasLoggedIn = false;

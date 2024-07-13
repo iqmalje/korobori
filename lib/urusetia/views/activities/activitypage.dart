@@ -32,8 +32,11 @@ class _ActivityPageState extends State<ActivityPage> {
   Activity activity;
 
   _ActivityPageState(this.activity);
+
   @override
   Widget build(BuildContext context) {
+    Future<Map<String, dynamic>> subcampData =
+        ActivityController().getAttendancesBySubcamp(activity.activityID);
     return Material(
       color: KoroboriComponent().getPrimaryColor(),
       child: SafeArea(
@@ -41,69 +44,87 @@ class _ActivityPageState extends State<ActivityPage> {
         child: Scaffold(
           appBar: KoroboriComponent()
               .buildAppBarWithBackbutton('Rekod Kehadiran', context),
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.08),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                buildActivityInfo(),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: const ShapeDecoration(
-                        color: Colors.white,
-                        shape: OvalBorder(),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x3F000000),
-                            blurRadius: 2,
-                            offset: Offset(0, 1),
-                            spreadRadius: 0,
+          body: LayoutBuilder(builder: (context, snapshot) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                setState(() {
+                  activity.activityName = activity.activityName;
+                });
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.sizeOf(context).width * 0.08),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      buildActivityInfo(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(1000)),
+                            onTap: () {
+                              setState(() {});
+                            },
+                            child: Ink(
+                              width: 30,
+                              height: 30,
+                              decoration: const ShapeDecoration(
+                                color: Colors.white,
+                                shape: OvalBorder(),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1),
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.refresh,
+                                color: Colors
+                                    .black, // You can change the color as needed
+                                size: 20, // Adjust the size as needed
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.refresh,
-                        color:
-                            Colors.black, // You can change the color as needed
-                        size: 20, // Adjust the size as needed
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FutureBuilder(
-                    future: ActivityController()
-                        .getAttendancesBySubcamp(activity.activityID),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+                      FutureBuilder(
+                          future: subcampData,
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                      print(snapshot.data!);
+                            print(snapshot.data!);
 
-                      return buildPenyertaanInfo(snapshot.data!);
-                    }),
-                const SizedBox(
-                  height: 20,
+                            return buildPenyertaanInfo(snapshot.data!);
+                          }),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildDates()
+                    ],
+                  ),
                 ),
-                buildDates()
-              ],
-            ),
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

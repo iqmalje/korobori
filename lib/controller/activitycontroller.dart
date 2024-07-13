@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:korobori/controller/localDBcontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -121,16 +124,29 @@ class ActivityController {
   add_attendance(_scoutyid text, _activityid uuid, _dateid bigint, _picid uuid) 
   */
 
+  StreamController<String> _controller = StreamController<String>();
+
+  Stream<String> get stream => _controller.stream;
   Future<void> addAttendance(String activityID, int activityDatesID,
       {String? scoutyID, String? cardID}) async {
     try {
+      // add to local db
+      var localDB = await LocalDBController.initialize();
+
+      var localID = await localDB.insertAttendanceLocal(scoutyID!, activityID,
+          activityDatesID, _supabase.auth.currentUser!.id);
+      _controller.add('LOCAL');
       await _supabase.rpc('add_attendance', params: {
-        '_scoutyid': scoutyID!,
+        '_scoutyid': scoutyID,
         '_activityid': activityID,
         '_dateid': activityDatesID,
-        '_picid': _supabase.auth.currentUser!.id
+        '_picid': _supabase.auth.currentUser!.id,
       });
+      _controller.add('CLOUD');
+
+      await localDB.updateStatusUpload(1, localID);
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
