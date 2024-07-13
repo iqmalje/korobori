@@ -67,7 +67,9 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                         child: CircularProgressIndicator(),
                       );
                     }
-
+                    snapshot.data!.sort((a, b) {
+                      return a.scoutyID.compareTo(b.scoutyID);
+                    });
                     return Builder(builder: (context) {
                       List<Account> pesertas = snapshot.data!.where((element) {
                         return (element.userFullname

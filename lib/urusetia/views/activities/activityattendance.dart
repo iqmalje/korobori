@@ -325,7 +325,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         ),
 
                         Text(
-                          '${DateFormat('hh:mm a').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                          '${DateFormat('HH:mm').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                       ],
