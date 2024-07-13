@@ -17,6 +17,17 @@ class ActivityPage extends StatefulWidget {
   State<ActivityPage> createState() => _ActivityPageState(activity);
 }
 
+class AttendanceNotifier extends ChangeNotifier {
+  int _attendanceCount = 0;
+
+  int get attendanceCount => _attendanceCount;
+
+  void updateAttendanceCount(int count) {
+    _attendanceCount = count;
+    notifyListeners();
+  }
+}
+
 class _ActivityPageState extends State<ActivityPage> {
   Activity activity;
 
@@ -358,7 +369,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityPIC + "  |  F001",
+                    activity.activityPIC,
                     overflow: TextOverflow.visible,
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
@@ -110,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               alignment: Alignment.bottomRight,
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    bottom: 8.0, right: 100),
+                                    bottom: 11, right: 90),
                                 child: Text(
                                   context
                                       .read<AccountProvider>()
@@ -120,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontFamily: 'Norwester',
                                       fontSize: 20,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),
@@ -210,12 +209,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      title.toUpperCase(),
                       style: KoroboriComponent().getTextStyle(
                           color: Colors.black.withOpacity(0.2), fontSize: 12),
                     ),
-                    Text(content,
-                        style: KoroboriComponent().getTextStyle(height: 1))
+                    Text(
+                      content.toUpperCase(),
+                      style: KoroboriComponent().getTextStyle(height: 1),
+                    )
                   ],
                 ),
               ),

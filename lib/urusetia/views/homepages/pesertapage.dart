@@ -49,7 +49,7 @@ class _PesertaPageState extends State<PesertaPage> {
                           )
                         ],
                         prefixIcon: const Icon(Icons.search),
-                        hintText: 'Cari nama peserta'),
+                        hintText: 'Cari scouty ID atau nama peserta'),
                   ],
                 ),
               ),
@@ -163,7 +163,9 @@ class _PesertaPageState extends State<PesertaPage> {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: peserta.sijilApproved ? Colors.green : Colors.grey,
+                      color: peserta.sijilApproved
+                          ? const Color(0xFF3BE542)
+                          : const Color(0xFFD9D9D9),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

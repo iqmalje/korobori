@@ -46,7 +46,7 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                           )
                         ],
                         prefixIcon: const Icon(Icons.search),
-                        hintText: 'Cari nama peserta'),
+                        hintText: 'Cari scouty ID atau nama peserta'),
                   ],
                 ),
               ),
@@ -142,7 +142,7 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                         maxLines: 2, // Allow text to wrap to a new line
                         overflow: TextOverflow.visible, // Handle overflow
                       ),
-                      Text('${peserta.scoutyID}  |  PKK',
+                      Text('${peserta.scoutyID}  |  ${peserta.role}',
                           style: KoroboriComponent().getTextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w300,
@@ -162,7 +162,9 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: peserta.sijilApproved ? Colors.green : Colors.grey,
+                      color: peserta.sijilApproved
+                          ? const Color(0xFF3BE542)
+                          : const Color(0xFFD9D9D9),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

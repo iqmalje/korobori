@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
-import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
@@ -168,6 +167,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             ),
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
+              textCapitalization: TextCapitalization.characters,
               controller: searchScout,
               onChanged: (value) {
                 setState(() {
@@ -296,12 +296,31 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      data['user_scout_id'] + "  |  BATU PAHAT",
+                      data['user_scout_id'] +
+                          "  |  " +
+                          "BATU PAHAT (MAL DAERAH TAK BUAT LAGI)",
                       style: KoroboriComponent().getTextStyle(fontSize: 10),
                     ),
-                    Text(
-                      '02:44:12 PM  |  ${data['pic_scout_id']}', //K1 ID Urusetia
-                      style: KoroboriComponent().getTextStyle(fontSize: 10),
+                    Row(
+                      children: [
+                        // const Icon( // Data saves in local storage
+                        //   Icons.history,
+                        //   size: 12,
+                        // ),
+                        const Icon(
+                          // Kalau data successfully uploaded in database
+                          Icons.done,
+                          size: 12,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+
+                        Text(
+                          '02:44:12 (MASA TAK BUAT LAGI) |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                          style: KoroboriComponent().getTextStyle(fontSize: 10),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 5,
@@ -548,6 +567,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0.0),
         child: TextFormField(
+          textCapitalization: TextCapitalization.characters,
           textAlignVertical: TextAlignVertical.center,
           controller: scoutyID,
           onFieldSubmitted: (value) async {
@@ -556,8 +576,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   activity.activityID, dateChosen.id,
                   scoutyID: value);
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('User attendance is already inserted!')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Kehadiran peserta telah direkodkan.')));
             }
           },
           decoration: InputDecoration(
@@ -647,7 +667,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 ),
                 Flexible(
                   child: Text(
-                    activity.activityPIC + "  |  F001",
+                    activity.activityPIC,
                     overflow: TextOverflow.visible,
                   ),
                 ),

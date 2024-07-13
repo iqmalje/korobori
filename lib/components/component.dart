@@ -118,6 +118,7 @@ class KoroboriComponent {
         ),
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
+          textCapitalization: TextCapitalization.characters,
           controller: controller,
           inputFormatters: formats,
           onChanged: onChange,
