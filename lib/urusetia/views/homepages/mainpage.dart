@@ -174,7 +174,7 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               ),
                               Text(
-                                'Kemaskini : ${DateFormat('dd/MM/yy, hh:mm:ss').format(DateTime.now())}',
+                                'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
                                 style: KoroboriComponent()
                                     .getTextStyle(fontSize: 10),
                               ),

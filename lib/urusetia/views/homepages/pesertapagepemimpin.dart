@@ -14,6 +14,8 @@ class PesertaPagePemimpin extends StatefulWidget {
 }
 
 class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
+  String textSearch = "";
+  TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -63,18 +65,41 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                       );
                     }
 
-                    return ListView.separated(
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildPeserta(snapshot.data![index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 1,
-                          color: const Color.fromARGB(255, 217, 217, 217),
+                    return Builder(builder: (context) {
+                      List<Account> pesertas = snapshot.data!
+                          .where((element) => element.userFullname
+                              .toLowerCase()
+                              .contains(textSearch.toLowerCase()))
+                          .toList();
+
+                      if (textSearch.isNotEmpty) {
+                        return ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildPeserta(pesertas[index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 1,
+                              color: const Color.fromARGB(255, 217, 217, 217),
+                            );
+                          },
+                          itemCount: pesertas.length,
                         );
-                      },
-                      itemCount: snapshot.data!.length,
-                    );
+                      } else {
+                        return ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildPeserta(snapshot.data![index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 1,
+                              color: const Color.fromARGB(255, 217, 217, 217),
+                            );
+                          },
+                          itemCount: snapshot.data!.length,
+                        );
+                      }
+                    });
                   },
                 ),
               ),
@@ -91,8 +116,8 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AktivitiPeserta(
-                  //tak sure letak ape
+              builder: (context) => AktivitiPeserta(
+                    account: peserta,
                   )));
         },
         child: Container(
@@ -136,13 +161,12 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: const BoxDecoration(
-                      color: Color(
-                          0xFF3BE542), //isCompleted ? Colors.green : Colors.grey,
+                    decoration: BoxDecoration(
+                      color: peserta.sijilApproved ? Colors.green : Colors.grey,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Icons.done, //isCompleted ? Icons.done : Icons.close,
+                    child: Icon(
+                      peserta.sijilApproved ? Icons.done : Icons.close,
                       color: Colors.white,
                       size: 16,
                     ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/controller/authcontroller.dart';
+import 'package:korobori/models/account.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
 
@@ -21,9 +22,12 @@ class ActivityAttendance extends StatefulWidget {
 class _ActivityAttendanceState extends State<ActivityAttendance> {
   Activity activity;
   ActivityDates dateChosen;
-  TextEditingController scoutyID = TextEditingController();
-  _ActivityAttendanceState(this.activity, this.dateChosen);
+  List<Account> accountsFetched = [];
 
+  String searchText = "";
+  TextEditingController scoutyID = TextEditingController(),
+      searchScout = TextEditingController();
+  _ActivityAttendanceState(this.activity, this.dateChosen);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -46,43 +50,56 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 0),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.groups),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text('Bilangan Penyertaan Peserta',
-                              style: KoroboriComponent().getTextStyle(
-                                fontSize: 12,
-                              )),
-                          const Spacer(),
-                          Text(
-                            '3',
-                            style: KoroboriComponent().getTextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: ActivityController().countsOfPesertaInADate(
+                          activity.activityID, dateChosen.id),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return Container(
+                            height: 40,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 0),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.groups),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text('Bilangan Penyertaan Peserta',
+                                      style: KoroboriComponent().getTextStyle(
+                                        fontSize: 12,
+                                      )),
+                                  const Spacer(),
+                                  Text(
+                                    snapshot.data!.toString(),
+                                    style: KoroboriComponent().getTextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                      }),
                   const SizedBox(
                     height: 10,
                   ),
@@ -151,6 +168,12 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             ),
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
+              controller: searchScout,
+              onChanged: (value) {
+                setState(() {
+                  searchText = value;
+                });
+              },
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
                   border: InputBorder.none,
@@ -188,177 +211,323 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   snapshot.data!.removeWhere(
                       (item) => item['attendance_status'] == false);
 
-                  return ListView.separated(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemBuilder: (context, index) {
-                        return buildAttendanceCard(
-                            snapshot.data![index]['account_attended'],
-                            snapshot.data![index]['attendance_id']);
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      },
-                      itemCount: snapshot.data!.length);
+                  return Builder(builder: (context) {
+                    if (searchText.isNotEmpty) {
+                      List<Map<String, dynamic>> attendanceFiltered = snapshot
+                          .data!
+                          .where((element) => element['user_fullname']
+                              .toString()
+                              .toLowerCase()
+                              .contains(searchText.toLowerCase()))
+                          .toList();
+
+                      return ListView.separated(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          itemBuilder: (context, index) {
+                            return buildAttendanceCard(
+                                attendanceFiltered[index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 10,
+                            );
+                          },
+                          itemCount: attendanceFiltered.length);
+                    } else {
+                      return ListView.separated(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          itemBuilder: (context, index) {
+                            return buildAttendanceCard(snapshot.data![index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 10,
+                            );
+                          },
+                          itemCount: snapshot.data!.length);
+                    }
+                  });
                 })),
       ]),
     );
   }
 
-  Widget buildAttendanceCard(String accountID, String attendanceID) {
-    return FutureBuilder(
-        future: AuthController().findAccount(accountID),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return Container(
-            width: MediaQuery.sizeOf(context).width * 0.08,
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              shadows: const [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 3,
-                  offset: Offset(0, 0),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.account_circle,
-                    size: 25,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          snapshot.data!.userFullname,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: KoroboriComponent().getTextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          snapshot.data!.scoutyID + "  |  BATU PAHAT",
-                          style: KoroboriComponent().getTextStyle(fontSize: 10),
-                        ),
-                        Text(
-                          '02:44:12 PM  |  K1', //K1 ID Urusetia
-                          style: KoroboriComponent().getTextStyle(fontSize: 10),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.red,
-                      child: IconButton(
-                          onPressed: () async {
-                            bool? isDeleteConfirmed = await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Padam Kehadiran',
-                                          style: KoroboriComponent()
-                                              .getTextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              KoroboriComponent().getTextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          snapshot.data!.userFullname,
-                                          style: KoroboriComponent()
-                                              .getTextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        const SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          snapshot.data!.scoutyID,
-                                          style: KoroboriComponent()
-                                              .getTextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      KoroboriComponent().greyButton('Pasti',
-                                          () {
-                                        Navigator.of(context).pop(true);
-                                      }),
-                                      KoroboriComponent().blueButton('Batal',
-                                          () {
-                                        Navigator.of(context).pop(false);
-                                      })
-                                    ],
-                                  );
-                                });
-
-                            if (isDeleteConfirmed != null &&
-                                isDeleteConfirmed) {
-                              await ActivityController()
-                                  .removeAttendance(attendanceID);
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.remove,
-                            color: Colors.white,
-                            size: 15,
-                          )))
-                ],
+  Widget buildAttendanceCard(Map<String, dynamic> data) {
+    return Builder(builder: (context) {
+      return Container(
+        width: MediaQuery.sizeOf(context).width * 0.08,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 3,
+              offset: Offset(0, 0),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'assets/images/logo_subkem_${data['user_subcamp']}.svg',
+                height: 40,
               ),
-            ),
-          );
-        });
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      data['user_fullname'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      data['user_scout_id'] + "  |  BATU PAHAT",
+                      style: KoroboriComponent().getTextStyle(fontSize: 10),
+                    ),
+                    Text(
+                      '02:44:12 PM  |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                      style: KoroboriComponent().getTextStyle(fontSize: 10),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              CircleAvatar(
+                  radius: 15,
+                  backgroundColor: Colors.red,
+                  child: IconButton(
+                      onPressed: () async {
+                        bool? isDeleteConfirmed = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      'Padam Kehadiran',
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
+                                      textAlign: TextAlign.center,
+                                      style: KoroboriComponent().getTextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      data['user_fullname'],
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      data['user_scout_id'],
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  KoroboriComponent().greyButton('Pasti', () {
+                                    Navigator.of(context).pop(true);
+                                  }),
+                                  KoroboriComponent().blueButton('Batal', () {
+                                    Navigator.of(context).pop(false);
+                                  })
+                                ],
+                              );
+                            });
+
+                        if (isDeleteConfirmed != null && isDeleteConfirmed) {
+                          await ActivityController()
+                              .removeAttendance(data['attendance_id']);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                        size: 15,
+                      )))
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget buildAttendanceCardFound(Account account, String attendanceID) {
+    return Builder(builder: (context) {
+      return Container(
+        width: MediaQuery.sizeOf(context).width * 0.08,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 3,
+              offset: Offset(0, 0),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'assets/images/logo_subkem_${account.subcamp}.svg',
+                height: 40,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      account.userFullname,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      account.scoutyID + "  |  BATU PAHAT",
+                      style: KoroboriComponent().getTextStyle(fontSize: 10),
+                    ),
+                    Text(
+                      '02:44:12 PM  |  K1', //K1 ID Urusetia
+                      style: KoroboriComponent().getTextStyle(fontSize: 10),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              CircleAvatar(
+                  radius: 15,
+                  backgroundColor: Colors.red,
+                  child: IconButton(
+                      onPressed: () async {
+                        bool? isDeleteConfirmed = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      'Padam Kehadiran',
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
+                                      textAlign: TextAlign.center,
+                                      style: KoroboriComponent().getTextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      account.userFullname,
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      account.scoutyID,
+                                      style: KoroboriComponent().getTextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  KoroboriComponent().greyButton('Pasti', () {
+                                    Navigator.of(context).pop(true);
+                                  }),
+                                  KoroboriComponent().blueButton('Batal', () {
+                                    Navigator.of(context).pop(false);
+                                  })
+                                ],
+                              );
+                            });
+
+                        if (isDeleteConfirmed != null && isDeleteConfirmed) {
+                          await ActivityController()
+                              .removeAttendance(attendanceID);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                        size: 15,
+                      )))
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   Container buildAttendanceInput() {
@@ -382,9 +551,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
           textAlignVertical: TextAlignVertical.center,
           controller: scoutyID,
           onFieldSubmitted: (value) async {
-            await ActivityController().addAttendance(
-                activity.activityID, dateChosen.id,
-                scoutyID: value);
+            try {
+              await ActivityController().addAttendance(
+                  activity.activityID, dateChosen.id,
+                  scoutyID: value);
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('User attendance is already inserted!')));
+            }
           },
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 12.0),

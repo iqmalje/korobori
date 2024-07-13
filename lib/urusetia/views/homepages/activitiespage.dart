@@ -15,6 +15,15 @@ class ActivitiesPage extends StatefulWidget {
 }
 
 class _ActivitiesPageState extends State<ActivitiesPage> {
+  List<Activity> kombatActivities = [];
+  List<Activity> neuroActivities = [];
+  List<Activity> teknoActivities = [];
+  List<Activity> invisoActivities = [];
+  List<Activity> fusionActivities = [];
+  List<Activity> lainActivities = [];
+  List<Activity> pertandinganActivities = [];
+  String textSearch = "";
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,8 +45,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      KoroboriComponent().buildInput(TextEditingController(),
-                          width: 0,
+                      KoroboriComponent().buildInput(searchController, width: 0,
+                          onChange: (text) {
+                        setState(() {
+                          textSearch = text;
+                        });
+                      },
                           height: 40,
                           shadows: [
                             const BoxShadow(
@@ -65,57 +78,86 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        List<Activity> kombatActivities = snapshot.data!
+                        kombatActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'kombat')
                             .toList();
-                        List<Activity> neuroActivities = snapshot.data!
+                        neuroActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'neuro')
                             .toList();
-                        List<Activity> teknoActivities = snapshot.data!
+                        teknoActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'tekno')
                             .toList();
-                        List<Activity> invisoActivities = snapshot.data!
+                        invisoActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'inviso')
                             .toList();
-                        List<Activity> fusionActivities = snapshot.data!
+                        fusionActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'fusion')
                             .toList();
-                        List<Activity> lainActivities = snapshot.data!
+                        lainActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'lain-lain')
                             .toList();
-                        List<Activity> pertandinganActivities = snapshot.data!
+                        pertandinganActivities = snapshot.data!
                             .where((activity) =>
                                 activity.activitySector == 'pertandingan')
                             .toList();
 
-                        return ListView(
-                          shrinkWrap: true,
-                          children: [
-                            buildSektor('KOMBAT', const Color(0xFF0000FF),
-                                kombatActivities),
-                            buildSektor('NEURO', const Color(0xFFFFFF00),
-                                neuroActivities),
-                            buildSektor('TEKNO', const Color(0xFFFF0000),
-                                teknoActivities),
-                            buildSektor('INVISO', const Color(0xFF99FF00),
-                                invisoActivities),
-                            buildSektor('FUSION', const Color(0xFF9397A0),
-                                fusionActivities),
-                            buildSektor('PERTANDINGAN', const Color(0xFF9E00FF),
-                                pertandinganActivities),
-                            buildSektor('LAIN-LAIN', const Color(0xFFFF8438),
-                                lainActivities),
-                            const SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        );
+                        return Builder(builder: (context) {
+                          List<Activity> activities = [
+                            ...kombatActivities,
+                            ...neuroActivities,
+                            ...teknoActivities,
+                            ...invisoActivities,
+                            ...fusionActivities,
+                            ...lainActivities,
+                            ...pertandinganActivities
+                          ];
+
+                          activities = activities
+                              .where((element) => element.activityName
+                                  .toLowerCase()
+                                  .contains(textSearch.toLowerCase()))
+                              .toList();
+
+                          if (textSearch.isNotEmpty) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return buildActivity(activities[index]);
+                                },
+                                itemCount: activities.length);
+                          } else {
+                            return ListView(
+                              shrinkWrap: true,
+                              children: [
+                                buildSektor('KOMBAT', const Color(0xFF0000FF),
+                                    kombatActivities),
+                                buildSektor('NEURO', const Color(0xFFFFFF00),
+                                    neuroActivities),
+                                buildSektor('TEKNO', const Color(0xFFFF0000),
+                                    teknoActivities),
+                                buildSektor('INVISO', const Color(0xFF99FF00),
+                                    invisoActivities),
+                                buildSektor('FUSION', const Color(0xFF9397A0),
+                                    fusionActivities),
+                                buildSektor(
+                                    'PERTANDINGAN',
+                                    const Color(0xFF9E00FF),
+                                    pertandinganActivities),
+                                buildSektor('LAIN-LAIN',
+                                    const Color(0xFFFF8438), lainActivities),
+                                const SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            );
+                          }
+                        });
                       }),
                 )
               ],

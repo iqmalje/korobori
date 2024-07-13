@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/models/account.dart';
+import 'package:korobori/models/school.dart';
+import 'package:korobori/models/scout.dart';
 import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/urusetia/views/authentication/login.dart';
 import 'package:provider/provider.dart';
@@ -14,23 +16,53 @@ class AuthController {
     if (authResponse.user == null) {
       return null;
     }
-    // fetch account details
-    var dataRAW = await _supabase
-        .from('accounts')
-        .select('*')
-        .eq('id', authResponse.user!.id);
+    return await getAccount(authResponse.user!.id);
+  }
 
+  Future<Account> getAccount(String userID) async {
+    var dataRAW = await _supabase.from('accounts').select('*').eq('id', userID);
     var data = dataRAW[0];
 
+    var scoutInfo = await _supabase
+        .from('scouts')
+        .select('*')
+        .eq('scouty_id', data['scouty_id'])
+        .single();
+
+    var scout = Scout(
+        scoutyID: data['scouty_id'],
+        noKeahlian: scoutInfo['no_keahlian'],
+        gender: scoutInfo['gender'],
+        religion: scoutInfo['religion'],
+        parentName: scoutInfo['parent_name'],
+        parentPhoneNo: scoutInfo['parent_phone_no'],
+        profileImageURL: 'none',
+        displayName: 'none',
+        age: scoutInfo['age']);
+
+    var schoolInfo = await _supabase
+        .from('schools')
+        .select('*')
+        .eq('school_code', data['school_code'])
+        .single();
+
+    var school = School(
+        schoolCode: data['school_code'],
+        schoolName: schoolInfo['school_name'],
+        noKumpulan: schoolInfo['no_kumpulan'],
+        schoolDaerah: schoolInfo['school_daerah']);
+    print(data['user_roles']);
     return Account(
-        accountID: authResponse.user!.id,
+        accountID: userID,
         scoutyID: data['scouty_id'],
         schoolCode: data['school_code'],
         subcamp: data['subcamp'],
         userFullname: data['fullname'],
-        icNo: icNo,
+        icNo: data['ic_no'],
         sijilApproved: data['approve_sijil'],
-        role: authResponse.user!.role!);
+        scout: scout,
+        school: school,
+        role: data['user_roles']);
   }
 
   Future<List<Account>> getAllAccounts({String? subcamp}) async {
@@ -78,15 +110,15 @@ class AuthController {
     Account account;
     var data = await _supabase
         .from('accounts')
-        .select('fullname, scouty_id')
+        .select('fullname, scouty_id, subcamp')
         .eq('id', accountID)
         .single();
-
+    print(data);
     account = Account(
         accountID: accountID,
         scoutyID: data['scouty_id'],
         schoolCode: '',
-        subcamp: '',
+        subcamp: data['subcamp'],
         userFullname: data['fullname'],
         icNo: '',
         role: '',

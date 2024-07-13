@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
@@ -52,38 +53,81 @@ class _ProfilePageState extends State<ProfilePage> {
                       //   height: 500,
                       // ),
 
-                      SvgPicture.asset(
-                        //Kad Urusetia
-                        'assets/images/kad-urusetia.svg',
-                        semanticsLabel: 'Kad Urusetia',
-                        height: 500,
+                      Stack(
+                        children: [
+                          Builder(builder: (context) {
+                            String role =
+                                context.read<AccountProvider>().account!.role;
+
+                            if (role == 'officer') {
+                              return SvgPicture.asset(
+                                //Kad Urusetia
+                                'assets/images/kad-urusetia.svg',
+                                semanticsLabel: 'Kad Urusetia',
+                                height: 500,
+                              );
+                            } else {
+                              String subcamp = context
+                                  .read<AccountProvider>()
+                                  .account!
+                                  .subcamp;
+
+                              switch (subcamp) {
+                                case 'tekno':
+                                  return SvgPicture.asset(
+                                    //Kad Tekno
+                                    'assets/images/kad-tekno.svg',
+                                    semanticsLabel: 'Kad Tekno',
+                                    height: 500,
+                                  );
+                                case 'neuro':
+                                  return SvgPicture.asset(
+                                    //Kad Tekno
+                                    'assets/images/kad-neuro.svg',
+                                    semanticsLabel: 'Kad Neuro',
+                                    height: 500,
+                                  );
+                                case 'kombat':
+                                  return SvgPicture.asset(
+                                    //Kad Kombat
+                                    //Kad Kombat
+                                    'assets/images/kad-kombat.svg',
+                                    semanticsLabel: 'Kad Kombat',
+                                    height: 500,
+                                  );
+                                default:
+                                  return SvgPicture.asset(
+                                    //Kad Inviso
+                                    'assets/images/kad-inviso.svg',
+                                    semanticsLabel: 'Kad Inviso0202',
+                                    height: 500,
+                                  );
+                              }
+                            }
+                          }),
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 8.0, right: 100),
+                                child: Text(
+                                  context
+                                      .read<AccountProvider>()
+                                      .account!
+                                      .scoutyID,
+                                  style: const TextStyle(
+                                      fontFamily: 'Norwester',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
 
-                      // SvgPicture.asset( //Kad Tekno
-                      //   'assets/images/kad-tekno.svg',
-                      //   semanticsLabel: 'Kad Tekno',
-                      //   height: 500,
-                      // ),
-
-                      // SvgPicture.asset( //Kad Neuro
-                      //   'assets/images/kad-neuro.svg',
-                      //   semanticsLabel: 'Kad Neuro',
-                      //   height: 500,
-                      // ),
-
-                      // SvgPicture.asset( //Kad Inviso
-                      //   'assets/images/kad-inviso.svg',
-                      //   semanticsLabel: 'Kad Inviso0202',
-                      //   height: 500,
-                      // ),
-
-                      // SvgPicture.asset(
-                      //   //Kad Kombat
-                      //   //Kad Kombat
-                      //   'assets/images/kad-kombat.svg',
-                      //   semanticsLabel: 'Kad Kombat',
-                      //   height: 500,
-                      // ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -99,19 +143,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       buildDisplayBox('Nombor Kad Pengenalan', account.icNo),
                       buildDisplayBox('Scouty ID', account.scoutyID),
                       buildDisplayBox('Subkem', account.subcamp),
-                      buildDisplayBox('Nombor Keahlian', account.schoolCode),
-                      buildDisplayBox('Nombor Kumpulan', account.schoolCode),
-                      buildDisplayBox('Umur', account.schoolCode),
-                      buildDisplayBox('Jantina', account.icNo),
-                      buildDisplayBox('Kaum', account.icNo),
-                      buildDisplayBox('Agama', account.icNo),
-                      buildDisplayBox('Daerah', account.icNo),
-                      buildDisplayBox('Kod Sekolah', account.schoolCode),
-                      buildDisplayBox('Nama Sekolah', account.schoolCode),
                       buildDisplayBox(
-                          'Nama Ibu / Bapa / Penjaga', account.role),
+                          'Nombor Keahlian', account.scout!.noKeahlian),
+                      buildDisplayBox(
+                          'Nombor Kumpulan', account.school!.noKumpulan),
+                      buildDisplayBox('Umur', account.scout!.age.toString()),
+                      buildDisplayBox('Jantina', account.scout!.gender),
+                      buildDisplayBox('Agama', account.scout!.religion),
+                      buildDisplayBox('Daerah', account.school!.schoolDaerah),
+                      buildDisplayBox('Kod Sekolah', account.schoolCode),
+                      buildDisplayBox(
+                          'Nama Sekolah', account.school!.schoolName),
+                      buildDisplayBox('Nama Ibu / Bapa / Penjaga',
+                          account.scout!.parentName),
                       buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
-                          account.schoolCode),
+                          account.scout!.parentPhoneNo),
                       const SizedBox(
                         height: 15,
                       ),

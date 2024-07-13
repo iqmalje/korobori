@@ -26,6 +26,44 @@ class ActivityController {
     return activities;
   }
 
+  Future<List<Activity>> getAttendances(String userID) async {
+    List<Activity> activities = [];
+    var data = await _supabase
+        .rpc('get_activities_attended', params: {'_userid': userID});
+
+    for (var activity in data) {
+      activities.add(Activity(
+          activityID: activity['activity_idd'],
+          activityPIC: activity['activity_pic'],
+          activitySector: activity['activity_sector'],
+          activityName: activity['activity_name'],
+          activityIcons: 'assets/icons/${activity['activity_icons_id']}.svg',
+          attendedActivity: true));
+    }
+
+    return activities;
+  }
+
+  Future<Map<String, dynamic>> getAttendancesBySubcamp(
+      String activityID) async {
+    try {
+      var data = await _supabase.rpc('get_attendance_by_activity_subcamp',
+          params: {'_activityid': activityID});
+
+      return data[0];
+    } catch (e) {
+      print(e);
+      return {};
+    }
+  }
+
+  Future<int> countsOfPesertaInADate(String activityID, int dateID) async {
+    var data = await _supabase.rpc('get_attendance_by_date',
+        params: {'_activityid': activityID, '_dateid': dateID});
+
+    return data[0]['count'];
+  }
+
   Future<void> removeAttendance(String attendanceID) async {
     await _supabase
         .from('attendances')
@@ -77,27 +115,22 @@ class ActivityController {
     return _supabase.from('attendances').stream(primaryKey: ['id']).eq(
         'unique_activity_date', "$activityID.$activityDatesID");
   }
+  /*
+
+  add_attendance(_scoutyid text, _activityid uuid, _dateid bigint, _picid uuid) 
+  */
 
   Future<void> addAttendance(String activityID, int activityDatesID,
       {String? scoutyID, String? cardID}) async {
-    String accountid = "";
-    if (cardID == null) {
-      var data = await _supabase
-          .from('accounts')
-          .select('id')
-          .eq('scouty_id', scoutyID!)
-          .single();
-      accountid = data['id'];
-    } else {
-      //takde lagi
+    try {
+      await _supabase.rpc('add_attendance', params: {
+        '_scoutyid': scoutyID!,
+        '_activityid': activityID,
+        '_dateid': activityDatesID,
+        '_picid': _supabase.auth.currentUser!.id
+      });
+    } catch (e) {
+      rethrow;
     }
-    await _supabase.from('attendances').upsert({
-      'activity_id': activityID,
-      'account_attended': accountid,
-      'activity_dates_id': activityDatesID,
-      'pic_added': _supabase.auth.currentUser!.id,
-      'time': DateTime.now().toString(),
-      'attendance_status': true
-    });
   }
 }

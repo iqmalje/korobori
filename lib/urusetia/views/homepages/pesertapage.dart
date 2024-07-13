@@ -12,6 +12,9 @@ class PesertaPage extends StatefulWidget {
 }
 
 class _PesertaPageState extends State<PesertaPage> {
+  String textSearch = "";
+  TextEditingController search = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -30,8 +33,12 @@ class _PesertaPageState extends State<PesertaPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    KoroboriComponent().buildInput(TextEditingController(),
-                        width: 0,
+                    KoroboriComponent().buildInput(search, width: 0,
+                        onChange: (text) {
+                      setState(() {
+                        textSearch = text;
+                      });
+                    },
                         height: 40,
                         shadows: [
                           const BoxShadow(
@@ -59,18 +66,41 @@ class _PesertaPageState extends State<PesertaPage> {
                       );
                     }
 
-                    return ListView.separated(
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildPeserta(snapshot.data![index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 1,
-                          color: const Color.fromARGB(255, 217, 217, 217),
+                    return Builder(builder: (context) {
+                      List<Account> pesertas = snapshot.data!
+                          .where((element) => element.userFullname
+                              .toLowerCase()
+                              .contains(textSearch.toLowerCase()))
+                          .toList();
+
+                      if (textSearch.isNotEmpty) {
+                        return ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildPeserta(pesertas[index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 1,
+                              color: const Color.fromARGB(255, 217, 217, 217),
+                            );
+                          },
+                          itemCount: pesertas.length,
                         );
-                      },
-                      itemCount: snapshot.data!.length,
-                    );
+                      } else {
+                        return ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildPeserta(snapshot.data![index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 1,
+                              color: const Color.fromARGB(255, 217, 217, 217),
+                            );
+                          },
+                          itemCount: snapshot.data!.length,
+                        );
+                      }
+                    });
                   },
                 ),
               ),
@@ -87,8 +117,8 @@ class _PesertaPageState extends State<PesertaPage> {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AktivitiPeserta(
-                  //tak sure letak ape
+              builder: (context) => AktivitiPeserta(
+                    account: peserta,
                   )));
         },
         child: Container(

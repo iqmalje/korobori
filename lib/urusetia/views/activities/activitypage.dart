@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/activitycontroller.dart';
 import 'package:korobori/models/activity.dart';
 import 'package:korobori/models/activitydates.dart';
 import 'package:korobori/providers/activitydatesprovider.dart';
@@ -41,7 +42,19 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                buildPenyertaanInfo(),
+                FutureBuilder(
+                    future: ActivityController()
+                        .getAttendancesBySubcamp(activity.activityID),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      print(snapshot.data!);
+                      return buildPenyertaanInfo(snapshot.data!);
+                    }),
                 const SizedBox(
                   height: 20,
                 ),
@@ -108,7 +121,7 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 
-  Widget buildPenyertaanInfo() {
+  Widget buildPenyertaanInfo(Map<String, dynamic> attendances) {
     return Container(
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -151,7 +164,11 @@ class _ActivityPageState extends State<ActivityPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '1576',
+                    (attendances['count_kombat']! +
+                            attendances['count_tekno']! +
+                            attendances['count_inviso']! +
+                            attendances['count_neuro']!)
+                        .toString(),
                     style: KoroboriComponent().getTextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -181,7 +198,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 Text(
-                  '379',
+                  attendances['count_kombat'].toString(),
                   style: KoroboriComponent()
                       .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 )
@@ -208,7 +225,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 Text(
-                  '379',
+                  attendances['count_tekno'].toString(),
                   style: KoroboriComponent()
                       .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 )
@@ -235,7 +252,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 Text(
-                  '379',
+                  attendances['count_inviso'].toString(),
                   style: KoroboriComponent()
                       .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 )
@@ -262,7 +279,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 Text(
-                  '379',
+                  attendances['count_neuro'].toString(),
                   style: KoroboriComponent()
                       .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 )
