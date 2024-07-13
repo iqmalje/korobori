@@ -38,11 +38,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        'Korobori Johor Digital ID',
-                        style: KoroboriComponent()
-                            .getTextStyle(fontWeight: FontWeight.bold),
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          'Korobori Johor Digital ID',
+                          style: KoroboriComponent()
+                              .getTextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -104,37 +109,45 @@ class _ProfilePageState extends State<ProfilePage> {
                               }
                             }
                           }),
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 11, right: 90),
-                                child: Text(
-                                  context
-                                      .read<AccountProvider>()
-                                      .account!
-                                      .scoutyID,
-                                  style: const TextStyle(
-                                      fontFamily: 'Norwester',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
+                          MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaleFactor: 1.0),
+                              child: Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 11, right: 90),
+                                    child: Text(
+                                      context
+                                          .read<AccountProvider>()
+                                          .account!
+                                          .scoutyID,
+                                      style: const TextStyle(
+                                          fontFamily: 'Norwester',
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
+                              ))
                         ],
                       ),
 
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        'Maklumat Peserta',
-                        style: KoroboriComponent()
-                            .getTextStyle(fontWeight: FontWeight.bold),
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          'Maklumat Peserta',
+                          style: KoroboriComponent()
+                              .getTextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -208,15 +221,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title.toUpperCase(),
-                      style: KoroboriComponent().getTextStyle(
-                          color: Colors.black.withOpacity(0.2), fontSize: 12),
+                    MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: Text(
+                        title.toUpperCase(),
+                        style: KoroboriComponent().getTextStyle(
+                            color: Colors.black.withOpacity(0.2), fontSize: 12),
+                      ),
                     ),
-                    Text(
-                      content.toUpperCase(),
-                      style: KoroboriComponent().getTextStyle(height: 1),
-                    )
+                    MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          content.toUpperCase(),
+                          style: KoroboriComponent().getTextStyle(height: 1),
+                        ))
                   ],
                 ),
               ),
