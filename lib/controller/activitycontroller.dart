@@ -12,6 +12,7 @@ class ActivityController {
     var data =
         await _supabase.rpc('get_all_activities', params: {'_userid': userid});
     for (var activity in data) {
+      print(activity['attended_activity']);
       activities.add(
         Activity(
             activityID: activity['activity_idd'],

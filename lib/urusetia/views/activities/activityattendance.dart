@@ -213,13 +213,17 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
 
                   return Builder(builder: (context) {
                     if (searchText.isNotEmpty) {
-                      List<Map<String, dynamic>> attendanceFiltered = snapshot
-                          .data!
-                          .where((element) => element['user_fullname']
-                              .toString()
-                              .toLowerCase()
-                              .contains(searchText.toLowerCase()))
-                          .toList();
+                      List<Map<String, dynamic>> attendanceFiltered =
+                          snapshot.data!.where((element) {
+                        return (element['user_fullname']
+                                .toString()
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()) ||
+                            element['user_scout_id']
+                                .toString()
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()));
+                      }).toList();
 
                       return ListView.separated(
                           shrinkWrap: true,
@@ -296,9 +300,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      data['user_scout_id'] +
-                          "  |  " +
-                          "BATU PAHAT (MAL DAERAH TAK BUAT LAGI)",
+                      data['user_scout_id'] + "  |  " + "${data['daerah']}",
                       style: KoroboriComponent().getTextStyle(fontSize: 10),
                     ),
                     Row(
@@ -317,7 +319,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         ),
 
                         Text(
-                          '02:44:12 (MASA TAK BUAT LAGI) |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                          '${DateFormat('hh:mm a').format(DateTime.parse(data['time']))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                       ],
@@ -411,7 +413,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
     });
   }
 
-  Widget buildAttendanceCardFound(Account account, String attendanceID) {
+  Widget buildAttendanceCardFound(
+      Account account, String attendanceID, String daerah) {
     return Builder(builder: (context) {
       return Container(
         width: MediaQuery.sizeOf(context).width * 0.08,
@@ -453,7 +456,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      account.scoutyID + "  |  BATU PAHAT",
+                      "${account.scoutyID}  |  $daerah",
                       style: KoroboriComponent().getTextStyle(fontSize: 10),
                     ),
                     Text(
@@ -647,7 +650,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(DateFormat("dd MMMM, hh:mm aa").format(dateChosen.date))
+                Text(
+                    "${DateFormat("dd MMMM").format(dateChosen.date)} ${getFormattedTime(dateChosen.startTime)} - ${getFormattedTime(dateChosen.endTime)}")
               ],
             ),
             Row(
@@ -680,5 +684,18 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
         ),
       ),
     );
+  }
+
+  String getFormattedTime(TimeOfDay time) {
+    String output = "";
+    if (time.hour < 12) {
+      output = "${time.hour} AM";
+    } else if (time.hour == 12) {
+      output = "${time.hour} PM";
+    } else {
+      output = "${time.hour - 12} PM";
+    }
+
+    return output;
   }
 }

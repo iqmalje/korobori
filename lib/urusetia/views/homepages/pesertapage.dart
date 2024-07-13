@@ -67,11 +67,14 @@ class _PesertaPageState extends State<PesertaPage> {
                     }
 
                     return Builder(builder: (context) {
-                      List<Account> pesertas = snapshot.data!
-                          .where((element) => element.userFullname
-                              .toLowerCase()
-                              .contains(textSearch.toLowerCase()))
-                          .toList();
+                      List<Account> pesertas = snapshot.data!.where((element) {
+                        return (element.userFullname
+                                .toLowerCase()
+                                .contains(textSearch.toLowerCase()) ||
+                            element.scoutyID
+                                .toLowerCase()
+                                .contains(textSearch.toLowerCase()));
+                      }).toList();
 
                       if (textSearch.isNotEmpty) {
                         return ListView.separated(

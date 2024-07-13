@@ -34,9 +34,12 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     const SizedBox(
                       height: 20,
                     ),
-                    KoroboriComponent().buildInput(TextEditingController(),
-                        width: 0,
-                        height: 40,
+                    KoroboriComponent().buildInput(search, width: 0, height: 40,
+                        onChange: (text) {
+                      setState(() {
+                        textSearch = text;
+                      });
+                    },
                         shadows: [
                           const BoxShadow(
                             color: Color(0x3F000000),
@@ -66,13 +69,17 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     }
 
                     return Builder(builder: (context) {
-                      List<Account> pesertas = snapshot.data!
-                          .where((element) => element.userFullname
-                              .toLowerCase()
-                              .contains(textSearch.toLowerCase()))
-                          .toList();
+                      List<Account> pesertas = snapshot.data!.where((element) {
+                        return (element.userFullname
+                                .toLowerCase()
+                                .contains(textSearch.toLowerCase()) ||
+                            element.scoutyID
+                                .toLowerCase()
+                                .contains(textSearch.toLowerCase()));
+                      }).toList();
 
                       if (textSearch.isNotEmpty) {
+                        print("PATUT KAT SINI");
                         return ListView.separated(
                           itemBuilder: (BuildContext context, int index) {
                             return buildPeserta(pesertas[index]);

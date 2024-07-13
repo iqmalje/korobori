@@ -88,8 +88,8 @@ class AuthController {
           role: row['user_roles'] == 'authenticated'
               ? 'PKK'
               : row['user_roles'] == 'pemimpin'
-                  ? 'URUSETIA'
-                  : 'PEMIMPIN',
+                  ? 'PEMIMPIN'
+                  : 'URUSETIA',
           sijilApproved: row['approve_sijil']));
     }
     return accounts;

@@ -386,8 +386,10 @@ class _ActivityPageState extends State<ActivityPage> {
 
   String getFormattedTime(TimeOfDay time) {
     String output = "";
-    if (time.hour <= 12) {
+    if (time.hour < 12) {
       output = "${time.hour} AM";
+    } else if (time.hour == 12) {
+      output = "${time.hour} PM";
     } else {
       output = "${time.hour - 12} PM";
     }
