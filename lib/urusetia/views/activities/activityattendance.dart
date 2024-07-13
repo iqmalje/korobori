@@ -211,6 +211,12 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   snapshot.data!.removeWhere(
                       (item) => item['attendance_status'] == false);
 
+                  snapshot.data!.sort((a, b) {
+                    DateTime first = DateTime.parse(a['time']);
+                    DateTime second = DateTime.parse(b['time']);
+                    return second.compareTo(first);
+                  });
+
                   return Builder(builder: (context) {
                     if (searchText.isNotEmpty) {
                       List<Map<String, dynamic>> attendanceFiltered =
@@ -319,7 +325,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         ),
 
                         Text(
-                          '${DateFormat('hh:mm a').format(DateTime.parse(data['time']))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                          '${DateFormat('hh:mm a').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         ),
                       ],
@@ -399,145 +405,6 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         if (isDeleteConfirmed != null && isDeleteConfirmed) {
                           await ActivityController()
                               .removeAttendance(data['attendance_id']);
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                        size: 15,
-                      )))
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
-  Widget buildAttendanceCardFound(
-      Account account, String attendanceID, String daerah) {
-    return Builder(builder: (context) {
-      return Container(
-        width: MediaQuery.sizeOf(context).width * 0.08,
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          shadows: const [
-            BoxShadow(
-              color: Color(0x3F000000),
-              blurRadius: 3,
-              offset: Offset(0, 0),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                'assets/images/logo_subkem_${account.subcamp}.svg',
-                height: 40,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      account.userFullname,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: KoroboriComponent().getTextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "${account.scoutyID}  |  $daerah",
-                      style: KoroboriComponent().getTextStyle(fontSize: 10),
-                    ),
-                    Text(
-                      '02:44:12 PM  |  K1', //K1 ID Urusetia
-                      style: KoroboriComponent().getTextStyle(fontSize: 10),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.red,
-                  child: IconButton(
-                      onPressed: () async {
-                        bool? isDeleteConfirmed = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    Text(
-                                      'Padam Kehadiran',
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
-                                      textAlign: TextAlign.center,
-                                      style: KoroboriComponent().getTextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      account.userFullname,
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                    Text(
-                                      account.scoutyID,
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                                actions: [
-                                  KoroboriComponent().greyButton('Pasti', () {
-                                    Navigator.of(context).pop(true);
-                                  }),
-                                  KoroboriComponent().blueButton('Batal', () {
-                                    Navigator.of(context).pop(false);
-                                  })
-                                ],
-                              );
-                            });
-
-                        if (isDeleteConfirmed != null && isDeleteConfirmed) {
-                          await ActivityController()
-                              .removeAttendance(attendanceID);
                         }
                       },
                       icon: const Icon(
