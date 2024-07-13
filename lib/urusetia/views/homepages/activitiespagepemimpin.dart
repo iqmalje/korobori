@@ -69,17 +69,21 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Flexible(
-                                    child: Text(
-                                      'Bilangan Aktiviti Berjaya Dilengkapkan',
-                                      style: KoroboriComponent().getTextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                  MediaQuery(
+                                    data: MediaQuery.of(context)
+                                        .copyWith(textScaleFactor: 1.0),
+                                    child: Flexible(
+                                      child: Text(
+                                        'Bilangan Aktiviti Berjaya Dilengkapkan',
+                                        style: KoroboriComponent().getTextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines:
+                                            2, // Allow text to wrap to a new line
+                                        overflow: TextOverflow
+                                            .visible, // Handle overflow
                                       ),
-                                      maxLines:
-                                          2, // Allow text to wrap to a new line
-                                      overflow: TextOverflow
-                                          .visible, // Handle overflow
                                     ),
                                   ),
                                   FutureBuilder(
@@ -95,41 +99,48 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                           );
                                         }
 
-                                        return Container(
-                                          width: 50,
-                                          height: 25,
-                                          decoration: ShapeDecoration(
-                                            color: snapshot.data! >= 20
-                                                ? const Color(0xFF3BE542)
-                                                : const Color(0xFFFF0003),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '${snapshot.data!} / 28',
-                                              style: KoroboriComponent()
-                                                  .getTextStyle(
-                                                color: Colors.white,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
+                                        return MediaQuery(
+                                            data: MediaQuery.of(context)
+                                                .copyWith(textScaleFactor: 1.0),
+                                            child: Container(
+                                              width: 50,
+                                              height: 25,
+                                              decoration: ShapeDecoration(
+                                                color: snapshot.data! >= 20
+                                                    ? const Color(0xFF3BE542)
+                                                    : const Color(0xFFFF0003),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        );
+                                              child: Center(
+                                                child: Text(
+                                                  '${snapshot.data!} / 28',
+                                                  style: KoroboriComponent()
+                                                      .getTextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                            ));
                                       }),
                                 ],
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-                                style: KoroboriComponent()
-                                    .getTextStyle(fontSize: 10),
-                              ),
+                              MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(textScaleFactor: 1.0),
+                                child: Text(
+                                  'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                                  style: KoroboriComponent()
+                                      .getTextStyle(fontSize: 10),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -137,7 +148,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                       const SizedBox(
                         height: 15,
                       ),
-                      KoroboriComponent().buildInput(searchActivities,
+                      KoroboriComponent().buildInput(context, searchActivities,
                           width: 0, height: 40, onChange: (text) {
                         setState(() {
                           this.textSearch = text;

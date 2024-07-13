@@ -45,8 +45,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      KoroboriComponent().buildInput(searchController, width: 0,
-                          onChange: (text) {
+                      KoroboriComponent().buildInput(context, searchController,
+                          width: 0, onChange: (text) {
                         setState(() {
                           textSearch = text;
                         });

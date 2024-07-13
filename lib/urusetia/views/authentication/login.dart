@@ -67,23 +67,32 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(
                               height: 50,
                             ),
-                            Text(
-                              'Selamat Datang ke Scoutify+',
-                              style: KoroboriComponent().getTextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
+                            MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaleFactor: 1.0),
+                              child: Text(
+                                'Selamat Datang ke Scoutify+',
+                                style: KoroboriComponent().getTextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              'Log Masuk',
-                              style: KoroboriComponent().getTextStyle(
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
+                            MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaleFactor: 1.0),
+                              child: Text(
+                                'Log Masuk',
+                                style: KoroboriComponent().getTextStyle(
+                                    fontSize: 26,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
                             ),
                             const SizedBox(height: 30),
-                            KoroboriComponent().buildInput(pengenalanController,
+                            KoroboriComponent().buildInput(
+                                context, pengenalanController,
                                 prefixIcon: Icon(
                                   Icons.person_outline,
                                   color: KoroboriComponent().getPrimaryColor(),
@@ -94,7 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(
                               height: 20,
                             ),
-                            KoroboriComponent().buildInput(passwordController,
+                            KoroboriComponent().buildInput(
+                                context, passwordController,
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   color: KoroboriComponent().getPrimaryColor(),
@@ -119,20 +129,22 @@ class _LoginPageState extends State<LoginPage> {
                               height: 40,
                             ),
                             KoroboriComponent().buildOutlinedButton(
-                                Text(
-                                  'Log Masuk',
-                                  style: KoroboriComponent()
-                                      .getTextStyle(color: Colors.white),
-                                ),
-                                () async => await logIn()),
+                              context,
+                              'Log Masuk',
+                              () async => await logIn(),
+                            ),
                             const Spacer(),
                             Center(
-                              child: Text(
-                                'Dikuasakan oleh',
-                                style: KoroboriComponent().getTextStyle(
-                                    style: FontStyle.italic,
-                                    color: Colors.white,
-                                    fontSize: 14),
+                              child: MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(textScaleFactor: 1.0),
+                                child: Text(
+                                  'Dikuasakan oleh',
+                                  style: KoroboriComponent().getTextStyle(
+                                      style: FontStyle.italic,
+                                      color: Colors.white,
+                                      fontSize: 14),
+                                ),
                               ),
                             ),
                             const SizedBox(

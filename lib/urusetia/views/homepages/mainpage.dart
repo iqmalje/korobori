@@ -84,23 +84,35 @@ class _MainPageState extends State<MainPage> {
                             semanticsLabel: 'Logo Korobori',
                             height: 200,
                           ),
-                          Text(
-                            'KOROBORI JOHOR',
-                            style: KoroboriComponent().getTextStyle(
-                              fontWeight: FontWeight.w600,
+                          MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: 1.0),
+                            child: Text(
+                              'KOROBORI JOHOR',
+                              style: KoroboriComponent().getTextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                          Text(
-                            'PENGAKAP KANAK-KANAK 2024',
-                            style: KoroboriComponent().getTextStyle(
-                              fontWeight: FontWeight.w600,
+                          MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: 1.0),
+                            child: Text(
+                              'PENGAKAP KANAK-KANAK 2024',
+                              style: KoroboriComponent().getTextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Text(
-                            '22 - 25 JUN | PANTAI AIR PAPAN, MERSING',
-                            style: KoroboriComponent().getTextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 13),
+                          MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: 1.0),
+                            child: Text(
+                              '22 - 25 JUN | PANTAI AIR PAPAN, MERSING',
+                              style: KoroboriComponent().getTextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 13),
+                            ),
                           ),
                         ],
                       ),
@@ -147,10 +159,15 @@ class _MainPageState extends State<MainPage> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              Text(
-                                'Prestasi Subkem Korobori 2024',
-                                style: KoroboriComponent().getTextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 14),
+                              MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(textScaleFactor: 1.0),
+                                child: Text(
+                                  'Prestasi Subkem Korobori 2024',
+                                  style: KoroboriComponent().getTextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                                ),
                               ),
                               const SizedBox(
                                 height: 15,
@@ -173,10 +190,14 @@ class _MainPageState extends State<MainPage> {
                                   },
                                 ),
                               ),
-                              Text(
-                                'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
-                                style: KoroboriComponent()
-                                    .getTextStyle(fontSize: 10),
+                              MediaQuery(
+                                data: MediaQuery.of(context)
+                                    .copyWith(textScaleFactor: 1.0),
+                                child: Text(
+                                  'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
+                                  style: KoroboriComponent()
+                                      .getTextStyle(fontSize: 10),
+                                ),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -228,40 +249,47 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "SUBKEM ${subCamp.name.name.toUpperCase()}", //subCamp.name,
-                  style: KoroboriComponent()
-                      .getTextStyle(fontWeight: FontWeight.w500),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Text(
+                    "SUBKEM ${subCamp.name.name.toUpperCase()}", //subCamp.name,
+                    style: KoroboriComponent()
+                        .getTextStyle(fontWeight: FontWeight.w500),
+                  ),
                 ),
                 const SizedBox(height: 1),
-                Text(
-                  subCamp.daerahs,
-                  style: KoroboriComponent()
-                      .getTextStyle(fontWeight: FontWeight.w300, fontSize: 10),
-                )
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      subCamp.daerahs,
+                      style: KoroboriComponent().getTextStyle(
+                          fontWeight: FontWeight.w300, fontSize: 10),
+                    ))
               ],
             ),
             const Spacer(),
-            Container(
-              height: 30,
-              decoration: ShapeDecoration(
-                color: subCamp.mainColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: Center(
-                  child: Text(
-                    '${subCamp.count} / 500',
-                    style: KoroboriComponent().getTextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
+            MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Container(
+                  height: 30,
+                  decoration: ShapeDecoration(
+                    color: subCamp.mainColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                   ),
-                ),
-              ),
-            )
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Center(
+                      child: Text(
+                        '${subCamp.count} / 500',
+                        style: KoroboriComponent().getTextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ))
           ],
         ),
       ),

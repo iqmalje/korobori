@@ -94,7 +94,7 @@ class KoroboriComponent {
     );
   }
 
-  Widget buildInput(TextEditingController controller,
+  Widget buildInput(BuildContext context, TextEditingController controller,
       {Icon? prefixIcon,
       String? hintText,
       List<TextInputFormatter>? formats,
@@ -107,15 +107,17 @@ class KoroboriComponent {
       double? height, // Add height parameter
       List<BoxShadow>? shadows}) {
     return Container(
-        height: height, // Set the height of the container
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shadows: shadows,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: width, color: const Color(0xFF9397A0)),
-            borderRadius: BorderRadius.circular(6),
-          ),
+      height: height, // Set the height of the container
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shadows: shadows,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: width, color: const Color(0xFF9397A0)),
+          borderRadius: BorderRadius.circular(6),
         ),
+      ),
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
           textCapitalization: TextCapitalization.characters,
@@ -138,7 +140,9 @@ class KoroboriComponent {
                 color: Colors.black.withOpacity(0.20)),
             hintText: hintText,
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget greyButton(String text, void Function() onPressed) {
@@ -202,7 +206,8 @@ class KoroboriComponent {
         ));
   }
 
-  Widget buildOutlinedButton(Text title, void Function() onPressed) {
+  Widget buildOutlinedButton(
+      BuildContext context, String title, void Function() onPressed) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -217,7 +222,13 @@ class KoroboriComponent {
             ),
           ),
           child: Center(
-            child: title,
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text(
+                title,
+                style: getTextStyle(color: Colors.white),
+              ),
+            ),
           ),
         ),
       ),

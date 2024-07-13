@@ -33,7 +33,7 @@ class _PesertaPageState extends State<PesertaPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    KoroboriComponent().buildInput(search, width: 0,
+                    KoroboriComponent().buildInput(context, search, width: 0,
                         onChange: (text) {
                       setState(() {
                         textSearch = text;

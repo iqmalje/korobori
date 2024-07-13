@@ -68,7 +68,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-                                KoroboriComponent().buildInput(search,
+                                KoroboriComponent().buildInput(context, search,
                                     width: 0, height: 40, onChange: (text) {
                                   setState(() {
                                     textSearch = text;

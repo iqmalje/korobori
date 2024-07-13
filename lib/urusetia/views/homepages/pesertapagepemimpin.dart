@@ -34,8 +34,8 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     const SizedBox(
                       height: 20,
                     ),
-                    KoroboriComponent().buildInput(search, width: 0, height: 40,
-                        onChange: (text) {
+                    KoroboriComponent().buildInput(context, search,
+                        width: 0, height: 40, onChange: (text) {
                       setState(() {
                         textSearch = text;
                       });
