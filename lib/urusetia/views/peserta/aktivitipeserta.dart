@@ -17,6 +17,13 @@ class AktivitiPeserta extends StatefulWidget {
 class _AktivitiPesertaState extends State<AktivitiPeserta> {
   Account account;
   String textSearch = "";
+  List<Activity> kombatActivities = [];
+  List<Activity> neuroActivities = [];
+  List<Activity> teknoActivities = [];
+  List<Activity> invisoActivities = [];
+  List<Activity> fusionActivities = [];
+  List<Activity> lainActivities = [];
+  List<Activity> pertandinganActivities = [];
   TextEditingController search = TextEditingController();
   _AktivitiPesertaState(this.account);
   @override
@@ -54,17 +61,49 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                       ),
                       FutureBuilder(
                           future: ActivityController()
-                              .getAttendances(account.accountID),
+                              .getAllActivities(account.accountID),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
+                            kombatActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'kombat')
+                                .toList();
+                            neuroActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'neuro')
+                                .toList();
+                            teknoActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'tekno')
+                                .toList();
+                            invisoActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'inviso')
+                                .toList();
+                            fusionActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'fusion')
+                                .toList();
+                            lainActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'lain-lain')
+                                .toList();
+                            pertandinganActivities = snapshot.data!
+                                .where((activity) =>
+                                    activity.activitySector == 'pertandingan')
+                                .toList();
+
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                buildAttendCount(snapshot.data!.length),
+                                buildAttendCount(snapshot.data!
+                                    .where((element) =>
+                                        element.attendedActivity == true)
+                                    .length),
                                 const SizedBox(
                                   height: 15,
                                 ),
@@ -89,47 +128,66 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                                 ),
                                 Flexible(
                                   child: Builder(builder: (context) {
+                                    List<Activity> activities = [
+                                      ...kombatActivities,
+                                      ...neuroActivities,
+                                      ...teknoActivities,
+                                      ...invisoActivities,
+                                      ...fusionActivities,
+                                      ...lainActivities,
+                                      ...pertandinganActivities
+                                    ];
+
+                                    activities = activities
+                                        .where((element) => element.activityName
+                                            .toLowerCase()
+                                            .contains(textSearch.toLowerCase()))
+                                        .toList();
+
                                     if (textSearch.isNotEmpty) {
-                                      List<Activity> activitiesFiltered =
-                                          snapshot.data!
-                                              .where((element) => element
-                                                  .activityName
-                                                  .toLowerCase()
-                                                  .contains(
-                                                      textSearch.toLowerCase()))
-                                              .toList();
-                                      return ListView.separated(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          return buildActivity(
-                                              activitiesFiltered[index]);
-                                        },
-                                        itemCount: activitiesFiltered.length,
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return const SizedBox(
-                                            height: 10,
-                                          );
-                                        },
-                                      );
+                                      return ListView.builder(
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return buildActivity(
+                                                activities[index]);
+                                          },
+                                          itemCount: activities.length);
                                     } else {
-                                      return ListView.separated(
+                                      return ListView(
                                         shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          return buildActivity(
-                                              snapshot.data![index]);
-                                        },
-                                        itemCount: snapshot.data!.length,
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return const SizedBox(
+                                        children: [
+                                          buildSektor(
+                                              'KOMBAT',
+                                              const Color(0xFF0000FF),
+                                              kombatActivities),
+                                          buildSektor(
+                                              'NEURO',
+                                              const Color(0xFFFFFF00),
+                                              neuroActivities),
+                                          buildSektor(
+                                              'TEKNO',
+                                              const Color(0xFFFF0000),
+                                              teknoActivities),
+                                          buildSektor(
+                                              'INVISO',
+                                              const Color(0xFF99FF00),
+                                              invisoActivities),
+                                          buildSektor(
+                                              'FUSION',
+                                              const Color(0xFF9397A0),
+                                              fusionActivities),
+                                          buildSektor(
+                                              'PERTANDINGAN',
+                                              const Color(0xFF9E00FF),
+                                              pertandinganActivities),
+                                          buildSektor(
+                                              'LAIN-LAIN',
+                                              const Color(0xFFFF8438),
+                                              lainActivities),
+                                          const SizedBox(
                                             height: 10,
-                                          );
-                                        },
+                                          )
+                                        ],
                                       );
                                     }
                                   }),
@@ -284,13 +342,65 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
     );
   }
 
+  Widget buildSektor(String sektor, Color color, List<Activity> activities) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(blurRadius: 4, color: Colors.black.withOpacity(0.25))
+        ]),
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Row(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 35,
+                    decoration: BoxDecoration(color: color),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'SEKTOR $sektor',
+                    style: KoroboriComponent()
+                        .getTextStyle(fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 1,
+              color: const Color.fromARGB(255, 217, 217, 217),
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return buildActivity(activities[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 1,
+                  color: const Color.fromARGB(255, 217, 217, 217),
+                );
+              },
+              itemCount: activities.length,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget buildActivity(Activity activity) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {},
         child: Container(
-          height: 50,
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
@@ -313,6 +423,24 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                   ),
                 ),
                 //const Spacer(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: activity.attendedActivity
+                          ? const Color(0xFF3BE542)
+                          : const Color(0xFFD9D9D9),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      activity.attendedActivity ? Icons.done : Icons.close,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
