@@ -325,7 +325,11 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         data: MediaQuery.of(context)
                             .copyWith(textScaleFactor: 1.0),
                         child: Text(
-                          data['user_scout_id'] + "  |  " + "${data['daerah']}",
+                          data['user_scout_id'] +
+                              "  |  " +
+                              "TAMBAH USER ROLE" +
+                              "  |  " +
+                              "${data['daerah']}",
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         )),
                     Row(
@@ -337,7 +341,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         const Icon(
                           // Kalau data successfully uploaded in database
                           Icons.done,
-                          size: 12,
+                          size: 10,
                         ),
                         const SizedBox(
                           width: 5,
@@ -362,7 +366,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 width: 5,
               ),
               CircleAvatar(
-                  radius: 15,
+                  radius: 12,
                   backgroundColor: Colors.red,
                   child: IconButton(
                       onPressed: () async {
@@ -450,7 +454,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                       icon: const Icon(
                         Icons.remove,
                         color: Colors.white,
-                        size: 15,
+                        size: 9,
                       )))
             ],
           ),
