@@ -31,7 +31,7 @@ class _TempPageState extends State<TempPage> {
 
   Widget buildNavBar() {
     return Container(
-      height: 70,
+      height: 60,
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [

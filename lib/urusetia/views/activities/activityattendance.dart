@@ -334,13 +334,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         )),
                     Row(
                       children: [
-                        // const Icon( // Data saves in local storage
-                        //   Icons.history,
-                        //   size: 12,
-                        // ),
-                        const Icon(
-                          // Kalau data successfully uploaded in database
-                          Icons.done,
+                        Icon(
+                          data['upload_status'] == 1
+                              ? Icons.done
+                              : Icons.history,
                           size: 10,
                         ),
                         const SizedBox(

@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> {
         count: 0),
     SubCamp(
         name: Subcamps.tekno,
-        daerahs: 'PONTIAN, TANGKAK & BATU PAHA',
+        daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/logo_subkem_tekno.svg',
         mainColor: const Color(0xFFFF0003),
         count: 0),
@@ -241,55 +241,61 @@ class _MainPageState extends State<MainPage> {
               subCamp.imageURL,
               height: 55,
             ),
-            //Image.asset(subCamp.imageURL),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                  child: Text(
-                    "SUBKEM ${subCamp.name.name.toUpperCase()}", //subCamp.name,
-                    style: KoroboriComponent()
-                        .getTextStyle(fontWeight: FontWeight.w500),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      "SUBKEM ${subCamp.name.name.toUpperCase()}",
+                      style: KoroboriComponent().getTextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 14),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 1),
-                MediaQuery(
+                  const SizedBox(height: 1),
+                  MediaQuery(
                     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                     child: Text(
                       subCamp.daerahs,
                       style: KoroboriComponent().getTextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 10),
-                    ))
-              ],
-            ),
-            const Spacer(),
-            MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: Container(
-                  height: 30,
-                  decoration: ShapeDecoration(
-                    color: subCamp.mainColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 10,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Center(
-                      child: Text(
-                        '${subCamp.count} / 500',
-                        style: KoroboriComponent().getTextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14),
+                ],
+              ),
+            ),
+            MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Container(
+                height: 30,
+                decoration: ShapeDecoration(
+                  color: subCamp.mainColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Center(
+                    child: Text(
+                      '${subCamp.count} / 500',
+                      style: KoroboriComponent().getTextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                ))
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:korobori/controller/localDBcontroller.dart';
 import 'package:korobori/models/activity.dart';
-import 'package:korobori/models/activitydates.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ActivityController {
@@ -127,6 +125,7 @@ class ActivityController {
   StreamController<String> _controller = StreamController<String>();
 
   Stream<String> get stream => _controller.stream;
+
   Future<void> addAttendance(String activityID, int activityDatesID,
       {String? scoutyID, String? cardID}) async {
     try {
@@ -136,15 +135,18 @@ class ActivityController {
       var localID = await localDB.insertAttendanceLocal(scoutyID!, activityID,
           activityDatesID, _supabase.auth.currentUser!.id);
       _controller.add('LOCAL');
+
+      // Try to upload to remote database
       await _supabase.rpc('add_attendance', params: {
         '_scoutyid': scoutyID,
         '_activityid': activityID,
         '_dateid': activityDatesID,
         '_picid': _supabase.auth.currentUser!.id,
       });
-      _controller.add('CLOUD');
 
+      // If successful, update local db status
       await localDB.updateStatusUpload(1, localID);
+      _controller.add('CLOUD');
     } catch (e) {
       print(e);
       rethrow;

@@ -31,7 +31,7 @@ class _TempPagePemimpinState extends State<TempPagePemimpin> {
 
   Widget buildNavBar() {
     return Container(
-      height: 70,
+      height: 60,
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
