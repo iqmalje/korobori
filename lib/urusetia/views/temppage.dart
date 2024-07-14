@@ -84,11 +84,13 @@ class _TempPageState extends State<TempPage> {
               icon,
               color: color,
             ),
-            Text(
-              title,
-              style:
-                  KoroboriComponent().getTextStyle(color: color, fontSize: 10),
-            )
+            MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Text(
+                  title,
+                  style: KoroboriComponent()
+                      .getTextStyle(color: color, fontSize: 10),
+                ))
           ],
         ));
   }

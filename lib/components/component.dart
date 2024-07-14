@@ -36,16 +36,21 @@ class KoroboriComponent {
     );
   }
 
-  PreferredSize buildAppBar(String title) {
+  PreferredSize buildAppBar(BuildContext context, String title) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(75),
       child: Container(
         color: getPrimaryColor(),
         child: Center(
-          child: Text(
-            title,
-            style: getTextStyle(
-                color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: Text(
+              title,
+              style: getTextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
         ),
       ),
@@ -77,17 +82,19 @@ class KoroboriComponent {
             const SizedBox(
               width: 25,
             ),
-            Container(
-              child: Center(
-                child: Text(
-                  title,
-                  style: getTextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
+            MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: getTextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),
@@ -145,36 +152,41 @@ class KoroboriComponent {
     );
   }
 
-  Widget greyButton(String text, void Function() onPressed) {
+  Widget greyButton(
+      BuildContext context, String text, void Function() onPressed) {
     return TextButton(
-        onPressed: onPressed,
-        child: Container(
-          width: 100,
-          height: 35,
-          decoration: ShapeDecoration(
-            color: const Color(0xFFD9D9D9),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            shadows: const [
-              BoxShadow(
-                color: Color(0x3F000000),
-                blurRadius: 2,
-                offset: Offset(0, 1),
-                spreadRadius: 0,
-              )
-            ],
-          ),
-          child: Center(
+      onPressed: onPressed,
+      child: Container(
+        width: 100,
+        height: 35,
+        decoration: ShapeDecoration(
+          color: const Color(0xFFD9D9D9),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 2,
+              offset: Offset(0, 1),
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Center(
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: Text(
               text,
               style: getTextStyle(
                   fontWeight: FontWeight.w600, color: Colors.white),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
-  Widget blueButton(String text, void Function() onPressed,
+  Widget blueButton(
+      BuildContext context, String text, void Function() onPressed,
       {double? width, double? height}) {
     return TextButton(
         onPressed: onPressed,
@@ -195,13 +207,15 @@ class KoroboriComponent {
             ],
           ),
           child: Center(
-            child: Text(
-              text,
-              style: getTextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  fontSize: 16),
-            ),
+            child: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Text(
+                  text,
+                  style: getTextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 16),
+                )),
           ),
         ));
   }

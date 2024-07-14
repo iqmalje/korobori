@@ -33,7 +33,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
         color: KoroboriComponent().getPrimaryColor(),
         child: SafeArea(
           child: Scaffold(
-            appBar: KoroboriComponent().buildAppBar('Aktiviti'),
+            appBar: KoroboriComponent().buildAppBar(context, 'Aktiviti'),
             body: Column(
               children: [
                 Padding(

@@ -29,177 +29,180 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: KoroboriComponent().getPrimaryColor(),
-        child: SafeArea(
-            bottom: false,
-            child: Scaffold(
-              appBar: KoroboriComponent()
-                  .buildAppBarWithBackbutton('Rekod Peserta', context),
-              body: Padding(
+      color: KoroboriComponent().getPrimaryColor(),
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          appBar: KoroboriComponent()
+              .buildAppBarWithBackbutton('Rekod Peserta', context),
+          body: Column(
+            children: [
+              Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.sizeOf(context).width * 0.08),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      FutureBuilder(
-                          future:
-                              AuthController().getAccount(account.accountID),
-                          builder: (context, snapshot) {
-                            print(account.accountID);
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return buildRekodPeserta(snapshot.data!);
-                          }),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      FutureBuilder(
-                          future: ActivityController()
-                              .getAllActivities(account.accountID),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            kombatActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'kombat')
-                                .toList();
-                            neuroActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'neuro')
-                                .toList();
-                            teknoActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'tekno')
-                                .toList();
-                            invisoActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'inviso')
-                                .toList();
-                            fusionActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'fusion')
-                                .toList();
-                            lainActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'lain-lain')
-                                .toList();
-                            pertandinganActivities = snapshot.data!
-                                .where((activity) =>
-                                    activity.activitySector == 'pertandingan')
-                                .toList();
+                  horizontal: MediaQuery.sizeOf(context).width * 0.08,
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    FutureBuilder(
+                      future: AuthController().getAccount(account.accountID),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return buildRekodPeserta(snapshot.data!);
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    FutureBuilder(
+                      future: ActivityController()
+                          .getAllActivities(account.accountID),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        kombatActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'kombat')
+                            .toList();
+                        neuroActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'neuro')
+                            .toList();
+                        teknoActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'tekno')
+                            .toList();
+                        invisoActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'inviso')
+                            .toList();
+                        fusionActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'fusion')
+                            .toList();
+                        lainActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'lain-lain')
+                            .toList();
+                        pertandinganActivities = snapshot.data!
+                            .where((activity) =>
+                                activity.activitySector == 'pertandingan')
+                            .toList();
 
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                buildAttendCount(snapshot.data!
-                                    .where((element) =>
-                                        element.attendedActivity == true)
-                                    .length),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                KoroboriComponent().buildInput(context, search,
-                                    width: 0, height: 40, onChange: (text) {
-                                  setState(() {
-                                    textSearch = text;
-                                  });
-                                },
-                                    shadows: [
-                                      const BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 1,
-                                        offset: Offset(0, 0),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                    prefixIcon: const Icon(Icons.search),
-                                    hintText: 'Cari nama aktiviti'),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Flexible(
-                                  child: Builder(builder: (context) {
-                                    List<Activity> activities = [
-                                      ...kombatActivities,
-                                      ...neuroActivities,
-                                      ...teknoActivities,
-                                      ...invisoActivities,
-                                      ...fusionActivities,
-                                      ...lainActivities,
-                                      ...pertandinganActivities
-                                    ];
-
-                                    activities = activities
-                                        .where((element) => element.activityName
-                                            .toLowerCase()
-                                            .contains(textSearch.toLowerCase()))
-                                        .toList();
-
-                                    if (textSearch.isNotEmpty) {
-                                      return ListView.builder(
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            return buildActivity(
-                                                activities[index]);
-                                          },
-                                          itemCount: activities.length);
-                                    } else {
-                                      return ListView(
-                                        shrinkWrap: true,
-                                        children: [
-                                          buildSektor(
-                                              'KOMBAT',
-                                              const Color(0xFF0000FF),
-                                              kombatActivities),
-                                          buildSektor(
-                                              'NEURO',
-                                              const Color(0xFFFFFF00),
-                                              neuroActivities),
-                                          buildSektor(
-                                              'TEKNO',
-                                              const Color(0xFFFF0000),
-                                              teknoActivities),
-                                          buildSektor(
-                                              'INVISO',
-                                              const Color(0xFF99FF00),
-                                              invisoActivities),
-                                          buildSektor(
-                                              'FUSION',
-                                              const Color(0xFF9397A0),
-                                              fusionActivities),
-                                          buildSektor(
-                                              'PERTANDINGAN',
-                                              const Color(0xFF9E00FF),
-                                              pertandinganActivities),
-                                          buildSektor(
-                                              'LAIN-LAIN',
-                                              const Color(0xFFFF8438),
-                                              lainActivities),
-                                          const SizedBox(
-                                            height: 10,
-                                          )
-                                        ],
-                                      );
-                                    }
-                                  }),
+                        return Column(
+                          children: [
+                            buildAttendCount(snapshot.data!
+                                .where((element) =>
+                                    element.attendedActivity == true)
+                                .length),
+                            const SizedBox(height: 15),
+                            KoroboriComponent().buildInput(
+                              context,
+                              search,
+                              width: 0,
+                              height: 40,
+                              onChange: (text) {
+                                setState(() {
+                                  textSearch = text;
+                                });
+                              },
+                              shadows: [
+                                const BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 1,
+                                  offset: Offset(0, 0),
+                                  spreadRadius: 0,
                                 )
                               ],
-                            );
-                          }),
-                    ],
-                  ),
+                              prefixIcon: const Icon(Icons.search),
+                              hintText: 'Cari nama aktiviti',
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-            )));
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          List<Activity> activities = [
+                            ...kombatActivities,
+                            ...neuroActivities,
+                            ...teknoActivities,
+                            ...invisoActivities,
+                            ...fusionActivities,
+                            ...lainActivities,
+                            ...pertandinganActivities,
+                          ];
+
+                          activities = activities
+                              .where((element) => element.activityName
+                                  .toLowerCase()
+                                  .contains(textSearch.toLowerCase()))
+                              .toList();
+
+                          if (textSearch.isNotEmpty) {
+                            return buildActivity(activities[index]);
+                          } else {
+                            List<Widget> sektorList = [
+                              buildSektor('KOMBAT', const Color(0xFF0000FF),
+                                  kombatActivities),
+                              buildSektor('NEURO', const Color(0xFFFFFF00),
+                                  neuroActivities),
+                              buildSektor('TEKNO', const Color(0xFFFF0000),
+                                  teknoActivities),
+                              buildSektor('INVISO', const Color(0xFF99FF00),
+                                  invisoActivities),
+                              buildSektor('FUSION', const Color(0xFF9397A0),
+                                  fusionActivities),
+                              buildSektor(
+                                  'PERTANDINGAN',
+                                  const Color(0xFF9E00FF),
+                                  pertandinganActivities),
+                              buildSektor('LAIN-LAIN', const Color(0xFFFF8438),
+                                  lainActivities),
+                              const SizedBox(height: 10),
+                            ];
+
+                            return sektorList[index];
+                          }
+                        },
+                        childCount: textSearch.isNotEmpty
+                            ? [
+                                ...kombatActivities,
+                                ...neuroActivities,
+                                ...teknoActivities,
+                                ...invisoActivities,
+                                ...fusionActivities,
+                                ...lainActivities,
+                                ...pertandinganActivities,
+                              ]
+                                .where((element) => element.activityName
+                                    .toLowerCase()
+                                    .contains(textSearch.toLowerCase()))
+                                .length
+                            : 8,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Container buildAttendCount(int count) {
@@ -226,48 +229,55 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Flexible(
-                  child: Text(
-                    'Bilangan Aktiviti Berjaya Dilengkapkan',
-                    style: KoroboriComponent().getTextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Flexible(
+                    child: Text(
+                      'Bilangan Aktiviti Berjaya Dilengkapkan',
+                      style: KoroboriComponent().getTextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2, // Allow text to wrap to a new line
+                      overflow: TextOverflow.visible, // Handle overflow
                     ),
-                    maxLines: 2, // Allow text to wrap to a new line
-                    overflow: TextOverflow.visible, // Handle overflow
                   ),
                 ),
-                Container(
-                  width: 50,
-                  height: 25,
-                  decoration: ShapeDecoration(
-                    color: count >= 20
-                        ? const Color(0xFF3BE542)
-                        : const Color(0xFFFF0003),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Container(
+                    width: 50,
+                    height: 25,
+                    decoration: ShapeDecoration(
+                      color: count >= 20
+                          ? const Color(0xFF3BE542)
+                          : const Color(0xFFFF0003),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '$count / 28',
-                      style: KoroboriComponent().getTextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    child: Center(
+                      child: Text(
+                        '$count / 28',
+                        style: KoroboriComponent().getTextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-              style: KoroboriComponent().getTextStyle(fontSize: 10),
-            ),
+            const SizedBox(height: 5),
+            MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text(
+                'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                style: KoroboriComponent().getTextStyle(fontSize: 10),
+              ),
+            )
           ],
         ),
       ),
@@ -292,50 +302,48 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: [
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Row(
               children: [
                 const Icon(Icons.account_circle),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: Text(
-                    peserta.userFullname,
-                    overflow: TextOverflow.visible,
+                const SizedBox(width: 10),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Flexible(
+                    child: Text(
+                      peserta.userFullname,
+                      overflow: TextOverflow.visible,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             Row(
               children: [
                 const Icon(Icons.badge),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                    "${account.scoutyID}  |  ${account.subcamp.toUpperCase()}"),
+                const SizedBox(width: 10),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                        "${account.scoutyID}  |  ${account.subcamp.toUpperCase()}")),
               ],
             ),
             Row(
               children: [
                 const Icon(Icons.home),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: Text(
-                    "${peserta.schoolCode} |  ${peserta.school!.schoolName}",
-                    overflow: TextOverflow.visible,
+                const SizedBox(width: 10),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Flexible(
+                    child: Text(
+                      "${peserta.schoolCode} |  ${peserta.school!.schoolName}",
+                      overflow: TextOverflow.visible,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -360,14 +368,15 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                     height: 35,
                     decoration: BoxDecoration(color: color),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'SEKTOR $sektor',
-                    style: KoroboriComponent()
-                        .getTextStyle(fontWeight: FontWeight.w600),
-                  )
+                  const SizedBox(width: 10),
+                  MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: Text(
+                        'SEKTOR $sektor',
+                        style: KoroboriComponent()
+                            .getTextStyle(fontWeight: FontWeight.w600),
+                      ))
                 ],
               ),
             ),
@@ -410,19 +419,19 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                   activity.activityIcons,
                   height: 17,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    activity.activityName.toUpperCase(),
-                    style: KoroboriComponent().getTextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w500),
-                    maxLines: 3, // Allow text to wrap to a new line
-                    overflow: TextOverflow.visible, // Handle overflow
+                const SizedBox(width: 10),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Expanded(
+                    child: Text(
+                      activity.activityName.toUpperCase(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 13, fontWeight: FontWeight.w500),
+                      maxLines: 3, // Allow text to wrap to a new line
+                      overflow: TextOverflow.visible, // Handle overflow
+                    ),
                   ),
                 ),
-                //const Spacer(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
-import 'package:korobori/urusetia/views/homepages/activitiespage.dart';
 import 'package:korobori/urusetia/views/homepages/activitiespagepemimpin.dart';
 import 'package:korobori/urusetia/views/homepages/mainpage.dart';
-import 'package:korobori/urusetia/views/homepages/pesertapage.dart';
 import 'package:korobori/urusetia/views/homepages/profilepage.dart';
 
 class TempPagePKK extends StatefulWidget {
@@ -83,11 +81,13 @@ class _TempPagePKKState extends State<TempPagePKK> {
               icon,
               color: color,
             ),
-            Text(
-              title,
-              style:
-                  KoroboriComponent().getTextStyle(color: color, fontSize: 10),
-            )
+            MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Text(
+                  title,
+                  style: KoroboriComponent()
+                      .getTextStyle(color: color, fontSize: 10),
+                ))
           ],
         ));
   }

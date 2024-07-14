@@ -82,17 +82,24 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Text('Bilangan Penyertaan Peserta',
-                                      style: KoroboriComponent().getTextStyle(
-                                        fontSize: 12,
-                                      )),
+                                  MediaQuery(
+                                      data: MediaQuery.of(context)
+                                          .copyWith(textScaleFactor: 1.0),
+                                      child: Text('Bilangan Penyertaan Peserta',
+                                          style:
+                                              KoroboriComponent().getTextStyle(
+                                            fontSize: 12,
+                                          ))),
                                   const Spacer(),
-                                  Text(
-                                    snapshot.data!.toString(),
-                                    style: KoroboriComponent().getTextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                  MediaQuery(
+                                      data: MediaQuery.of(context)
+                                          .copyWith(textScaleFactor: 1.0),
+                                      child: Text(
+                                        snapshot.data!.toString(),
+                                        style: KoroboriComponent().getTextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      )),
                                 ],
                               ),
                             ),
@@ -106,11 +113,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    'Senarai Penyertaan Peserta',
-                    style: KoroboriComponent().getTextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
+                  MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: Text(
+                        'Senarai Penyertaan Peserta',
+                        style: KoroboriComponent().getTextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      )),
                   const SizedBox(
                     height: 20,
                   ),
@@ -165,25 +175,28 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 )
               ],
             ),
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textCapitalization: TextCapitalization.characters,
-              controller: searchScout,
-              onChanged: (value) {
-                setState(() {
-                  searchText = value;
-                });
-              },
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
-                  border: InputBorder.none,
-                  prefixIcon: const Icon(Icons.search),
-                  hintStyle: KoroboriComponent().getTextStyle(
-                      fontSize: 12,
-                      style: FontStyle.italic,
-                      color: Colors.black.withOpacity(0.25)),
-                  hintText: 'Cari Scouty ID atau nama peserta'),
-            ),
+            child: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: TextFormField(
+                  textAlignVertical: TextAlignVertical.center,
+                  textCapitalization: TextCapitalization.characters,
+                  controller: searchScout,
+                  onChanged: (value) {
+                    setState(() {
+                      searchText = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.symmetric(vertical: 15.0),
+                      border: InputBorder.none,
+                      prefixIcon: const Icon(Icons.search),
+                      hintStyle: KoroboriComponent().getTextStyle(
+                          fontSize: 12,
+                          style: FontStyle.italic,
+                          color: Colors.black.withOpacity(0.25)),
+                      hintText: 'Cari Scouty ID atau nama peserta'),
+                )),
           ),
         ),
         const SizedBox(
@@ -286,7 +299,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             children: [
               SvgPicture.asset(
                 'assets/images/logo_subkem_${data['user_subcamp']}.svg',
-                height: 40,
+                height: 35,
               ),
               const SizedBox(
                 width: 5,
@@ -298,17 +311,23 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     const SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      data['user_fullname'],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: KoroboriComponent().getTextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      data['user_scout_id'] + "  |  " + "${data['daerah']}",
-                      style: KoroboriComponent().getTextStyle(fontSize: 10),
-                    ),
+                    MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          data['user_fullname'],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: KoroboriComponent().getTextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        )),
+                    MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          data['user_scout_id'] + "  |  " + "${data['daerah']}",
+                          style: KoroboriComponent().getTextStyle(fontSize: 10),
+                        )),
                     Row(
                       children: [
                         // const Icon( // Data saves in local storage
@@ -323,11 +342,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         const SizedBox(
                           width: 5,
                         ),
-
-                        Text(
-                          '${DateFormat('HH:mm').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
-                          style: KoroboriComponent().getTextStyle(fontSize: 10),
-                        ),
+                        MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: 1.0),
+                            child: Text(
+                              '${DateFormat('HH:mm:ss').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                              style: KoroboriComponent()
+                                  .getTextStyle(fontSize: 10),
+                            )),
                       ],
                     ),
                     const SizedBox(
@@ -354,48 +376,66 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    Text(
-                                      'Padam Kehadiran',
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    MediaQuery(
+                                        data: MediaQuery.of(context)
+                                            .copyWith(textScaleFactor: 1.0),
+                                        child: Text(
+                                          'Padam Kehadiran',
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                        )),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    Text(
-                                      'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
-                                      textAlign: TextAlign.center,
-                                      style: KoroboriComponent().getTextStyle(
-                                        fontSize: 14,
+                                    MediaQuery(
+                                      data: MediaQuery.of(context)
+                                          .copyWith(textScaleFactor: 1.0),
+                                      child: Text(
+                                        'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
+                                        textAlign: TextAlign.center,
+                                        style: KoroboriComponent().getTextStyle(
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    Text(
-                                      data['user_fullname'],
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.w500),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    MediaQuery(
+                                        data: MediaQuery.of(context)
+                                            .copyWith(textScaleFactor: 1.0),
+                                        child: Text(
+                                          data['user_fullname'],
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                          textAlign: TextAlign.center,
+                                        )),
                                     const SizedBox(
                                       height: 2,
                                     ),
-                                    Text(
-                                      data['user_scout_id'],
-                                      style: KoroboriComponent().getTextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                    MediaQuery(
+                                        data: MediaQuery.of(context)
+                                            .copyWith(textScaleFactor: 1.0),
+                                        child: Text(
+                                          data['user_scout_id'],
+                                          style: KoroboriComponent()
+                                              .getTextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                        )),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                   ],
                                 ),
                                 actions: [
-                                  KoroboriComponent().greyButton('Pasti', () {
+                                  KoroboriComponent()
+                                      .greyButton(context, 'Pasti', () {
                                     Navigator.of(context).pop(true);
                                   }),
-                                  KoroboriComponent().blueButton('Batal', () {
+                                  KoroboriComponent()
+                                      .blueButton(context, 'Batal', () {
                                     Navigator.of(context).pop(false);
                                   })
                                 ],
@@ -435,32 +475,33 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-        child: TextFormField(
-          textCapitalization: TextCapitalization.characters,
-          textAlignVertical: TextAlignVertical.center,
-          controller: scoutyID,
-          onFieldSubmitted: (value) async {
-            try {
-              await ActivityController().addAttendance(
-                  activity.activityID, dateChosen.id,
-                  scoutyID: value);
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Kehadiran peserta telah direkodkan.')));
-            }
-          },
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
-              border: InputBorder.none,
-              prefixIcon: const Icon(Icons.person),
-              hintStyle: KoroboriComponent().getTextStyle(
-                  fontSize: 14,
-                  style: FontStyle.italic,
-                  color: Colors.black.withOpacity(0.25)),
-              hintText: 'Sila masukkan Scouty ID peserta'),
-        ),
-      ),
+          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+          child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: TextFormField(
+                textCapitalization: TextCapitalization.characters,
+                textAlignVertical: TextAlignVertical.center,
+                controller: scoutyID,
+                onFieldSubmitted: (value) async {
+                  try {
+                    await ActivityController().addAttendance(
+                        activity.activityID, dateChosen.id,
+                        scoutyID: value);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Kehadiran peserta telah direkodkan.')));
+                  }
+                },
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
+                    border: InputBorder.none,
+                    prefixIcon: const Icon(Icons.person),
+                    hintStyle: KoroboriComponent().getTextStyle(
+                        fontSize: 14,
+                        style: FontStyle.italic,
+                        color: Colors.black.withOpacity(0.25)),
+                    hintText: 'Sila masukkan Scouty ID peserta'),
+              ))),
     );
   }
 
@@ -494,21 +535,25 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: Text(
-                    activity.activityName.toUpperCase(),
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Flexible(
+                      child: Text(
+                        activity.activityName.toUpperCase(),
+                        overflow: TextOverflow.visible,
+                      ),
+                    )),
               ],
             ),
-            const Row(
+            Row(
               children: [
                 Icon(Icons.pin_drop),
                 SizedBox(
                   width: 10,
                 ),
-                Text("PANTAI AIR PAPAN, MERSING"),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text("PANTAI AIR PAPAN, MERSING")),
               ],
             ),
             Row(
@@ -517,8 +562,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                    "${DateFormat("dd MMMM").format(dateChosen.date)} ${getFormattedTime(dateChosen.startTime)} - ${getFormattedTime(dateChosen.endTime)}")
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                        "${DateFormat("dd MMMM").format(dateChosen.date)} ${getFormattedTime(dateChosen.startTime)} - ${getFormattedTime(dateChosen.endTime)}"))
               ],
             ),
             Row(
@@ -527,7 +574,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text("SEKTOR ${activity.activitySector.toUpperCase()}"),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                        "SEKTOR ${activity.activitySector.toUpperCase()}")),
               ],
             ),
             Row(
@@ -536,12 +586,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: Text(
-                    activity.activityPIC,
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Flexible(
+                      child: Text(
+                        activity.activityPIC,
+                        overflow: TextOverflow.visible,
+                      ),
+                    )),
               ],
             ),
             const SizedBox(

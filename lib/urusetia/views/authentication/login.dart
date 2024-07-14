@@ -210,8 +210,10 @@ class _LoginPageState extends State<LoginPage> {
               (_) => false);
       }
     } on AuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text(e.message))));
     }
   }
 }

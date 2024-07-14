@@ -22,7 +22,7 @@ class _PesertaPageState extends State<PesertaPage> {
       child: SafeArea(
         bottom: false,
         child: Scaffold(
-          appBar: KoroboriComponent().buildAppBar('Peserta'),
+          appBar: KoroboriComponent().buildAppBar(context, 'Peserta'),
           body: Column(
             children: [
               Padding(
@@ -142,18 +142,25 @@ class _PesertaPageState extends State<PesertaPage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        peserta.userFullname.toUpperCase(),
-                        style: KoroboriComponent().getTextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500),
-                        maxLines: 2, // Allow text to wrap to a new line
-                        overflow: TextOverflow.visible, // Handle overflow
-                      ),
-                      Text('${peserta.scoutyID}  |  ${peserta.role}',
-                          style: KoroboriComponent().getTextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w300,
+                      MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: Text(
+                            peserta.userFullname.toUpperCase(),
+                            style: KoroboriComponent().getTextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                            maxLines: 2, // Allow text to wrap to a new line
+                            overflow: TextOverflow.visible, // Handle overflow
                           )),
+                      MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text('${peserta.scoutyID}  |  ${peserta.role}',
+                            style: KoroboriComponent().getTextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                            )),
+                      )
                     ],
                   ),
                 ),

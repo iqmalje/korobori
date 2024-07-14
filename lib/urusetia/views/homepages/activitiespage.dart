@@ -34,7 +34,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         color: KoroboriComponent().getPrimaryColor(),
         child: SafeArea(
           child: Scaffold(
-            appBar: KoroboriComponent().buildAppBar('Aktiviti'),
+            appBar: KoroboriComponent().buildAppBar(context, 'Aktiviti'),
             body: Column(
               children: [
                 Padding(
@@ -189,11 +189,14 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    'SEKTOR $sektor',
-                    style: KoroboriComponent()
-                        .getTextStyle(fontWeight: FontWeight.w600),
-                  )
+                  MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: Text(
+                        'SEKTOR $sektor',
+                        style: KoroboriComponent()
+                            .getTextStyle(fontWeight: FontWeight.w600),
+                      ))
                 ],
               ),
             ),
@@ -244,15 +247,22 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Expanded(
-                  child: Text(
-                    activity.activityName.toUpperCase(),
-                    style: KoroboriComponent().getTextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w500),
-                    maxLines: 3, // Allow text to wrap to a new line
-                    overflow: TextOverflow.visible, // Handle overflow
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Expanded(
+                    child: MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: Text(
+                          activity.activityName.toUpperCase(),
+                          style: KoroboriComponent().getTextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w500),
+                          maxLines: 3, // Allow text to wrap to a new line
+                          overflow: TextOverflow.visible, // Handle overflow
+                        )),
                   ),
-                ),
+                )
+
                 //const Spacer(),
               ],
             ),

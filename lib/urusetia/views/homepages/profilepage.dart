@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: SafeArea(
         bottom: false,
         child: Scaffold(
-          appBar: KoroboriComponent().buildAppBar('Profil'),
+          appBar: KoroboriComponent().buildAppBar(context, 'Profil'),
           body: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -173,8 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      KoroboriComponent().blueButton(
-                          'Log Keluar', () => AuthController().logout(context),
+                      KoroboriComponent().blueButton(context, 'Log Keluar',
+                          () => AuthController().logout(context),
                           width: MediaQuery.sizeOf(context).width * 0.8,
                           height: 50),
                       const SizedBox(

@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
       child: SafeArea(
         bottom: false,
         child: Scaffold(
-          appBar: KoroboriComponent().buildAppBar('Utama'),
+          appBar: KoroboriComponent().buildAppBar(context, 'Utama'),
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(

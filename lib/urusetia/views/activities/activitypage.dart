@@ -118,7 +118,10 @@ class _ActivityPageState extends State<ActivityPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      buildDates()
+                      buildDates(),
+                      const SizedBox(
+                        height: 40,
+                      )
                     ],
                   ),
                 ),
@@ -133,10 +136,13 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget buildDates() {
     return Column(
       children: [
-        Text(
-          'Sesi Aktiviti',
-          style: KoroboriComponent().getTextStyle(fontWeight: FontWeight.w600),
-        ),
+        MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: Text(
+              'Sesi Aktiviti',
+              style:
+                  KoroboriComponent().getTextStyle(fontWeight: FontWeight.w600),
+            )),
         const SizedBox(
           height: 20,
         ),
@@ -162,13 +168,16 @@ class _ActivityPageState extends State<ActivityPage> {
                       borderRadius: BorderRadius.circular(5)),
                 ),
                 child: Center(
-                  child: Text(
-                    '${DateFormat('dd MMMM').format(activityDate.date)}, ${getFormattedTime(activityDate.startTime)} - ${getFormattedTime(activityDate.endTime)}',
-                    style: KoroboriComponent().getTextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  child: MediaQuery(
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: Text(
+                        '${DateFormat('dd MMMM').format(activityDate.date)}, ${getFormattedTime(activityDate.startTime)} - ${getFormattedTime(activityDate.endTime)}',
+                        style: KoroboriComponent().getTextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
                 ),
               ),
             );
@@ -208,36 +217,43 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'BILANGAN PENYERTAAN PESERTA',
-                    style: KoroboriComponent().getTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      letterSpacing: 0,
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Expanded(
+                    child: Text(
+                      'BILANGAN PENYERTAAN PESERTA',
+                      style: KoroboriComponent().getTextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        letterSpacing: 0,
+                      ),
+                      maxLines: 2, // Allow up to 2 lines
+                      overflow: TextOverflow
+                          .ellipsis, // Optional, add ellipsis if overflow
                     ),
-                    maxLines: 2, // Allow up to 2 lines
-                    overflow: TextOverflow
-                        .ellipsis, // Optional, add ellipsis if overflow
                   ),
                 ),
+
                 const SizedBox(
                     width:
                         8), // Optional, add some space between text and number
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    (attendances['count_kombat']! +
-                            attendances['count_tekno']! +
-                            attendances['count_inviso']! +
-                            attendances['count_neuro']!)
-                        .toString(),
-                    style: KoroboriComponent().getTextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      (attendances['count_kombat']! +
+                              attendances['count_tekno']! +
+                              attendances['count_inviso']! +
+                              attendances['count_neuro']!)
+                          .toString(),
+                      style: KoroboriComponent().getTextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(
@@ -252,19 +268,24 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  'SUBKEM KOMBAT',
-                  style: KoroboriComponent().getTextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      letterSpacing: 0),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Text(
+                    'SUBKEM KOMBAT',
+                    style: KoroboriComponent().getTextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        letterSpacing: 0),
+                  ),
                 ),
                 const Spacer(),
-                Text(
-                  attendances['count_kombat'].toString(),
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                )
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      attendances['count_kombat'].toString(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w400),
+                    ))
               ],
             ),
             const SizedBox(
@@ -279,19 +300,24 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  'SUBKEM TEKNO',
-                  style: KoroboriComponent().getTextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      letterSpacing: 0),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Text(
+                    'SUBKEM TEKNO',
+                    style: KoroboriComponent().getTextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        letterSpacing: 0),
+                  ),
                 ),
                 const Spacer(),
-                Text(
-                  attendances['count_tekno'].toString(),
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                )
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      attendances['count_tekno'].toString(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w400),
+                    ))
               ],
             ),
             const SizedBox(
@@ -306,19 +332,24 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  'SUBKEM INVISO',
-                  style: KoroboriComponent().getTextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      letterSpacing: 0),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Text(
+                    'SUBKEM INVISO',
+                    style: KoroboriComponent().getTextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        letterSpacing: 0),
+                  ),
                 ),
                 const Spacer(),
-                Text(
-                  attendances['count_inviso'].toString(),
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                )
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      attendances['count_inviso'].toString(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w400),
+                    ))
               ],
             ),
             const SizedBox(
@@ -333,19 +364,23 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  'SUBKEM NEURO',
-                  style: KoroboriComponent().getTextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      letterSpacing: 0),
-                ),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      'SUBKEM NEURO',
+                      style: KoroboriComponent().getTextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          letterSpacing: 0),
+                    )),
                 const Spacer(),
-                Text(
-                  attendances['count_neuro'].toString(),
-                  style: KoroboriComponent()
-                      .getTextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                )
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      attendances['count_neuro'].toString(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w400),
+                    ))
               ],
             ),
             const SizedBox(
@@ -354,10 +389,13 @@ class _ActivityPageState extends State<ActivityPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
-                  style: KoroboriComponent().getTextStyle(fontSize: 10),
-                ),
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Text(
+                    'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
+                    style: KoroboriComponent().getTextStyle(fontSize: 10),
+                  ),
+                )
               ],
             ),
             const SizedBox(
@@ -399,21 +437,25 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: Text(
-                    activity.activityName.toUpperCase(),
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Flexible(
+                      child: Text(
+                        activity.activityName.toUpperCase(),
+                        overflow: TextOverflow.visible,
+                      ),
+                    )),
               ],
             ),
-            const Row(
+            Row(
               children: [
                 Icon(Icons.pin_drop),
                 SizedBox(
                   width: 10,
                 ),
-                Text("PANTAI AIR PAPAN, MERSING"),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text("PANTAI AIR PAPAN, MERSING")),
               ],
             ),
             Row(
@@ -422,7 +464,10 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text("SEKTOR ${activity.activitySector.toUpperCase()}"),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                        "SEKTOR ${activity.activitySector.toUpperCase()}")),
               ],
             ),
             Row(
@@ -431,12 +476,15 @@ class _ActivityPageState extends State<ActivityPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: Text(
-                    activity.activityPIC,
-                    overflow: TextOverflow.visible,
+                MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: Flexible(
+                    child: Text(
+                      activity.activityPIC,
+                      overflow: TextOverflow.visible,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(
