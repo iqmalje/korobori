@@ -13,7 +13,6 @@ class ActivityController {
     var data =
         await _supabase.rpc('get_all_activities', params: {'_userid': userid});
     for (var activity in data) {
-      print(activity['attended_activity']);
       activities.add(
         Activity(
             activityID: activity['activity_idd'],
@@ -69,7 +68,8 @@ class ActivityController {
   Future<void> removeAttendance(String attendanceID) async {
     await _supabase
         .from('attendances')
-        .update({'attendance_status': false}).eq('attendance_id', attendanceID);
+        .delete()
+        .eq('attendance_id', attendanceID);
   }
 
   Future<int> totalActivitiesAttended(String accountID) async {

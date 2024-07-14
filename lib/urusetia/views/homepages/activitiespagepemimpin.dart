@@ -34,236 +34,245 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
         child: SafeArea(
           child: Scaffold(
             appBar: KoroboriComponent().buildAppBar(context, 'Aktiviti'),
-            body: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.sizeOf(context).width * 0.05),
-                  child: Column(
+            body: FutureBuilder(
+                future: ActivityController().getAllActivities(
+                    context.read<AccountProvider>().account!.accountID),
+                builder: (context, snapshot) {
+                  return Column(
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 1),
-                              spreadRadius: 0,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.sizeOf(context).width * 0.05),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
                             ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MediaQuery(
-                                    data: MediaQuery.of(context)
-                                        .copyWith(textScaleFactor: 1.0),
-                                    child: Flexible(
-                                      child: Text(
-                                        'Bilangan Aktiviti Berjaya Dilengkapkan',
-                                        style: KoroboriComponent().getTextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines:
-                                            2, // Allow text to wrap to a new line
-                                        overflow: TextOverflow
-                                            .visible, // Handle overflow
-                                      ),
-                                    ),
+                            Container(
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 1),
+                                    spreadRadius: 0,
                                   ),
-                                  FutureBuilder(
-                                      future: ActivityController()
-                                          .totalActivitiesAttended(context
-                                              .read<AccountProvider>()
-                                              .account!
-                                              .accountID),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-
-                                        return MediaQuery(
-                                            data: MediaQuery.of(context)
-                                                .copyWith(textScaleFactor: 1.0),
-                                            child: Container(
-                                              width: 50,
-                                              height: 25,
-                                              decoration: ShapeDecoration(
-                                                color: snapshot.data! >= 20
-                                                    ? const Color(0xFF3BE542)
-                                                    : const Color(0xFFFF0003),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '${snapshot.data!} / 28',
-                                                  style: KoroboriComponent()
-                                                      .getTextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ));
-                                      }),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(textScaleFactor: 1.0),
-                                child: Text(
-                                  'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
-                                  style: KoroboriComponent()
-                                      .getTextStyle(fontSize: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        MediaQuery(
+                                          data: MediaQuery.of(context)
+                                              .copyWith(textScaleFactor: 1.0),
+                                          child: Flexible(
+                                            child: Text(
+                                              'Bilangan Aktiviti Berjaya Dilengkapkan',
+                                              style: KoroboriComponent()
+                                                  .getTextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines:
+                                                  2, // Allow text to wrap to a new line
+                                              overflow: TextOverflow
+                                                  .visible, // Handle overflow
+                                            ),
+                                          ),
+                                        ),
+                                        Builder(builder: (context) {
+                                          if (!snapshot.hasData) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+
+                                          int count = snapshot.data!
+                                              .where((element) =>
+                                                  element.attendedActivity ==
+                                                  true)
+                                              .length;
+
+                                          return MediaQuery(
+                                              data: MediaQuery.of(context)
+                                                  .copyWith(
+                                                      textScaleFactor: 1.0),
+                                              child: Container(
+                                                width: 50,
+                                                height: 25,
+                                                decoration: ShapeDecoration(
+                                                  color: count >= 20
+                                                      ? const Color(0xFF3BE542)
+                                                      : const Color(0xFFFF0003),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '$count / 28',
+                                                    style: KoroboriComponent()
+                                                        .getTextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ));
+                                        }),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    MediaQuery(
+                                      data: MediaQuery.of(context)
+                                          .copyWith(textScaleFactor: 1.0),
+                                      child: Text(
+                                        'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
+                                        style: KoroboriComponent()
+                                            .getTextStyle(fontSize: 10),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            KoroboriComponent().buildInput(
+                                context, searchActivities, width: 0, height: 40,
+                                onChange: (text) {
+                              setState(() {
+                                this.textSearch = text;
+                              });
+                            },
+                                shadows: [
+                                  const BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 1,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                                prefixIcon: const Icon(Icons.search),
+                                hintText: 'Cari nama aktiviti'),
+                          ],
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
-                      KoroboriComponent().buildInput(context, searchActivities,
-                          width: 0, height: 40, onChange: (text) {
-                        setState(() {
-                          this.textSearch = text;
-                        });
-                      },
-                          shadows: [
-                            const BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 1,
-                              offset: Offset(0, 0),
-                              spreadRadius: 0,
-                            )
-                          ],
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: 'Cari nama aktiviti'),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: FutureBuilder(
-                      future: ActivityController().getAllActivities(
-                          context.read<AccountProvider>().account!.accountID),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        kombatActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'kombat')
-                            .toList();
-                        neuroActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'neuro')
-                            .toList();
-                        teknoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'tekno')
-                            .toList();
-                        invisoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'inviso')
-                            .toList();
-                        fusionActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'fusion')
-                            .toList();
-                        lainActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'lain-lain')
-                            .toList();
-                        pertandinganActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'pertandingan')
-                            .toList();
-
-                        return Builder(builder: (context) {
-                          List<Activity> activities = [
-                            ...kombatActivities,
-                            ...neuroActivities,
-                            ...teknoActivities,
-                            ...invisoActivities,
-                            ...fusionActivities,
-                            ...lainActivities,
-                            ...pertandinganActivities
-                          ];
-
-                          activities = activities
-                              .where((element) => element.activityName
-                                  .toLowerCase()
-                                  .contains(textSearch.toLowerCase()))
-                              .toList();
-
-                          if (textSearch.isNotEmpty) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return buildActivity(activities[index]);
-                                },
-                                itemCount: activities.length);
-                          } else {
-                            return ListView(
-                              shrinkWrap: true,
-                              children: [
-                                buildSektor('KOMBAT', const Color(0xFF0000FF),
-                                    kombatActivities),
-                                buildSektor('NEURO', const Color(0xFFFFFF00),
-                                    neuroActivities),
-                                buildSektor('TEKNO', const Color(0xFFFF0000),
-                                    teknoActivities),
-                                buildSektor('INVISO', const Color(0xFF99FF00),
-                                    invisoActivities),
-                                buildSektor('FUSION', const Color(0xFF9397A0),
-                                    fusionActivities),
-                                buildSektor(
-                                    'PERTANDINGAN',
-                                    const Color(0xFF9E00FF),
-                                    pertandinganActivities),
-                                buildSektor('LAIN-LAIN',
-                                    const Color(0xFFFF8438), lainActivities),
-                                const SizedBox(
-                                  height: 10,
-                                )
-                              ],
+                      Expanded(
+                        child: Builder(builder: (context) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
                             );
                           }
-                        });
-                      }),
-                )
-              ],
-            ),
+                          kombatActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'kombat')
+                              .toList();
+                          neuroActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'neuro')
+                              .toList();
+                          teknoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'tekno')
+                              .toList();
+                          invisoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'inviso')
+                              .toList();
+                          fusionActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'fusion')
+                              .toList();
+                          lainActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'lain-lain')
+                              .toList();
+                          pertandinganActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'pertandingan')
+                              .toList();
+
+                          return Builder(builder: (context) {
+                            List<Activity> activities = [
+                              ...kombatActivities,
+                              ...neuroActivities,
+                              ...teknoActivities,
+                              ...invisoActivities,
+                              ...fusionActivities,
+                              ...lainActivities,
+                              ...pertandinganActivities
+                            ];
+
+                            activities = activities
+                                .where((element) => element.activityName
+                                    .toLowerCase()
+                                    .contains(textSearch.toLowerCase()))
+                                .toList();
+
+                            if (textSearch.isNotEmpty) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return buildActivity(activities[index]);
+                                  },
+                                  itemCount: activities.length);
+                            } else {
+                              return ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  buildSektor('KOMBAT', const Color(0xFF0000FF),
+                                      kombatActivities),
+                                  buildSektor('NEURO', const Color(0xFFFFFF00),
+                                      neuroActivities),
+                                  buildSektor('TEKNO', const Color(0xFFFF0000),
+                                      teknoActivities),
+                                  buildSektor('INVISO', const Color(0xFF99FF00),
+                                      invisoActivities),
+                                  buildSektor('FUSION', const Color(0xFF9397A0),
+                                      fusionActivities),
+                                  buildSektor(
+                                      'PERTANDINGAN',
+                                      const Color(0xFF9E00FF),
+                                      pertandinganActivities),
+                                  buildSektor('LAIN-LAIN',
+                                      const Color(0xFFFF8438), lainActivities),
+                                  const SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              );
+                            }
+                          });
+                        }),
+                      )
+                    ],
+                  );
+                }),
           ),
         ),
       ),

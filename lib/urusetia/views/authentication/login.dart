@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
 
       // save it into provider
       context.read<AccountProvider>().setAccount(newAccount: authResponse);
-
+      print(authResponse.role);
       // fetch role
       switch (authResponse.role) {
         case 'officer':

@@ -51,7 +51,7 @@ class AuthController {
         schoolName: schoolInfo['school_name'],
         noKumpulan: schoolInfo['no_kumpulan'],
         schoolDaerah: schoolInfo['school_daerah']);
-    print(data['user_roles']);
+    print("role = ${data['user_roles']}");
     return Account(
         accountID: userID,
         scoutyID: data['scouty_id'],

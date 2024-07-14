@@ -245,7 +245,8 @@ class _ActivityPageState extends State<ActivityPage> {
                       (attendances['count_kombat']! +
                               attendances['count_tekno']! +
                               attendances['count_inviso']! +
-                              attendances['count_neuro']!)
+                              attendances['count_neuro']! +
+                              attendances['count_fusion'])
                           .toString(),
                       style: KoroboriComponent().getTextStyle(
                         fontSize: 15,
@@ -378,6 +379,37 @@ class _ActivityPageState extends State<ActivityPage> {
                     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                     child: Text(
                       attendances['count_neuro'].toString(),
+                      style: KoroboriComponent().getTextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w400),
+                    ))
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                const CircleAvatar(
+                  backgroundColor: Color(0xFF4B236E),
+                  radius: 10,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      'SUBKEM FUSION',
+                      style: KoroboriComponent().getTextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          letterSpacing: 0),
+                    )),
+                const Spacer(),
+                MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text(
+                      attendances['count_fusion'].toString(),
                       style: KoroboriComponent().getTextStyle(
                           fontSize: 15, fontWeight: FontWeight.w400),
                     ))
