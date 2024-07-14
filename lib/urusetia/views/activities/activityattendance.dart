@@ -334,10 +334,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         )),
                     Row(
                       children: [
-                        Icon(
-                          data['upload_status'] == 1
-                              ? Icons.done
-                              : Icons.history,
+                        const Icon(
+                          Icons.done,
                           size: 10,
                         ),
                         const SizedBox(
