@@ -278,7 +278,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
   }
 
   Widget buildAttendanceCard(Map<String, dynamic> data) {
-    print(data['user_subcamp']);
+    print(data['user_role']);
     return Builder(builder: (context) {
       return Container(
         width: MediaQuery.sizeOf(context).width * 0.08,
@@ -326,7 +326,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         data: MediaQuery.of(context)
                             .copyWith(textScaleFactor: 1.0),
                         child: Text(
-                          "${data['user_scout_id']}  |  ${data['user_role'] == 'officer' ? 'URUSETIA' : data['user_role'] == 'pemimpin' ? 'PEMIMPIN' : 'PKK'}  |  ${data['daerah']}",
+                          "${data['user_scout_id']}  |  ${data['user_role'] == 'officer' ? 'URUSETIA' : data['user_role'] == 'pemimpin' ? 'PEMIMPIN' : 'PKK'}  |  " +
+                              "${data['daerah']}",
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         )),
                     Row(
