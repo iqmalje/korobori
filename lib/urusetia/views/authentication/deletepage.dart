@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/models/account.dart';
+import 'package:korobori/providers/accountprovider.dart';
+import 'package:provider/provider.dart';
 
 class DeletePage extends StatefulWidget {
   const DeletePage({super.key});
@@ -13,6 +16,8 @@ class _DeletePageState extends State<DeletePage> {
       namaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Account account = context.read<AccountProvider>().getAccount()!;
+
     return Material(
       color: KoroboriComponent().getPrimaryColor(),
       child: SafeArea(
