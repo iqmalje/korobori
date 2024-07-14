@@ -4,6 +4,7 @@ import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/providers/accountprovider.dart';
+import 'package:korobori/urusetia/views/authentication/deletepage.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -171,8 +172,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
                           account.scout!.parentPhoneNo),
                       const SizedBox(
-                        height: 15,
+                        height: 0,
                       ),
+                      KoroboriComponent().blueButton(
+                        context,
+                        'Padam Akaun',
+                        () => Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const DeletePage(),
+                            ),
+                            (_) => false),
+                        width: MediaQuery.sizeOf(context).width * 0.8,
+                        height: 50,
+                      ),
+
                       KoroboriComponent().blueButton(context, 'Log Keluar',
                           () => AuthController().logout(context),
                           width: MediaQuery.sizeOf(context).width * 0.8,
