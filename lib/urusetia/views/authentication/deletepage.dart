@@ -78,11 +78,13 @@ class _DeletePageState extends State<DeletePage> {
                         MediaQuery(
                           data: MediaQuery.of(context)
                               .copyWith(textScaleFactor: 1.0),
-                          child: Text(
-                            'Nama Penuh seperti Kad Pengenalan',
-                            style: KoroboriComponent().getTextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w600),
-                            overflow: TextOverflow.visible,
+                          child: Expanded(
+                            child: Text(
+                              'Nama Penuh seperti Kad Pengenalan',
+                              style: KoroboriComponent().getTextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600),
+                              overflow: TextOverflow.visible,
+                            ),
                           ),
                         ),
                       ],

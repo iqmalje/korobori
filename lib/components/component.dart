@@ -186,38 +186,46 @@ class KoroboriComponent {
   }
 
   Widget blueButton(
-      BuildContext context, String text, void Function() onPressed,
-      {double? width, double? height}) {
+    BuildContext context,
+    String text,
+    void Function() onPressed, {
+    double? width,
+    double? height,
+    Color color = const Color(0xFF002B7F),
+    Color shadowColor = const Color(0x3F000000),
+  }) {
     return TextButton(
-        onPressed: onPressed,
-        child: Container(
-          width: width ?? 100,
-          height: height ?? 35,
-          decoration: ShapeDecoration(
-            color: Color(0xFF002B7F),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            shadows: [
-              BoxShadow(
-                color: Color(0x3F000000),
-                blurRadius: 2,
-                offset: Offset(0, 1),
-                spreadRadius: 0,
-              )
-            ],
+      onPressed: onPressed,
+      child: Container(
+        width: width ?? 100,
+        height: height ?? 35,
+        decoration: ShapeDecoration(
+          color: color,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shadows: [
+            BoxShadow(
+              color: shadowColor,
+              blurRadius: 2,
+              offset: Offset(0, 1),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Center(
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: Text(
+              text,
+              style: getTextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
           ),
-          child: Center(
-            child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: Text(
-                  text,
-                  style: getTextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 16),
-                )),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget buildOutlinedButton(

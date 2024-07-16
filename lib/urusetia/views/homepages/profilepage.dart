@@ -172,24 +172,32 @@ class _ProfilePageState extends State<ProfilePage> {
                       buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
                           account.scout!.parentPhoneNo),
                       const SizedBox(
-                        height: 0,
+                        height: 5,
                       ),
                       KoroboriComponent().blueButton(
                         context,
                         'Padam Akaun',
-                        () => Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const DeletePage(),
-                            ),
-                            (_) => false),
+                        () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DeletePage(),
+                          ),
+                        ),
                         width: MediaQuery.sizeOf(context).width * 0.8,
-                        height: 50,
+                        height: 45,
+                        color: Color.fromARGB(
+                            255, 235, 235, 235), // Custom button color
+                        shadowColor:
+                            Colors.grey.withOpacity(0.5), // Custom shadow color
+                      ),
+
+                      const SizedBox(
+                        height: 15,
                       ),
 
                       KoroboriComponent().blueButton(context, 'Log Keluar',
                           () => AuthController().logout(context),
                           width: MediaQuery.sizeOf(context).width * 0.8,
-                          height: 50),
+                          height: 45),
                       const SizedBox(
                         height: 20,
                       )
