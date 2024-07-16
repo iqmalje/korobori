@@ -35,127 +35,131 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
         child: Scaffold(
           appBar: KoroboriComponent()
               .buildAppBarWithBackbutton('Rekod Peserta', context),
-          body: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.sizeOf(context).width * 0.00,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.sizeOf(context).width * 0.08,
+          body: SingleChildScrollView(
+            // Wrap in SingleChildScrollView to make scrollable
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.sizeOf(context).width * 0.00,
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.sizeOf(context).width * 0.08,
+                        ),
+                        child: FutureBuilder(
+                          future:
+                              AuthController().getAccount(account.accountID),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return buildRekodPeserta(snapshot.data!);
+                          },
+                        ),
                       ),
-                      child: FutureBuilder(
-                        future: AuthController().getAccount(account.accountID),
+                      const SizedBox(height: 15),
+                      FutureBuilder(
+                        future: ActivityController()
+                            .getAllActivities(account.accountID),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
-                          return buildRekodPeserta(snapshot.data!);
+                          kombatActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'kombat')
+                              .toList();
+                          neuroActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'neuro')
+                              .toList();
+                          teknoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'tekno')
+                              .toList();
+                          invisoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'inviso')
+                              .toList();
+                          fusionActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'fusion')
+                              .toList();
+                          lainActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'lain-lain')
+                              .toList();
+                          pertandinganActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'pertandingan')
+                              .toList();
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.sizeOf(context).width * 0.08,
+                                ),
+                                child: buildAttendCount(snapshot.data!
+                                    .where((element) =>
+                                        element.attendedActivity == true)
+                                    .length),
+                              ),
+                              const SizedBox(height: 15),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.sizeOf(context).width * 0.08,
+                                ),
+                                child: KoroboriComponent().buildInput(
+                                  context,
+                                  search,
+                                  width: 0,
+                                  height: 40,
+                                  onChange: (text) {
+                                    setState(() {
+                                      textSearch = text;
+                                    });
+                                  },
+                                  shadows: [
+                                    const BoxShadow(
+                                      color: Color(0x3F000000),
+                                      blurRadius: 1,
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                  prefixIcon: const Icon(Icons.search),
+                                  hintText: 'Cari nama aktiviti',
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              buildActivities([
+                                ...kombatActivities,
+                                ...neuroActivities,
+                                ...teknoActivities,
+                                ...invisoActivities,
+                                ...fusionActivities,
+                                ...lainActivities,
+                                ...pertandinganActivities,
+                              ]),
+                            ],
+                          );
                         },
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    FutureBuilder(
-                      future: ActivityController()
-                          .getAllActivities(account.accountID),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        kombatActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'kombat')
-                            .toList();
-                        neuroActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'neuro')
-                            .toList();
-                        teknoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'tekno')
-                            .toList();
-                        invisoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'inviso')
-                            .toList();
-                        fusionActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'fusion')
-                            .toList();
-                        lainActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'lain-lain')
-                            .toList();
-                        pertandinganActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'pertandingan')
-                            .toList();
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.sizeOf(context).width * 0.08,
-                              ),
-                              child: buildAttendCount(snapshot.data!
-                                  .where((element) =>
-                                      element.attendedActivity == true)
-                                  .length),
-                            ),
-                            const SizedBox(height: 15),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.sizeOf(context).width * 0.08,
-                              ),
-                              child: KoroboriComponent().buildInput(
-                                context,
-                                search,
-                                width: 0,
-                                height: 40,
-                                onChange: (text) {
-                                  setState(() {
-                                    textSearch = text;
-                                  });
-                                },
-                                shadows: [
-                                  const BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 1,
-                                    offset: Offset(0, 0),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                                prefixIcon: const Icon(Icons.search),
-                                hintText: 'Cari nama aktiviti',
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            buildActivities([
-                              ...kombatActivities,
-                              ...neuroActivities,
-                              ...teknoActivities,
-                              ...invisoActivities,
-                              ...fusionActivities,
-                              ...lainActivities,
-                              ...pertandinganActivities,
-                            ]),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
