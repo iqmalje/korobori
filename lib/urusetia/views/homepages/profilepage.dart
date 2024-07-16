@@ -191,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
 
                       const SizedBox(
-                        height: 15,
+                        height: 5,
                       ),
 
                       KoroboriComponent().blueButton(context, 'Log Keluar',
