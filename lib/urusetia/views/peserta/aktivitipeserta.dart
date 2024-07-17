@@ -107,7 +107,11 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                               ),
                               child: buildAttendCount(snapshot.data!
                                   .where((element) =>
-                                      element.attendedActivity == true)
+                                      (element.attendedActivity == true &&
+                                          (element.activitySector !=
+                                                  'pertandingan' &&
+                                              element.activitySector !=
+                                                  'lain-lain')))
                                   .length),
                             ),
                             const SizedBox(height: 15),

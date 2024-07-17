@@ -101,9 +101,13 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                           }
 
                                           int count = snapshot.data!
-                                              .where((element) =>
-                                                  element.attendedActivity ==
-                                                  true)
+                                              .where((element) => (element
+                                                          .attendedActivity ==
+                                                      true &&
+                                                  (element.activitySector !=
+                                                          'pertandingan' &&
+                                                      element.activitySector !=
+                                                          'lain-lain')))
                                               .length;
 
                                           return MediaQuery(
