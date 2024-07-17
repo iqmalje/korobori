@@ -35,21 +35,38 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
         child: Scaffold(
           appBar: KoroboriComponent()
               .buildAppBarWithBackbutton('Rekod Peserta', context),
-          body: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.sizeOf(context).width * 0.00,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.sizeOf(context).width * 0.08,
+          body: SingleChildScrollView(
+            // Wrap in SingleChildScrollView to make scrollable
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.sizeOf(context).width * 0.00,
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.sizeOf(context).width * 0.08,
+                        ),
+                        child: FutureBuilder(
+                          future:
+                              AuthController().getAccount(account.accountID),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return buildRekodPeserta(snapshot.data!);
+                          },
+                        ),
                       ),
-                      child: FutureBuilder(
-                        future: AuthController().getAccount(account.accountID),
+                      const SizedBox(height: 15),
+                      FutureBuilder(
+                        future: ActivityController()
+                            .getAllActivities(account.accountID),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return const Center(
