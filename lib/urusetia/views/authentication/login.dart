@@ -97,7 +97,6 @@ class _LoginPageState extends State<LoginPage> {
                                   Icons.person_outline,
                                   color: KoroboriComponent().getPrimaryColor(),
                                 ),
-                                keyboardType: TextInputType.number,
                                 onSubmit: (_) async => await logIn(),
                                 hintText: 'Nombor Kad Pengenalan'),
                             const SizedBox(

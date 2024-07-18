@@ -69,7 +69,6 @@ class _DeletePageState extends State<DeletePage> {
                               Icons.person_outline,
                               color: KoroboriComponent().getPrimaryColor(),
                             ),
-                            keyboardType: TextInputType.number,
                             //onSubmit: (_) async => await logIn(),
                             hintText: 'Nombor Kad Pengenalan'),
                     const SizedBox(
