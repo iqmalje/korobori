@@ -113,14 +113,83 @@ class _DeletePageState extends State<DeletePage> {
                             namaController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content:
-                                      Text('Please fill in all the inputs')));
+                                  content: Text('Sila isi semua maklumat.')));
+                          return;
                         } else {
-                          await AuthController().accountDeletion();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                              (_) => true);
+                          //await AuthController().accountDeletion();
+                          Account account =
+                              context.read<AccountProvider>().account!;
+
+                          if (pengenalanController.text != account.icNo ||
+                              namaController.text != account.userFullname) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Maklumat diisi tidak tepat, sila cuba lagi')));
+                            return;
+                          }
+
+                          bool? isDeleteConfirmed = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      MediaQuery(
+                                          data: MediaQuery.of(context).copyWith(
+                                              textScaler:
+                                                  const TextScaler.linear(1.0)),
+                                          child: Text(
+                                            'Padam Akaun',
+                                            style: KoroboriComponent()
+                                                .getTextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          )),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      MediaQuery(
+                                        data: MediaQuery.of(context).copyWith(
+                                            textScaler:
+                                                const TextScaler.linear(1.0)),
+                                        child: Text(
+                                          'Adakah anda pasti anda ingin memadam akaun anda?',
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              KoroboriComponent().getTextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    KoroboriComponent()
+                                        .greyButton(context, 'Pasti', () {
+                                      Navigator.of(context).pop(true);
+                                    }),
+                                    KoroboriComponent()
+                                        .blueButton(context, 'Batal', () {
+                                      Navigator.of(context).pop(false);
+                                    })
+                                  ],
+                                );
+                              });
+                          if (isDeleteConfirmed != null && isDeleteConfirmed) {
+                            await AuthController().accountDeletion();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()),
+                                (_) => true);
+                          }
                         }
                       },
                       width: MediaQuery.sizeOf(context).width * 1,
