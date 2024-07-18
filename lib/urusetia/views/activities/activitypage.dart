@@ -70,7 +70,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         children: [
                           InkWell(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(1000)),
+                                const BorderRadius.all(Radius.circular(1000)),
                             onTap: () {
                               setState(() {});
                             },
@@ -137,7 +137,8 @@ class _ActivityPageState extends State<ActivityPage> {
     return Column(
       children: [
         MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: const TextScaler.linear(1.0)),
             child: Text(
               'Sesi Aktiviti',
               style:
@@ -148,6 +149,7 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         ListView.separated(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             ActivityDates activityDate =
                 context.read<ActivityDatesProvider>().activityDates[index];
@@ -169,8 +171,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 child: Center(
                   child: MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         '${DateFormat('dd MMMM').format(activityDate.date)}, ${getFormattedTime(activityDate.startTime)} - ${getFormattedTime(activityDate.endTime)}',
                         style: KoroboriComponent().getTextStyle(
@@ -218,7 +220,8 @@ class _ActivityPageState extends State<ActivityPage> {
             Row(
               children: [
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Expanded(
                     child: Text(
                       'BILANGAN PENYERTAAN PESERTA',
@@ -238,7 +241,8 @@ class _ActivityPageState extends State<ActivityPage> {
                     width:
                         8), // Optional, add some space between text and number
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -270,7 +274,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Text(
                     'SUBKEM KOMBAT',
                     style: KoroboriComponent().getTextStyle(
@@ -281,7 +286,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       attendances['count_kombat'].toString(),
                       style: KoroboriComponent().getTextStyle(
@@ -302,7 +308,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Text(
                     'SUBKEM TEKNO',
                     style: KoroboriComponent().getTextStyle(
@@ -313,7 +320,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       attendances['count_tekno'].toString(),
                       style: KoroboriComponent().getTextStyle(
@@ -334,7 +342,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Text(
                     'SUBKEM INVISO',
                     style: KoroboriComponent().getTextStyle(
@@ -345,7 +354,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 ),
                 const Spacer(),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       attendances['count_inviso'].toString(),
                       style: KoroboriComponent().getTextStyle(
@@ -366,7 +376,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       'SUBKEM NEURO',
                       style: KoroboriComponent().getTextStyle(
@@ -376,7 +387,8 @@ class _ActivityPageState extends State<ActivityPage> {
                     )),
                 const Spacer(),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       attendances['count_neuro'].toString(),
                       style: KoroboriComponent().getTextStyle(
@@ -397,7 +409,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       'SUBKEM FUSION',
                       style: KoroboriComponent().getTextStyle(
@@ -407,7 +420,8 @@ class _ActivityPageState extends State<ActivityPage> {
                     )),
                 const Spacer(),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       attendances['count_fusion'].toString(),
                       style: KoroboriComponent().getTextStyle(
@@ -422,7 +436,8 @@ class _ActivityPageState extends State<ActivityPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Text(
                     'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
                     style: KoroboriComponent().getTextStyle(fontSize: 10),
@@ -470,7 +485,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Flexible(
                       child: Text(
                         activity.activityName.toUpperCase(),
@@ -481,13 +497,14 @@ class _ActivityPageState extends State<ActivityPage> {
             ),
             Row(
               children: [
-                Icon(Icons.pin_drop),
-                SizedBox(
+                const Icon(Icons.pin_drop),
+                const SizedBox(
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: Text("PANTAI AIR PAPAN, MERSING")),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
+                    child: const Text("PANTAI AIR PAPAN, MERSING")),
               ],
             ),
             Row(
@@ -497,7 +514,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                         "SEKTOR ${activity.activitySector.toUpperCase()}")),
               ],
@@ -509,7 +527,8 @@ class _ActivityPageState extends State<ActivityPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Flexible(
                     child: Text(
                       activity.activityPIC,

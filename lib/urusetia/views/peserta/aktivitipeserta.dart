@@ -40,11 +40,10 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.sizeOf(context).width * 0.00,
-                  ),
-                  child: Column(
-                    children: [
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.sizeOf(context).width * 0.00,
+                    ),
+                    child: Column(children: [
                       const SizedBox(height: 20),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -73,110 +72,95 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                               child: CircularProgressIndicator(),
                             );
                           }
-                          return buildRekodPeserta(snapshot.data!);
+                          kombatActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'kombat')
+                              .toList();
+                          neuroActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'neuro')
+                              .toList();
+                          teknoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'tekno')
+                              .toList();
+                          invisoActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'inviso')
+                              .toList();
+                          fusionActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'fusion')
+                              .toList();
+                          lainActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'lain-lain')
+                              .toList();
+                          pertandinganActivities = snapshot.data!
+                              .where((activity) =>
+                                  activity.activitySector == 'pertandingan')
+                              .toList();
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.sizeOf(context).width * 0.08,
+                                ),
+                                child: buildAttendCount(snapshot.data!
+                                    .where((element) =>
+                                        (element.attendedActivity == true &&
+                                            (element.activitySector !=
+                                                    'pertandingan' &&
+                                                element.activitySector !=
+                                                    'lain-lain')))
+                                    .length),
+                              ),
+                              const SizedBox(height: 15),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.sizeOf(context).width * 0.08,
+                                ),
+                                child: KoroboriComponent().buildInput(
+                                  context,
+                                  search,
+                                  width: 0,
+                                  height: 40,
+                                  onChange: (text) {
+                                    setState(() {
+                                      textSearch = text;
+                                    });
+                                  },
+                                  shadows: [
+                                    const BoxShadow(
+                                      color: Color(0x3F000000),
+                                      blurRadius: 1,
+                                      offset: Offset(0, 0),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                  prefixIcon: const Icon(Icons.search),
+                                  hintText: 'Cari nama aktiviti',
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              buildActivities([
+                                ...kombatActivities,
+                                ...neuroActivities,
+                                ...teknoActivities,
+                                ...invisoActivities,
+                                ...fusionActivities,
+                                ...lainActivities,
+                                ...pertandinganActivities,
+                              ]),
+                            ],
+                          );
                         },
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    FutureBuilder(
-                      future: ActivityController()
-                          .getAllActivities(account.accountID),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        kombatActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'kombat')
-                            .toList();
-                        neuroActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'neuro')
-                            .toList();
-                        teknoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'tekno')
-                            .toList();
-                        invisoActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'inviso')
-                            .toList();
-                        fusionActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'fusion')
-                            .toList();
-                        lainActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'lain-lain')
-                            .toList();
-                        pertandinganActivities = snapshot.data!
-                            .where((activity) =>
-                                activity.activitySector == 'pertandingan')
-                            .toList();
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.sizeOf(context).width * 0.08,
-                              ),
-                              child: buildAttendCount(snapshot.data!
-                                  .where((element) =>
-                                      (element.attendedActivity == true &&
-                                          (element.activitySector !=
-                                                  'pertandingan' &&
-                                              element.activitySector !=
-                                                  'lain-lain')))
-                                  .length),
-                            ),
-                            const SizedBox(height: 15),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.sizeOf(context).width * 0.08,
-                              ),
-                              child: KoroboriComponent().buildInput(
-                                context,
-                                search,
-                                width: 0,
-                                height: 40,
-                                onChange: (text) {
-                                  setState(() {
-                                    textSearch = text;
-                                  });
-                                },
-                                shadows: [
-                                  const BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 1,
-                                    offset: Offset(0, 0),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                                prefixIcon: const Icon(Icons.search),
-                                hintText: 'Cari nama aktiviti',
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            buildActivities([
-                              ...kombatActivities,
-                              ...neuroActivities,
-                              ...teknoActivities,
-                              ...invisoActivities,
-                              ...fusionActivities,
-                              ...lainActivities,
-                              ...pertandinganActivities,
-                            ]),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                    ])),
+              ],
+            ),
           ),
         ),
       ),
@@ -270,7 +254,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Flexible(
                     child: Text(
                       'Bilangan Aktiviti Berjaya Dilengkapkan',
@@ -284,7 +269,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                   ),
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Container(
                     width: 50,
                     height: 25,
@@ -312,7 +298,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
             ),
             const SizedBox(height: 5),
             MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: Text(
                 'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
                 style: KoroboriComponent().getTextStyle(fontSize: 10),
@@ -348,7 +335,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 const Icon(Icons.account_circle),
                 const SizedBox(width: 10),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Flexible(
                     child: Text(
                       peserta.userFullname,
@@ -363,7 +351,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 const Icon(Icons.badge),
                 const SizedBox(width: 10),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                         "${account.scoutyID}  |  ${account.subcamp.toUpperCase()}")),
               ],
@@ -373,7 +362,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 const Icon(Icons.home),
                 const SizedBox(width: 10),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Flexible(
                     child: Text(
                       "${peserta.schoolCode} |  ${peserta.school!.schoolName}",
@@ -410,8 +400,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                   ),
                   const SizedBox(width: 10),
                   MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         'SEKTOR $sektor',
                         style: KoroboriComponent()
@@ -461,7 +451,8 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                 ),
                 const SizedBox(width: 10),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Expanded(
                     child: Text(
                       activity.activityName.toUpperCase(),

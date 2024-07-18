@@ -20,24 +20,28 @@ class _MainPageState extends State<MainPage> {
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/logo_subkem_kombat.svg',
         mainColor: const Color(0xFF0000FF),
+        totalUser: 0,
         count: 0),
     SubCamp(
         name: Subcamps.tekno,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/logo_subkem_tekno.svg',
         mainColor: const Color(0xFFFF0003),
+        totalUser: 0,
         count: 0),
     SubCamp(
         name: Subcamps.inviso,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/logo_subkem_inviso.svg',
         mainColor: const Color(0xFF3EAD16),
+        totalUser: 0,
         count: 0),
     SubCamp(
         name: Subcamps.neuro,
         daerahs: 'PONTIAN, TANGKAK & BATU PAHAT',
         imageURL: 'assets/images/logo_subkem_neuro.svg',
         mainColor: const Color(0xFFFF8438),
+        totalUser: 0,
         count: 0),
   ];
 
@@ -85,8 +89,8 @@ class _MainPageState extends State<MainPage> {
                             height: 200,
                           ),
                           MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: Text(
                               'KOROBORI JOHOR',
                               style: KoroboriComponent().getTextStyle(
@@ -95,8 +99,8 @@ class _MainPageState extends State<MainPage> {
                             ),
                           ),
                           MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: Text(
                               'PENGAKAP KANAK-KANAK 2024',
                               style: KoroboriComponent().getTextStyle(
@@ -106,8 +110,8 @@ class _MainPageState extends State<MainPage> {
                           ),
                           const SizedBox(height: 5),
                           MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: Text(
                               '22 - 25 JUN | PANTAI AIR PAPAN, MERSING',
                               style: KoroboriComponent().getTextStyle(
@@ -134,8 +138,12 @@ class _MainPageState extends State<MainPage> {
                           int index = snapshot.data!.indexWhere((element) =>
                               element['subcamp_name'] == subcamp.name.name);
                           int attendanceCount = snapshot.data![index]['count'];
+                          int totalUsers = snapshot.data![index]['total_users'];
+                          String daerahs = snapshot.data![index]['daerah'];
 
                           subcamp.count = attendanceCount;
+                          subcamp.totalUser = totalUsers;
+                          subcamp.daerahs = daerahs;
                         }
 
                         return Container(
@@ -160,8 +168,8 @@ class _MainPageState extends State<MainPage> {
                                 height: 15,
                               ),
                               MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(textScaleFactor: 1.0),
+                                data: MediaQuery.of(context).copyWith(
+                                    textScaler: const TextScaler.linear(1.0)),
                                 child: Text(
                                   'Prestasi Subkem Korobori 2024',
                                   style: KoroboriComponent().getTextStyle(
@@ -176,9 +184,9 @@ class _MainPageState extends State<MainPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0),
                                 child: ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   itemCount: subcamps.length,
                                   itemBuilder: (context, index) =>
                                       buildSubCamps(subcamps[index]),
@@ -191,8 +199,8 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               ),
                               MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(textScaleFactor: 1.0),
+                                data: MediaQuery.of(context).copyWith(
+                                    textScaler: const TextScaler.linear(1.0)),
                                 child: Text(
                                   'Kemaskini : ${DateFormat('dd/MM/yy, HH:mm:ss').format(DateTime.now())}',
                                   style: KoroboriComponent()
@@ -219,6 +227,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buildSubCamps(SubCamp subCamp) {
+    String subcampDaerah = subCamp.daerahs;
+    if (subCamp.daerahs.contains(',')) {
+      subcampDaerah = subCamp.daerahs.replaceRange(
+          (subCamp.daerahs.lastIndexOf(',')),
+          (subCamp.daerahs.lastIndexOf(',')) + 1,
+          ' &');
+    } else {}
     return Container(
       height: 60,
       decoration: ShapeDecoration(
@@ -248,7 +263,8 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                       "SUBKEM ${subCamp.name.name.toUpperCase()}",
                       style: KoroboriComponent().getTextStyle(
@@ -257,9 +273,10 @@ class _MainPageState extends State<MainPage> {
                   ),
                   const SizedBox(height: 1),
                   MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
-                      subCamp.daerahs,
+                      subcampDaerah,
                       style: KoroboriComponent().getTextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 10,
@@ -272,7 +289,8 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: Container(
                 height: 30,
                 decoration: ShapeDecoration(
@@ -285,7 +303,7 @@ class _MainPageState extends State<MainPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Center(
                     child: Text(
-                      '${subCamp.count} / 500',
+                      '${subCamp.count} / ${subCamp.totalUser}',
                       style: KoroboriComponent().getTextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

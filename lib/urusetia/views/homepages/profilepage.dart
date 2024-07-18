@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           'Korobori Johor Digital ID',
                           style: KoroboriComponent()
@@ -68,6 +68,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               return SvgPicture.asset(
                                 //Kad Urusetia
                                 'assets/images/kad-urusetia.svg',
+                                semanticsLabel: 'Kad Urusetia',
+                                height: 500,
+                              );
+                            } else if (role == 'VIP') {
+                              return SvgPicture.asset(
+                                //Kad Urusetia
+                                'assets/images/kad-vip.svg',
                                 semanticsLabel: 'Kad Urusetia',
                                 height: 500,
                               );
@@ -111,8 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           }),
                           MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
+                              data: MediaQuery.of(context).copyWith(
+                                  textScaler: const TextScaler.linear(1.0)),
                               child: Positioned.fill(
                                 child: Align(
                                   alignment: Alignment.bottomRight,
@@ -141,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           'Maklumat Peserta',
                           style: KoroboriComponent()
@@ -162,11 +169,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           'Nombor Kumpulan', account.school!.noKumpulan),
                       buildDisplayBox('Umur', account.scout!.age.toString()),
                       buildDisplayBox('Jantina', account.scout!.gender),
-                      buildDisplayBox('Agama', account.scout!.religion),
+                      buildDisplayBox('Kaum', account.scout!.religion),
                       buildDisplayBox('Daerah', account.school!.schoolDaerah),
-                      buildDisplayBox('Kod Sekolah', account.schoolCode),
                       buildDisplayBox(
-                          'Nama Sekolah', account.school!.schoolName),
+                          'Kod Sekolah / Kumpulan', account.schoolCode),
+                      buildDisplayBox('Nama Sekolah / Kumpulan',
+                          account.school!.schoolName),
                       buildDisplayBox('Nama Ibu / Bapa / Penjaga',
                           account.scout!.parentName),
                       buildDisplayBox('Nombor Telefon Ibu / Bapa / Penjaga',
@@ -184,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         width: MediaQuery.sizeOf(context).width * 0.8,
                         height: 45,
-                        color: Color.fromARGB(
+                        color: const Color.fromARGB(
                             255, 235, 235, 235), // Custom button color
                         shadowColor:
                             Colors.grey.withOpacity(0.5), // Custom shadow color
@@ -243,8 +251,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         title.toUpperCase(),
                         style: KoroboriComponent().getTextStyle(
@@ -253,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           content.toUpperCase(),
                           style: KoroboriComponent().getTextStyle(height: 1),

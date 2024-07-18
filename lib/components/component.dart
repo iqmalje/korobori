@@ -43,7 +43,7 @@ class KoroboriComponent {
         color: getPrimaryColor(),
         child: Center(
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: Text(
               title,
               style: getTextStyle(
@@ -83,7 +83,7 @@ class KoroboriComponent {
               width: 25,
             ),
             MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                 child: Container(
                   child: Center(
                     child: Text(
@@ -124,7 +124,7 @@ class KoroboriComponent {
         ),
       ),
       child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
           textCapitalization: TextCapitalization.characters,
@@ -173,7 +173,7 @@ class KoroboriComponent {
         ),
         child: Center(
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: Text(
               text,
               style: getTextStyle(
@@ -206,14 +206,14 @@ class KoroboriComponent {
             BoxShadow(
               color: shadowColor,
               blurRadius: 2,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
               spreadRadius: 0,
             )
           ],
         ),
         child: Center(
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: Text(
               text,
               style: getTextStyle(
@@ -245,7 +245,7 @@ class KoroboriComponent {
           ),
           child: Center(
             child: MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
               child: Text(
                 title,
                 style: getTextStyle(color: Colors.white),

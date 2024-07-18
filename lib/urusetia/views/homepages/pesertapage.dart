@@ -30,7 +30,7 @@ class _PesertaPageState extends State<PesertaPage> {
                     horizontal: MediaQuery.sizeOf(context).width * 0.05),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     KoroboriComponent().buildInput(context, search, width: 0,
@@ -144,7 +144,7 @@ class _PesertaPageState extends State<PesertaPage> {
                     children: [
                       MediaQuery(
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: const TextScaler.linear(1.0)),
                           child: Text(
                             peserta.userFullname.toUpperCase(),
                             style: KoroboriComponent().getTextStyle(
@@ -154,7 +154,7 @@ class _PesertaPageState extends State<PesertaPage> {
                           )),
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text('${peserta.scoutyID}  |  ${peserta.role}',
                             style: KoroboriComponent().getTextStyle(
                               fontSize: 10,

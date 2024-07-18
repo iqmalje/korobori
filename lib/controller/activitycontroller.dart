@@ -122,7 +122,7 @@ class ActivityController {
   add_attendance(_scoutyid text, _activityid uuid, _dateid bigint, _picid uuid) 
   */
 
-  StreamController<String> _controller = StreamController<String>();
+  final StreamController<String> _controller = StreamController<String>();
 
   Stream<String> get stream => _controller.stream;
 
@@ -147,9 +147,15 @@ class ActivityController {
       // If successful, update local db status
       await localDB.updateStatusUpload(1, localID);
       _controller.add('CLOUD');
-    } catch (e) {
+    } on PostgrestException catch (e) {
       print(e);
-      rethrow;
+      if (e.message.contains('duplicate')) {
+        throw 'Kehadiran peserta telah direkodkan.';
+      } else if (e.message.contains('null')) {
+        throw 'Peserta tidak didaftarkan';
+      } else {
+        rethrow;
+      }
     }
   }
 }

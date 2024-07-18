@@ -76,7 +76,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                       children: [
                                         MediaQuery(
                                           data: MediaQuery.of(context)
-                                              .copyWith(textScaleFactor: 1.0),
+                                              .copyWith(textScaler: const TextScaler.linear(1.0)),
                                           child: Flexible(
                                             child: Text(
                                               'Bilangan Aktiviti Berjaya Dilengkapkan',
@@ -113,7 +113,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                           return MediaQuery(
                                               data: MediaQuery.of(context)
                                                   .copyWith(
-                                                      textScaleFactor: 1.0),
+                                                      textScaler: const TextScaler.linear(1.0)),
                                               child: Container(
                                                 width: 50,
                                                 height: 25,
@@ -148,7 +148,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                     ),
                                     MediaQuery(
                                       data: MediaQuery.of(context)
-                                          .copyWith(textScaleFactor: 1.0),
+                                          .copyWith(textScaler: const TextScaler.linear(1.0)),
                                       child: Text(
                                         'Peserta perlu menyelesaikan sekurang-kurangnya 20 aktiviti daripada 28 aktiviti untuk melayakkan peserta mendapat sijil aktiviti.',
                                         style: KoroboriComponent()
@@ -166,7 +166,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                                 context, searchActivities, width: 0, height: 40,
                                 onChange: (text) {
                               setState(() {
-                                this.textSearch = text;
+                                textSearch = text;
                               });
                             },
                                 shadows: [
@@ -306,7 +306,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                   ),
                   MediaQuery(
                       data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                          MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         'SEKTOR $sektor',
                         style: KoroboriComponent()
@@ -358,7 +358,7 @@ class _ActivitiesPagePemimpinState extends State<ActivitiesPagePemimpin> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Expanded(
                     child: Text(
                       activity.activityName.toUpperCase(),

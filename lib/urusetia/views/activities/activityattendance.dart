@@ -27,6 +27,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
   TextEditingController scoutyID = TextEditingController(),
       searchScout = TextEditingController();
   _ActivityAttendanceState(this.activity, this.dateChosen);
+  FocusNode textFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -83,8 +84,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                     width: 10,
                                   ),
                                   MediaQuery(
-                                      data: MediaQuery.of(context)
-                                          .copyWith(textScaleFactor: 1.0),
+                                      data: MediaQuery.of(context).copyWith(
+                                          textScaler:
+                                              const TextScaler.linear(1.0)),
                                       child: Text('Bilangan Penyertaan Peserta',
                                           style:
                                               KoroboriComponent().getTextStyle(
@@ -92,8 +94,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                           ))),
                                   const Spacer(),
                                   MediaQuery(
-                                      data: MediaQuery.of(context)
-                                          .copyWith(textScaleFactor: 1.0),
+                                      data: MediaQuery.of(context).copyWith(
+                                          textScaler:
+                                              const TextScaler.linear(1.0)),
                                       child: Text(
                                         snapshot.data!.toString(),
                                         style: KoroboriComponent().getTextStyle(
@@ -114,8 +117,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     height: 20,
                   ),
                   MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         'Senarai Penyertaan Peserta',
                         style: KoroboriComponent().getTextStyle(
@@ -176,7 +179,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
               ],
             ),
             child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.0)),
                 child: TextFormField(
                   textAlignVertical: TextAlignVertical.center,
                   textCapitalization: TextCapitalization.characters,
@@ -314,7 +318,7 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                     ),
                     MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           data['user_fullname'],
                           maxLines: 1,
@@ -324,10 +328,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                         )),
                     MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
-                          "${data['user_scout_id']}  |  ${data['user_role'] == 'officer' ? 'URUSETIA' : data['user_role'] == 'pemimpin' ? 'PEMIMPIN' : 'PKK'}  |  " +
-                              "${data['daerah']}",
+                          "${data['user_scout_id']}  |  ${data['user_role'] == 'officer' ? 'URUSETIA' : data['user_role'] == 'pemimpin' ? 'PEMIMPIN' : 'PKK'}  |  "
+                          "${data['daerah']}",
                           style: KoroboriComponent().getTextStyle(fontSize: 10),
                         )),
                     Row(
@@ -340,10 +344,10 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                           width: 5,
                         ),
                         MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: Text(
-                              '${DateFormat('HH:mm:ss').format(DateTime.parse(data['time']).add(Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
+                              '${DateFormat('HH:mm:ss').format(DateTime.parse(data['time']).add(const Duration(hours: 8)))} |  ${data['pic_scout_id']}', //K1 ID Urusetia
                               style: KoroboriComponent()
                                   .getTextStyle(fontSize: 10),
                             )),
@@ -374,8 +378,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                       height: 15,
                                     ),
                                     MediaQuery(
-                                        data: MediaQuery.of(context)
-                                            .copyWith(textScaleFactor: 1.0),
+                                        data: MediaQuery.of(context).copyWith(
+                                            textScaler:
+                                                const TextScaler.linear(1.0)),
                                         child: Text(
                                           'Padam Kehadiran',
                                           style: KoroboriComponent()
@@ -386,8 +391,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                       height: 20,
                                     ),
                                     MediaQuery(
-                                      data: MediaQuery.of(context)
-                                          .copyWith(textScaleFactor: 1.0),
+                                      data: MediaQuery.of(context).copyWith(
+                                          textScaler:
+                                              const TextScaler.linear(1.0)),
                                       child: Text(
                                         'Adakah anda pasti anda ingin mengeluarkan peserta berikut daripada senarai kehadiran?',
                                         textAlign: TextAlign.center,
@@ -400,8 +406,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                       height: 20,
                                     ),
                                     MediaQuery(
-                                        data: MediaQuery.of(context)
-                                            .copyWith(textScaleFactor: 1.0),
+                                        data: MediaQuery.of(context).copyWith(
+                                            textScaler:
+                                                const TextScaler.linear(1.0)),
                                         child: Text(
                                           data['user_fullname'],
                                           style: KoroboriComponent()
@@ -413,8 +420,9 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                                       height: 2,
                                     ),
                                     MediaQuery(
-                                        data: MediaQuery.of(context)
-                                            .copyWith(textScaleFactor: 1.0),
+                                        data: MediaQuery.of(context).copyWith(
+                                            textScaler:
+                                                const TextScaler.linear(1.0)),
                                         child: Text(
                                           data['user_scout_id'],
                                           style: KoroboriComponent()
@@ -474,20 +482,25 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0.0),
           child: MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: TextFormField(
                 textCapitalization: TextCapitalization.characters,
                 textAlignVertical: TextAlignVertical.center,
                 controller: scoutyID,
+                focusNode: textFocusNode,
                 onFieldSubmitted: (value) async {
                   try {
                     await ActivityController().addAttendance(
                         activity.activityID, dateChosen.id,
                         scoutyID: value);
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Kehadiran peserta telah direkodkan.')));
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(e.toString())));
                   }
+
+                  scoutyID.clear();
+                  textFocusNode.requestFocus();
                 },
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -533,7 +546,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Flexible(
                       child: Text(
                         activity.activityName.toUpperCase(),
@@ -544,13 +558,14 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
             ),
             Row(
               children: [
-                Icon(Icons.pin_drop),
-                SizedBox(
+                const Icon(Icons.pin_drop),
+                const SizedBox(
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: Text("PANTAI AIR PAPAN, MERSING")),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
+                    child: const Text("PANTAI AIR PAPAN, MERSING")),
               ],
             ),
             Row(
@@ -560,7 +575,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                         "${DateFormat("dd MMMM").format(dateChosen.date)} ${getFormattedTime(dateChosen.startTime)} - ${getFormattedTime(dateChosen.endTime)}"))
               ],
@@ -572,7 +588,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
                         "SEKTOR ${activity.activitySector.toUpperCase()}")),
               ],
@@ -584,7 +601,8 @@ class _ActivityAttendanceState extends State<ActivityAttendance> {
                   width: 10,
                 ),
                 MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Flexible(
                       child: Text(
                         activity.activityPIC,

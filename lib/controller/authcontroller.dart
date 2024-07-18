@@ -31,14 +31,14 @@ class AuthController {
 
     var scout = Scout(
         scoutyID: data['scouty_id'],
-        noKeahlian: scoutInfo['no_keahlian'],
+        noKeahlian: scoutInfo['no_keahlian'] ?? '-',
         gender: scoutInfo['gender'],
-        religion: scoutInfo['religion'],
+        religion: scoutInfo['religion'] ?? '-',
         parentName: scoutInfo['parent_name'],
         parentPhoneNo: scoutInfo['parent_phone_no'],
         profileImageURL: 'none',
         displayName: 'none',
-        age: scoutInfo['age']);
+        age: scoutInfo['age'] ?? 0);
 
     var schoolInfo = await _supabase
         .from('schools')
@@ -65,6 +65,13 @@ class AuthController {
         role: data['user_roles']);
   }
 
+  Future<void> accountDeletion() async {
+    var response = await _supabase.functions.invoke('delete-account',
+        body: {'accountid': _supabase.auth.currentUser!.id});
+
+    print(response.data);
+  }
+
   Future<List<Account>> getAllAccounts({String? subcamp}) async {
     List<Account> accounts = [];
 
@@ -89,7 +96,9 @@ class AuthController {
               ? 'PKK'
               : row['user_roles'] == 'pemimpin'
                   ? 'PEMIMPIN'
-                  : 'URUSETIA',
+                  : row['user_roles'] == 'VIP'
+                      ? 'VIP'
+                      : 'URUSETIA',
           sijilApproved: row['approve_sijil']));
     }
     return accounts;

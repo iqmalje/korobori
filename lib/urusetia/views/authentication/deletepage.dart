@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:korobori/components/component.dart';
+import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/providers/accountprovider.dart';
+import 'package:korobori/urusetia/views/authentication/login.dart';
 import 'package:provider/provider.dart';
 
 class DeletePage extends StatefulWidget {
@@ -37,20 +39,20 @@ class _DeletePageState extends State<DeletePage> {
                     ),
                     MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           'Untuk memulakan pemadaman akaun anda, sila lengkapkan maklumat yang diminta di bawah.',
                           style: KoroboriComponent().getTextStyle(
                               fontSize: 12, fontWeight: FontWeight.w500),
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       children: [
                         MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: Text(
                               'Nombor Kad Pengenalan',
                               style: KoroboriComponent().getTextStyle(
@@ -58,7 +60,7 @@ class _DeletePageState extends State<DeletePage> {
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     KoroboriComponent()
@@ -76,8 +78,8 @@ class _DeletePageState extends State<DeletePage> {
                     Row(
                       children: [
                         MediaQuery(
-                          data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                          data: MediaQuery.of(context).copyWith(
+                              textScaler: const TextScaler.linear(1.0)),
                           child: Expanded(
                             child: Text(
                               'Nama Penuh seperti Kad Pengenalan',
@@ -89,7 +91,7 @@ class _DeletePageState extends State<DeletePage> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     KoroboriComponent().buildInput(context, namaController,
@@ -106,11 +108,21 @@ class _DeletePageState extends State<DeletePage> {
                     KoroboriComponent().blueButton(
                       context,
                       'Padam Akaun',
-                      () => Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => const DeletePage(),
-                          ),
-                          (_) => false),
+                      () async {
+                        if (pengenalanController.text.isEmpty ||
+                            namaController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please fill in all the inputs')));
+                        } else {
+                          await AuthController().accountDeletion();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              (_) => true);
+                        }
+                      },
                       width: MediaQuery.sizeOf(context).width * 1,
                       height: 50,
                     )

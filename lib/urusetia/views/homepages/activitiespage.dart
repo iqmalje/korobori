@@ -191,7 +191,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                   MediaQuery(
                       data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                          MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                       child: Text(
                         'SEKTOR $sektor',
                         style: KoroboriComponent()
@@ -248,11 +248,11 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   width: 10,
                 ),
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Expanded(
                     child: MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
                           activity.activityName.toUpperCase(),
                           style: KoroboriComponent().getTextStyle(

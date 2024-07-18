@@ -146,7 +146,7 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     children: [
                       MediaQuery(
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: const TextScaler.linear(1.0)),
                           child: Text(
                             peserta.userFullname.toUpperCase(),
                             style: KoroboriComponent().getTextStyle(
@@ -156,7 +156,7 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                           )),
                       MediaQuery(
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: const TextScaler.linear(1.0)),
                           child: Text('${peserta.scoutyID}  |  ${peserta.role}',
                               style: KoroboriComponent().getTextStyle(
                                 fontSize: 10,

@@ -68,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
                               height: 50,
                             ),
                             MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
+                              data: MediaQuery.of(context).copyWith(
+                                  textScaler: const TextScaler.linear(1.0)),
                               child: Text(
                                 'Selamat Datang ke Scoutify+',
                                 style: KoroboriComponent().getTextStyle(
@@ -80,8 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 10),
                             MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(textScaleFactor: 1.0),
+                              data: MediaQuery.of(context).copyWith(
+                                  textScaler: const TextScaler.linear(1.0)),
                               child: Text(
                                 'Log Masuk',
                                 style: KoroboriComponent().getTextStyle(
@@ -136,8 +136,8 @@ class _LoginPageState extends State<LoginPage> {
                             const Spacer(),
                             Center(
                               child: MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(textScaleFactor: 1.0),
+                                data: MediaQuery.of(context).copyWith(
+                                    textScaler: const TextScaler.linear(1.0)),
                                 child: Text(
                                   'Dikuasakan oleh',
                                   style: KoroboriComponent().getTextStyle(
@@ -195,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (_) => false);
           break;
+        case 'VIP':
         case 'authenticated':
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
@@ -212,7 +213,8 @@ class _LoginPageState extends State<LoginPage> {
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: Text(e.message))));
     }
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class Activity {
   String activityID, activityPIC, activitySector, activityName;
