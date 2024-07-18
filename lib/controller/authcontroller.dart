@@ -34,8 +34,8 @@ class AuthController {
         noKeahlian: scoutInfo['no_keahlian'] ?? '-',
         gender: scoutInfo['gender'],
         religion: scoutInfo['religion'] ?? '-',
-        parentName: scoutInfo['parent_name'],
-        parentPhoneNo: scoutInfo['parent_phone_no'],
+        parentName: scoutInfo['parent_name'] ?? '-',
+        parentPhoneNo: scoutInfo['parent_phone_no'] ?? '-',
         profileImageURL: 'none',
         displayName: 'none',
         age: scoutInfo['age'] ?? 0);

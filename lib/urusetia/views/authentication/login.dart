@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:korobori/components/component.dart';
 import 'package:korobori/controller/authcontroller.dart';
@@ -93,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(height: 30),
                             KoroboriComponent().buildInput(
                                 context, pengenalanController,
+                                formats: [UpperCaseTextFormatter()],
                                 prefixIcon: Icon(
                                   Icons.person_outline,
                                   color: KoroboriComponent().getPrimaryColor(),
@@ -216,5 +218,16 @@ class _LoginPageState extends State<LoginPage> {
                   .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: Text(e.message))));
     }
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+    );
   }
 }
