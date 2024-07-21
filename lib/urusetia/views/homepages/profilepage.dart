@@ -167,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           'Nombor Keahlian', account.scout!.noKeahlian),
                       buildDisplayBox(
                           'Nombor Kumpulan', account.school!.noKumpulan),
-                      buildDisplayBox('Umur', account.scout!.age.toString()),
+
                       buildDisplayBox('Jantina', account.scout!.gender),
                       buildDisplayBox('Kaum', account.scout!.religion),
                       buildDisplayBox('Daerah', account.school!.schoolDaerah),

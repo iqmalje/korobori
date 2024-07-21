@@ -26,6 +26,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
   List<Activity> pertandinganActivities = [];
   TextEditingController search = TextEditingController();
   _AktivitiPesertaState(this.account);
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -354,7 +355,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
                     data: MediaQuery.of(context)
                         .copyWith(textScaler: const TextScaler.linear(1.0)),
                     child: Text(
-                        "${account.scoutyID}  |  ${account.subcamp.toUpperCase()}")),
+                        "${account.scoutyID}  |  ${peserta.subcamp.toUpperCase()}")),
               ],
             ),
             Row(

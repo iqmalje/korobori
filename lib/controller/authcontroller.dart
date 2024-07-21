@@ -65,6 +65,44 @@ class AuthController {
         role: data['user_roles']);
   }
 
+  Future<List<Account>> searchAccount(String search, {String? subcamp}) async {
+    List<Account> searchResult = [];
+    search = search.toLowerCase();
+    List<Map<String, dynamic>> data;
+    if (subcamp == null) {
+      data = await _supabase
+          .from('accounts')
+          .select('id, fullname, scouty_id, user_roles, approve_sijil')
+          .or('or(scouty_id.ilike.%$search%),or(fullname.ilike.%$search%)');
+    } else {
+      data = await _supabase
+          .from('accounts')
+          .select('id, fullname, scouty_id, user_roles, approve_sijil')
+          .eq('subcamp', subcamp)
+          .or('or(scouty_id.ilike.%$search%),or(fullname.ilike.%$search%)');
+    }
+
+    for (var row in data) {
+      searchResult.add(Account(
+          accountID: row['id'],
+          scoutyID: row['scouty_id'],
+          schoolCode: row['school_code'] ?? 'none',
+          subcamp: row['subcamp'] ?? 'none',
+          userFullname: row['fullname'],
+          icNo: row['ic_no'] ?? 'none',
+          role: row['user_roles'] == 'authenticated'
+              ? 'PKK'
+              : row['user_roles'] == 'pemimpin'
+                  ? 'PEMIMPIN'
+                  : row['user_roles'] == 'VIP'
+                      ? 'VIP'
+                      : 'URUSETIA',
+          sijilApproved: row['approve_sijil']));
+    }
+
+    return searchResult;
+  }
+
   Future<void> accountDeletion() async {
     var response = await _supabase.functions.invoke('delete-account',
         body: {'accountid': _supabase.auth.currentUser!.id});
@@ -72,26 +110,36 @@ class AuthController {
     print(response.data);
   }
 
-  Future<List<Account>> getAllAccounts({String? subcamp}) async {
+  Future<List<Account>> getAllAccounts(
+      {String? subcamp, int start = 0, int end = 100}) async {
     List<Account> accounts = [];
 
     List<Map<String, dynamic>> data;
     if (subcamp == null) {
-      data = await _supabase.from('accounts').select('*');
+      data = await _supabase
+          .from('accounts')
+          .select('id, fullname, scouty_id, user_roles, approve_sijil')
+          .range(start, end)
+          .order('scouty_id', ascending: true);
+      print(data.length);
     } else {
       print(subcamp);
-      data =
-          await _supabase.from('accounts').select('*').eq('subcamp', subcamp);
+      data = await _supabase
+          .from('accounts')
+          .select('id, fullname, scouty_id, user_roles, approve_sijil')
+          .eq('subcamp', subcamp)
+          .range(start, end)
+          .order('scouty_id', ascending: true);
     }
 
     for (var row in data) {
       accounts.add(Account(
           accountID: row['id'],
           scoutyID: row['scouty_id'],
-          schoolCode: row['school_code'],
-          subcamp: row['subcamp'],
+          schoolCode: row['school_code'] ?? 'none',
+          subcamp: row['subcamp'] ?? 'none',
           userFullname: row['fullname'],
-          icNo: row['ic_no'],
+          icNo: row['ic_no'] ?? 'none',
           role: row['user_roles'] == 'authenticated'
               ? 'PKK'
               : row['user_roles'] == 'pemimpin'

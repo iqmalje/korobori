@@ -16,6 +16,72 @@ class PesertaPagePemimpin extends StatefulWidget {
 class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
   String textSearch = "";
   TextEditingController search = TextEditingController();
+  ScrollController scrollController = ScrollController();
+  List<Account> accounts = [];
+  int range = 50;
+  int start = 0, end = 0;
+  bool loaded = false;
+  @override
+  void initState() {
+    end = start + range - 1;
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        start = end + 1;
+        end += range - 1;
+        loaded = false;
+        fetchAccounts(start, end).then((value) => setState(() {
+              accounts += value;
+              accounts.sort((a, b) {
+                return a.scoutyID.compareTo(b.scoutyID);
+              });
+              loaded = true;
+              removeDuplicates();
+            }));
+      }
+    });
+
+    WidgetsFlutterBinding.ensureInitialized();
+    fetchAccounts(start, end).then((value) => setState(() {
+          accounts = value;
+          accounts.sort((a, b) {
+            return a.scoutyID.compareTo(b.scoutyID);
+          });
+          loaded = true;
+          removeDuplicates();
+        }));
+  }
+
+  Future<List<Account>> fetchAccounts(int start, int end) async {
+    return AuthController().getAllAccounts(
+        start: start,
+        end: end,
+        subcamp: context.read<AccountProvider>().account!.subcamp);
+  }
+
+  Future<void> fetchSpecificAccount(String search) async {
+    var accounts = await AuthController().searchAccount(search,
+        subcamp: context.read<AccountProvider>().account!.subcamp);
+    print(accounts.length);
+    setState(() {
+      this.accounts += accounts;
+
+      removeDuplicates();
+    });
+  }
+
+  void removeDuplicates() {
+    List<Account> accountTemp = [];
+    var uniqueIDs = accounts.map((e) => e.accountID).toSet();
+
+    for (var id in uniqueIDs) {
+      accountTemp
+          .add(accounts.firstWhere((element) => element.accountID == id));
+    }
+
+    accounts = accountTemp;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -39,6 +105,8 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                       setState(() {
                         textSearch = text;
                       });
+                    }, onSubmit: (p0) async {
+                      await fetchSpecificAccount(p0);
                     },
                         shadows: [
                           const BoxShadow(
@@ -57,21 +125,10 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                 height: 15,
               ),
               Expanded(
-                child: FutureBuilder(
-                  future: AuthController().getAllAccounts(
-                      subcamp:
-                          context.read<AccountProvider>().account!.subcamp),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    snapshot.data!.sort((a, b) {
-                      return a.scoutyID.compareTo(b.scoutyID);
-                    });
+                child: Builder(
+                  builder: (context) {
                     return Builder(builder: (context) {
-                      List<Account> pesertas = snapshot.data!.where((element) {
+                      List<Account> pesertas = accounts.where((element) {
                         return (element.userFullname
                                 .toLowerCase()
                                 .contains(textSearch.toLowerCase()) ||
@@ -97,15 +154,16 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                       } else {
                         return ListView.separated(
                           itemBuilder: (BuildContext context, int index) {
-                            return buildPeserta(snapshot.data![index]);
+                            return buildPeserta(accounts[index]);
                           },
+                          controller: scrollController,
                           separatorBuilder: (BuildContext context, int index) {
                             return Container(
                               height: 1,
                               color: const Color.fromARGB(255, 217, 217, 217),
                             );
                           },
-                          itemCount: snapshot.data!.length,
+                          itemCount: accounts.length,
                         );
                       }
                     });
@@ -145,8 +203,8 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MediaQuery(
-                          data: MediaQuery.of(context)
-                              .copyWith(textScaler: const TextScaler.linear(1.0)),
+                          data: MediaQuery.of(context).copyWith(
+                              textScaler: const TextScaler.linear(1.0)),
                           child: Text(
                             peserta.userFullname.toUpperCase(),
                             style: KoroboriComponent().getTextStyle(
@@ -155,8 +213,8 @@ class _PesertaPagePemimpinState extends State<PesertaPagePemimpin> {
                             overflow: TextOverflow.visible, // Handle overflow
                           )),
                       MediaQuery(
-                          data: MediaQuery.of(context)
-                              .copyWith(textScaler: const TextScaler.linear(1.0)),
+                          data: MediaQuery.of(context).copyWith(
+                              textScaler: const TextScaler.linear(1.0)),
                           child: Text('${peserta.scoutyID}  |  ${peserta.role}',
                               style: KoroboriComponent().getTextStyle(
                                 fontSize: 10,
