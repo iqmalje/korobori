@@ -24,6 +24,14 @@ class AuthController {
     return account;
   }
 
+  Future<Map<String, dynamic>> fetchUserRoleAndApprove(String userID) async {
+    return (await _supabase
+        .from('accounts')
+        .select('user_roles, approve_sijil')
+        .eq('id', userID)
+        .limit(1))[0];
+  }
+
   Future<Account> getAccount(String userID) async {
     var dataRAW = await _supabase.from('accounts').select('*').eq('id', userID);
     var data = dataRAW[0];

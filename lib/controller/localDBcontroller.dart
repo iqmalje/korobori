@@ -1,3 +1,4 @@
+import 'package:korobori/controller/authcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/models/school.dart';
 import 'package:korobori/models/scout.dart';
@@ -59,15 +60,20 @@ class LocalDBController {
   Future<Account?> getAccount(String userID) async {
     Account accountTEMP;
 
-    var data = await _db.query(
-      'account',
-    );
+    var data = await _db.query('account', where: 'id = ?', whereArgs: [userID]);
 
     if (data.isEmpty) return null;
 
     Map<String, dynamic> dataSingle;
 
     dataSingle = data[0];
+
+    // ensure to fetch role and approve sijil from DB to avoid user modification
+
+    Map<String, dynamic> dataRoleAndApproveSijil =
+        await AuthController().fetchUserRoleAndApprove(userID);
+
+    print(dataRoleAndApproveSijil);
 
     var scout = Scout(
         scoutyID: dataSingle['scouty_id'],
@@ -93,8 +99,8 @@ class LocalDBController {
         subcamp: dataSingle['subcamp'],
         userFullname: dataSingle['fullname'],
         icNo: dataSingle['ic_no'],
-        role: dataSingle['user_roles'],
-        sijilApproved: dataSingle['approve_sijil'] == 0 ? false : true,
+        role: dataRoleAndApproveSijil['user_roles'],
+        sijilApproved: dataRoleAndApproveSijil['approve_sijil'],
         scout: scout,
         school: school);
 
