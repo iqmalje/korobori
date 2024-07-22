@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:korobori/controller/localDBcontroller.dart';
 import 'package:korobori/models/account.dart';
 import 'package:korobori/models/school.dart';
 import 'package:korobori/models/scout.dart';
@@ -16,7 +17,11 @@ class AuthController {
     if (authResponse.user == null) {
       return null;
     }
-    return await getAccount(authResponse.user!.id);
+    Account account = await getAccount(authResponse.user!.id);
+    LocalDBController localDBController = await LocalDBController.initialize();
+    print("--INSERTING ACCOUNT INTO LOCAL PHONE--");
+    await localDBController.insertAccount(account);
+    return account;
   }
 
   Future<Account> getAccount(String userID) async {
@@ -154,7 +159,11 @@ class AuthController {
 
   Future<void> logout(BuildContext context) async {
     // set to null
+    LocalDBController localDBController = await LocalDBController.initialize();
+    print("--DELETING LOCAL DATA--");
+    await localDBController.deleteAccount();
     context.read<AccountProvider>().removeAccount();
+
     await _supabase.auth.signOut();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(

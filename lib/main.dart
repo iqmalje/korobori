@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:korobori/controller/authcontroller.dart';
+import 'package:korobori/controller/localDBcontroller.dart';
+import 'package:korobori/models/account.dart';
 import 'package:korobori/providers/accountprovider.dart';
 import 'package:korobori/providers/activitydatesprovider.dart';
 import 'package:korobori/urusetia/views/authentication/login.dart';
@@ -27,6 +29,20 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Future<Account> fetchAccount(String userID) async {
+    // fetch local first
+    LocalDBController localDBController = await LocalDBController.initialize();
+    print("--FETCHING LOCAL ACCOUNT DATA--");
+    var account = await localDBController.getAccount(userID);
+    print(account == null);
+    if (account == null) {
+      print('--LOCAL IS NULL, FETCHING FROM DB--');
+      account = await AuthController().getAccount(userID);
+    }
+
+    return account;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -44,8 +60,8 @@ class MyApp extends StatelessWidget {
         ),
         home: hasLoggedIn
             ? FutureBuilder(
-                future: AuthController()
-                    .getAccount(Supabase.instance.client.auth.currentUser!.id),
+                future:
+                    fetchAccount(Supabase.instance.client.auth.currentUser!.id),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Material(
@@ -55,6 +71,7 @@ class MyApp extends StatelessWidget {
                       ),
                     );
                   } else {
+                    print("DATA DAH DAPAT");
                     context.read<AccountProvider>().account = snapshot.data;
                     if (snapshot.data!.role == 'officer') {
                       return const TempPage();

@@ -417,6 +417,7 @@ class _AktivitiPesertaState extends State<AktivitiPeserta> {
             ),
             ListView.separated(
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return buildActivity(activities[index]);
